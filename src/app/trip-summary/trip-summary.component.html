@@ -1,0 +1,103 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-title class="ion-text-center">Trip Summary</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="summary-container" [class.animate-in]="animateIn">
+    <!-- Trip details card -->
+    <ion-card class="trip-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Trip Details</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="trip-details">
+          <!-- Route visualization -->
+          <div class="route-visualization">
+            <div class="route-dot start"></div>
+            <div class="route-line"></div>
+            <div class="route-dot end"></div>
+          </div>
+          
+          <!-- Locations -->
+          <div class="locations">
+            <div class="location-item">
+              <div class="location-label">From</div>
+              <div class="location-value">{{ tripData.locationAddress || 'Pickup location' }}</div>
+            </div>
+            <div class="location-item">
+              <div class="location-label">To</div>
+              <div class="location-value">{{ tripData.destinationAddress || 'Drop-off location' }}</div>
+            </div>
+          </div>
+          
+          <!-- Stats -->
+          <div class="trip-stats">
+            <div class="stat-item">
+              <ion-icon name="cash-outline"></ion-icon>
+              <div class="stat-value">{{ tripData.formattedPrice || tripData.price || '0.00' }}</div>
+              <div class="stat-label">Price</div>
+            </div>
+            
+            <div class="stat-item">
+              <ion-icon name="speedometer-outline"></ion-icon>
+              <div class="stat-value">{{ tripData.distanceInKm || '0' }} km</div>
+              <div class="stat-label">Distance</div>
+            </div>
+            
+            <div class="stat-item">
+              <ion-icon name="time-outline"></ion-icon>
+              <div class="stat-value">{{ tripData.durationFormatted || '0 min' }}</div>
+              <div class="stat-label">Duration</div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    
+    <!-- Rating card -->
+    <ion-card class="rating-card">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Rate Your Trip</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="rating-container">
+          <div class="stars">
+            <ion-icon 
+              *ngFor="let i of [1, 2, 3, 4, 5]" 
+              [name]="i <= rating ? 'star' : 'star-outline'"
+              (click)="setRating(i)"
+              [class.selected]="i <= rating">
+            </ion-icon>
+          </div>
+          
+          <ion-item class="comment-box">
+            <ion-textarea 
+              [(ngModel)]="comment" 
+              placeholder="Add a comment (optional)"
+              rows="3"
+              maxlength="200">
+            </ion-textarea>
+          </ion-item>
+          
+          <ion-button 
+            expand="block" 
+            (click)="submitRating()" 
+            [disabled]="isSubmitting"
+            class="submit-button">
+            <ion-spinner *ngIf="isSubmitting" name="dots"></ion-spinner>
+            <span *ngIf="!isSubmitting">Submit Rating</span>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
