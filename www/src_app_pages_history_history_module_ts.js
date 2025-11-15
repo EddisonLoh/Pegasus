@@ -86,7 +86,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "HistoryPage": () => (/* binding */ HistoryPage)
 /* harmony export */ });
-/* harmony import */ var C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
 /* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! date-fns */ 8393);
 /* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! date-fns */ 1233);
@@ -323,7 +323,7 @@ class HistoryPage {
   loadRideHistory() {
     var _this = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         _this.loading = true; // Get current user ID
 
@@ -429,7 +429,7 @@ class HistoryPage {
   presentFilterOptions() {
     var _this2 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const actionSheet = yield _this2.actionSheetCtrl.create({
         header: _this2.translateService.instant('HISTORY.FILTER_OPTIONS'),
         buttons: [{
@@ -465,7 +465,7 @@ class HistoryPage {
   viewRideDetails(history) {
     var _this3 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const rideTime = history.time?.toDate ? history.time.toDate() : new Date(history.time);
       const formattedDateTime = (0,date_fns__WEBPACK_IMPORTED_MODULE_7__["default"])(rideTime, 'MMM d, yyyy h:mm a');
       const alert = yield _this3.alertCtrl.create({
@@ -496,7 +496,7 @@ class HistoryPage {
   bookAgain(history) {
     var _this4 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Check if the history has the necessary location data
       if (!history.Rider_Location || !history.Rider_Destination) {
         const alert = yield _this4.alertCtrl.create({

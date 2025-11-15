@@ -54,18 +54,36 @@ export class AvatarService {
 
         this.driverCollection = collection(this.firestore, 'Drivers');
      
-        this.http.get("http://ip-api.com/json").subscribe((res: any) => {
-          
-        console.log('res ', res);
-       
-
-
-        this.countryCode = res.countryCode || 'NG';
+        this.http.get("https://ipapi.co/json/").subscribe({
+          next: (res: any) => {
+            console.log('Country detection response:', res);
+            this.countryCode = res.country_code || 'NG';
+          },
+          error: (error) => {
+            console.warn('Failed to detect country, using default:', error);
+            this.countryCode = 'NG'; // Default fallback
+          }
+        })
      
-     })
-     
-
-     await this.loadUserProfile();
+        // Add a small delay for Android to ensure Firebase is fully initialized
+        setTimeout(async () => {
+          try {
+            await this.loadUserProfile();
+          } catch (error) {
+            console.error('Failed to load user profile:', error);
+            // Create a minimal offline profile to prevent app from breaking
+            this.profile = {
+              Rider_id: this.user.uid,
+              Rider_name: this.user.displayName || 'Unknown',
+              Rider_phone: this.user.phoneNumber || 'Unknown',
+              Rider_email: this.user.email || 'Unknown',
+              Rider_rating: 0,
+              createdAt: new Date().toISOString(),
+              offline: true
+            };
+            console.log('Using offline profile due to error:', this.profile);
+          }
+        }, 2000); // Increased delay for Android
     
   
     }
@@ -74,22 +92,111 @@ export class AvatarService {
   
   }
 
+  private async checkFirestoreConnectivity(): Promise<boolean> {
+    try {
+      console.log('Checking Firestore connectivity...');
+      // Try to read a simple document to test connectivity
+      const testDoc = await getDoc(doc(this.firestore, '_test_', 'connectivity'));
+      console.log('Firestore connectivity check completed');
+      return true;
+    } catch (error) {
+      console.warn('Firestore connectivity issue detected:', error);
+      // Don't throw error, just log it and continue
+      return false;
+    }
+  }
+
+  // Android-specific wrapper for Firestore operations with better error handling
+  private async executeFirestoreOperation<T>(operation: () => Promise<T>, operationName: string): Promise<T> {
+    const maxRetries = 3;
+    let lastError: any;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`${operationName} - Attempt ${attempt}`);
+        const result = await operation();
+        console.log(`${operationName} - Success on attempt ${attempt}`);
+        return result;
+      } catch (error) {
+        lastError = error;
+        console.warn(`${operationName} - Failed on attempt ${attempt}:`, error);
+
+        // Don't retry on certain errors
+        if (error.code === 'permission-denied' || error.code === 'not-found') {
+          throw error;
+        }
+
+        // Wait before retry (exponential backoff)
+        if (attempt < maxRetries) {
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+          console.log(`Waiting ${delay}ms before retry...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+
+    throw lastError;
+  }
+
 
   async loadUserProfile() {
-    const profileDoc = await getDoc(doc(this.firestore, 'Riders', this.user.uid));
-    if (profileDoc.exists()) {
-      this.profile = profileDoc.data();
-    } else {
-      // Create a default profile if it doesn't exist
-      const defaultProfile = {
-        Rider_id: this.user.uid,
-        Rider_name: this.user.displayName || 'Unknown',
-        Rider_phone: this.user.phoneNumber || 'Unknown',
-        Rider_email: this.user.email || 'Unknown',
-        Rider_rating: 0
-      };
-      await setDoc(doc(this.firestore, 'Riders', this.user.uid), defaultProfile);
-      this.profile = defaultProfile;
+    try {
+      console.log('Loading user profile for:', this.user.uid);
+      
+      const docRef = doc(this.firestore, 'Riders', this.user.uid);
+      
+      // Use the Android-optimized wrapper for Firestore operations
+      const profileDoc = await this.executeFirestoreOperation(
+        () => getDoc(docRef),
+        'Load User Profile'
+      );
+      
+      if (profileDoc && profileDoc.exists()) {
+        this.profile = profileDoc.data();
+        console.log('Profile loaded successfully:', this.profile);
+      } else {
+        console.log('Profile does not exist, creating default profile');
+        // Create a default profile if it doesn't exist
+        const defaultProfile = {
+          Rider_id: this.user.uid,
+          Rider_name: this.user.displayName || 'Unknown',
+          Rider_phone: this.user.phoneNumber || 'Unknown',
+          Rider_email: this.user.email || 'Unknown',
+          Rider_rating: 0,
+          createdAt: new Date().toISOString()
+        };
+        
+        // Use the wrapper for creating the profile too
+        await this.executeFirestoreOperation(
+          () => setDoc(docRef, defaultProfile, { merge: true }),
+          'Create Default Profile'
+        );
+        
+        this.profile = defaultProfile;
+        console.log('Default profile created:', this.profile);
+      }
+    } catch (error) {
+      console.error('Error in loadUserProfile:', error);
+      
+      // Android-specific error handling
+      if (error.code === 'unavailable' || error.code === 'deadline-exceeded') {
+        // Create offline profile for Android when Firestore is unavailable
+        console.log('Creating offline profile due to Firestore unavailability');
+        this.profile = {
+          Rider_id: this.user.uid,
+          Rider_name: this.user.displayName || 'Unknown',
+          Rider_phone: this.user.phoneNumber || 'Unknown',
+          Rider_email: this.user.email || 'Unknown',
+          Rider_rating: 0,
+          createdAt: new Date().toISOString(),
+          offline: true
+        };
+        return; // Don't throw error, continue with offline profile
+      } else if (error.code === 'permission-denied') {
+        throw new Error('Permission denied. Please ensure you are logged in properly.');
+      } else {
+        throw new Error(`Failed to load profile: ${error.message}`);
+      }
     }
   }
 
@@ -321,7 +428,7 @@ export class AvatarService {
       }
       
       // Round to 2 decimal places
-      return Math.round(estimatedPrice * 100) / 100;
+      return Math.round(estimatedPrice * 1) / 100;
     } catch (error) {
       console.error('Error calculating price estimate:', error);
       throw error;
@@ -863,17 +970,49 @@ async getUserProfile() {
   const user = this.auth.currentUser;
   if (!user) throw new Error('No authenticated user');
 
-  const userDocRef = doc(this.firestore, `users/${user.uid}`);
-  const userDoc = await getDoc(userDocRef);
-  return userDoc.exists() ? userDoc.data() : null;
+  try {
+    const userDocRef = doc(this.firestore, 'Riders', user.uid);
+    const userDoc = await getDoc(userDocRef);
+    
+    if (userDoc.exists()) {
+      return userDoc.data();
+    } else {
+      // Create default profile if it doesn't exist (similar to loadUserProfile)
+      const defaultProfile = {
+        Rider_id: user.uid,
+        Rider_name: user.displayName || 'Unknown',
+        Rider_phone: user.phoneNumber || '',
+        Rider_email: user.email || '',
+        Rider_imgUrl: user.photoURL || '',
+        Rider_rating: 0,
+        Loc_lat: 0,
+        Loc_lng: 0,
+        Des_lat: 0,
+        Des_lng: 0,
+        Rider_Location: '',
+        Rider_Destination: '',
+        countDown: 0,
+        cancel: false,
+        price: 0,
+        cash: true,
+        createdAt: new Date().toISOString()
+      };
+      
+      await setDoc(userDocRef, defaultProfile);
+      return defaultProfile;
+    }
+  } catch (error) {
+    console.error('Error in getUserProfile:', error);
+    throw new Error(`Failed to get user profile: ${error.message}`);
+  }
 }
 
 async createUserProfile(profileData: any) {
   const user = this.auth.currentUser;
   if (!user) throw new Error('No authenticated user');
 
-  const userDocRef = doc(this.firestore, `users/${user.uid}`);
-  await setDoc(userDocRef, profileData);
+  const userDocRef = doc(this.firestore, 'Riders', user.uid);
+  await setDoc(userDocRef, profileData, { merge: true });
   return profileData;
 }
 

@@ -88,7 +88,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ProfilePage": () => (/* binding */ ProfilePage)
 /* harmony export */ });
-/* harmony import */ var C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/fire/auth */ 1577);
 /* harmony import */ var _capacitor_camera__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @capacitor/camera */ 4241);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 2560);
@@ -215,7 +215,7 @@ class ProfilePage {
     this.fb = fb;
     this.translate = translate;
     this.auth.onAuthStateChanged( /*#__PURE__*/function () {
-      var _ref = (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
+      var _ref = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
         if (user) {
           _this.user = user;
 
@@ -250,7 +250,7 @@ class ProfilePage {
   logout() {
     var _this2 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _this2.authService.logout();
 
       _this2.router.navigateByUrl('/', {
@@ -267,7 +267,7 @@ class ProfilePage {
   presentImageSourceActionSheet() {
     var _this3 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const actionSheet = yield _this3.actionSheetController.create({
         header: yield _this3.translate.get('SELECT_IMAGE_SOURCE').toPromise(),
         buttons: [{
@@ -301,7 +301,7 @@ class ProfilePage {
   changeImage(source) {
     var _this4 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         const image = yield _capacitor_camera__WEBPACK_IMPORTED_MODULE_1__.Camera.getPhoto({
           quality: 90,
@@ -366,20 +366,20 @@ class ProfilePage {
   selectFile() {
     var _this5 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
 
       input.onchange = /*#__PURE__*/function () {
-        var _ref2 = (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (event) {
+        var _ref2 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (event) {
           const file = event.target.files[0];
 
           if (file) {
             const reader = new FileReader();
 
             reader.onload = /*#__PURE__*/function () {
-              var _ref3 = (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
+              var _ref3 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (e) {
                 const image = {
                   base64String: e.target.result.split(',')[1]
                 };
@@ -445,7 +445,7 @@ class ProfilePage {
   saveProfile() {
     var _this6 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this6.user) {
         try {
           yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__.updateProfile)(_this6.user, {

@@ -16,25 +16,55 @@ export class NetworkService {
   }
 
   private initializeNetworkListener() {
-    Network.addListener('networkStatusChange', status => {
-      console.log('Network status changed', status);
-      this.networkStatus.next(status.connected);
+    try {
+      Network.addListener('networkStatusChange', status => {
+        console.log('Network status changed', status);
+        this.networkStatus.next(status.connected);
 
-      if (status.connected) {
-        this.handleReconnect();
-      } else {
-        this.handleDisconnect();
-      }
-    });
+        if (status.connected) {
+          this.handleReconnect();
+        } else {
+          this.handleDisconnect();
+        }
+      });
+    } catch (error) {
+      console.warn('Failed to add network listener:', error);
+    }
 
     this.checkInitialNetworkStatus();
   }
 
   private async checkInitialNetworkStatus() {
-    const status = await Network.getStatus();
-    this.networkStatus.next(status.connected);
-    if (!status.connected) {
-      this.handleDisconnect();
+    try {
+      const status = await Network.getStatus();
+      console.log('Initial network status:', status);
+      this.networkStatus.next(status.connected);
+      if (!status.connected) {
+        this.handleDisconnect();
+      }
+    } catch (error) {
+      console.warn('Network status check failed, performing fallback check:', error);
+      // Fallback: try to make a simple network request with timeout
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+        
+        await fetch('https://www.google.com/favicon.ico', { 
+          method: 'HEAD',
+          mode: 'no-cors',
+          cache: 'no-cache',
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        this.networkStatus.next(true);
+        console.log('Fallback network check: connected');
+      } catch (fetchError) {
+        console.warn('Fallback network check failed:', fetchError);
+        // Be more conservative - assume connected if we can't determine
+        this.networkStatus.next(true);
+        console.log('Network status uncertain, assuming connected');
+      }
     }
   }
 

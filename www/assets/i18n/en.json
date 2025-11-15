@@ -1,5 +1,5 @@
 {
-  "APP_NAME": "SHAMRIDE",
+  "APP_NAME": "PEGASUS",
   "EMAIL": {
     "VERIFICATION": "Email Verification",
     "VERIFICATION_SUCCESS": "Email verified successfully",
@@ -81,8 +81,14 @@
   "TEST_MODE_OFFER": "Would you like to use Test Mode to continue?",
   "CLOSE": "Close",
   "USE_TEST_MODE": "Use Test Mode",
-  "TEST_MODE_TITLE": "Test Mode Activated",
-  "TEST_MODE_MESSAGE": "You're now in Test Mode. Use these credentials to continue:",
+  "OK": "OK",
+  "NO_THANKS": "No Thanks",
+  "GOT_IT": "Got It",
+  "TEST_MODE_AVAILABLE_TITLE": "🧪 Test Mode Available",
+  "TEST_MODE_AVAILABLE_MESSAGE": "Since authentication is unavailable, you can use Test Mode to continue development.\n\nTest Mode will fill in test credentials automatically.\n\nWould you like to use Test Mode?",
+  "TEST_MODE_ACTIVATED_TITLE": "✅ Test Mode Activated",
+  "TEST_MODE_ACTIVATED_MESSAGE": "The phone number field has been filled with test credentials:",
+  "TEST_MODE_NEXT_STEP": "Now click the 'Continue' button below to proceed. The OTP will be automatically filled for you.",
   "PHONE": "Phone",
   "NETWORK_ERROR": "Network connection error. Please check your internet connection and try again",
   "PERSONAL_INFO": "Personal Info",
@@ -166,7 +172,6 @@
   },
   "LANGUAGE": "Language",
   "ENGLISH": "English",
-  "ARABIC": "Arabic",
   "MENU": {
     "HOME": "Home",
     "HISTORY": "History",

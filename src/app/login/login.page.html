@@ -1,14 +1,15 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar class="header-toolbar">
     <ion-title class="app-title">
-      <h1>{{ 'APP_NAME' | translate }}</h1>
+      <h1>{{ 'PEGASUS' | translate }}</h1>
+
       <p class="tagline">{{ 'APP_TAGLINE' | translate }}</p>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="login-content">
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="padding-top:10px ;">
     <!-- Image Slider -->
     <div class="slider-container">
       <ion-slides pager="true" [options]="slideOpts">
@@ -35,7 +36,8 @@
             <div class="input-wrapper">
               <!-- Country Code Button -->
               <button type="button" class="country-select-btn" (click)="openCountrySearchModal()">
-                <img [src]="flag" class="country-flag" alt="country flag">
+                <img *ngIf="!flagLoadError" [src]="flag" class="country-flag" alt="country flag" (error)="onFlagLoadError()">
+                <span *ngIf="flagLoadError" class="country-flag-emoji">{{ flagEmoji }}</span>
                 <span class="country-code">{{ CountryCode }}</span>
                 <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
               </button>
@@ -81,13 +83,13 @@
     </ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button (click)="changeLanguage('en')" color="light" size="small">
-        <ion-img src="https://cdn.kcak11.com/CountryFlags/countries/us.svg"></ion-img>
+        <span class="lang-flag">🇺🇸</span>
       </ion-fab-button>
       <ion-fab-button (click)="changeLanguage('ms')" color="light" size="small">
-        <ion-img src="https://cdn.kcak11.com/CountryFlags/countries/my.svg"></ion-img>
+        <span class="lang-flag">🇲🇾</span>
       </ion-fab-button>
       <ion-fab-button (click)="changeLanguage('ar')" color="light" size="small">
-        <ion-img src="https://cdn.kcak11.com/CountryFlags/countries/sa.svg"></ion-img>
+        <span class="lang-flag">🇸🇦</span>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

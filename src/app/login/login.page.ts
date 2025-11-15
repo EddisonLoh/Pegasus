@@ -12,6 +12,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { CountrySearchModalComponent } from '../country-search-modal/country-search-modal.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Preferences } from '@capacitor/preferences';
+import { CountryFlagService } from '../services/country-flag.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,8 @@ export class LoginPage implements OnInit, OnDestroy {
   CountryCode: any;
   CountryJson = environment.CountryJson;
   flag: any = "https://cdn.kcak11.com/CountryFlags/countries/my.svg";
+  flagEmoji: string = '🇲🇾';
+  flagLoadError: boolean = false;
   filteredCountries = [];
   user: any;
   approve: boolean;
@@ -53,11 +56,13 @@ export class LoginPage implements OnInit, OnDestroy {
     private overlay: OverlayService,
     private alertController: AlertController,
     private platform: Platform,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private countryFlagService: CountryFlagService
   ) {
     // Set Malaysia as default - no auto-detection
     this.CountryCode = '+60';
     this.numberT = '+60';
+    this.updateFlag('MY');
   }
 
   async ngOnInit() {
@@ -132,8 +137,8 @@ export class LoginPage implements OnInit, OnDestroy {
       console.log('Selected country:', data);
       this.CountryCode = data.dialCode;
       this.numberT = data.dialCode;
-      this.flag = data.flag;
       this.userCountry = data.isoCode;
+      this.updateFlag(data.isoCode);
     }
   }
 
@@ -503,9 +508,33 @@ export class LoginPage implements OnInit, OnDestroy {
     }
   }
 
+  updateFlag(countryCode: string) {
+    const flagData = this.countryFlagService.getFlagWithFallback(countryCode);
+    this.flag = flagData.url;
+    this.flagEmoji = flagData.emoji;
+    this.flagLoadError = false;
+  }
+
+  onFlagLoadError() {
+    console.log('Flag image failed to load, using emoji fallback');
+    this.flagLoadError = true;
+  }
+
   async detectUserCountry() {
     try {
-      const response = await fetch('https://ipapi.co/json/');
+      // Use native HTTP for better Android compatibility
+      const response = await fetch('https://ipapi.co/json/', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       const countryCode = data.country;
       const matchingCountry = this.CountryJson.find(
@@ -515,13 +544,13 @@ export class LoginPage implements OnInit, OnDestroy {
         this.CountryCode = matchingCountry.dialCode;
         this.numberT = matchingCountry.dialCode;
         this.userCountry = countryCode;
-        this.flag = `https://cdn.kcak11.com/CountryFlags/countries/${countryCode.toLowerCase()}.svg`;
+        this.updateFlag(countryCode);
       } else {
         // If country not found, keep Malaysia as default
         this.CountryCode = '+60';
         this.numberT = '+60';
         this.userCountry = 'MY';
-        this.flag = 'https://cdn.kcak11.com/CountryFlags/countries/my.svg';
+        this.updateFlag('MY');
       }
     } catch (error) {
       console.error('Error detecting country:', error);
@@ -529,7 +558,7 @@ export class LoginPage implements OnInit, OnDestroy {
       this.CountryCode = '+60';
       this.numberT = '+60';
       this.userCountry = 'MY';
-      this.flag = 'https://cdn.kcak11.com/CountryFlags/countries/my.svg';
+      this.updateFlag('MY');
     }
   }
 }

@@ -88,7 +88,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "PaymentPage": () => (/* binding */ PaymentPage)
 /* harmony export */ });
-/* harmony import */ var C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 3819);
@@ -252,7 +252,7 @@ class PaymentPage {
   fetchSavedPaymentMethods() {
     var _this = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         _this.savedPaymentMethods = yield _this.avatarService.getSavedPaymentMethods();
         console.log('Saved Payment Methods:', _this.savedPaymentMethods);
@@ -269,7 +269,7 @@ class PaymentPage {
   getActiveCard() {
     var _this2 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const email = _this2.avatarService.user.email;
 
       _this2.avatarService.getActiveCard(email).subscribe(data => {
@@ -283,7 +283,7 @@ class PaymentPage {
   setActiveCard(event) {
     var _this3 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const cardId = event.detail.value;
 
       if (cardId) {
@@ -301,7 +301,7 @@ class PaymentPage {
   processPayment() {
     var _this4 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this4.paymentForm.valid) {
         const formValues = _this4.paymentForm.value;
         formValues.email = _this4.avatarService.user.email; // Use email from avatarService
@@ -332,7 +332,7 @@ class PaymentPage {
   processStripePayment(formValues) {
     var _this5 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log('Starting processStripePayment with formValues:', formValues);
 
       try {
@@ -390,7 +390,7 @@ class PaymentPage {
   deletePaymentMethod(cardId) {
     var _this6 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _this6.avatarService.deleteSavedPaymentMethod(cardId);
 
       _this6.fetchSavedPaymentMethods(); // Refresh the list of saved payment methods
@@ -401,7 +401,7 @@ class PaymentPage {
   showLoading() {
     var _this7 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this7.loading = yield _this7.loadingController.create({
         message: yield _this7.translate.get('PAYMENT.PROCESSING').toPromise()
       });
@@ -412,7 +412,7 @@ class PaymentPage {
   hideLoading() {
     var _this8 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this8.loading) {
         yield _this8.loading.dismiss();
       }
@@ -422,7 +422,7 @@ class PaymentPage {
   showAlert(header, message) {
     var _this9 = this;
 
-    return (0,C_Users_USER_NewRider_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const alert = yield _this9.alertController.create({
         header: yield _this9.translate.get(header).toPromise(),
         message: yield _this9.translate.get(message).toPromise(),

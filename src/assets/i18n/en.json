@@ -1,5 +1,5 @@
 {
-  "APP_NAME": "SHAMRIDE",
+  "APP_NAME": "PEGASUS",
   "EMAIL": {
     "VERIFICATION": "Email Verification",
     "VERIFICATION_SUCCESS": "Email verified successfully",
@@ -172,7 +172,6 @@
   },
   "LANGUAGE": "Language",
   "ENGLISH": "English",
-  "ARABIC": "Arabic",
   "MENU": {
     "HOME": "Home",
     "HISTORY": "History",

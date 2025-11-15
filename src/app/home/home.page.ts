@@ -759,7 +759,7 @@ export class HomePage implements AfterViewInit {
   
         if (this.networkService.isConnected() && !this.stopPolling) {
           const center: [number, number] = [newLatLng.lat, newLatLng.lng];
-          const radiusInM = 5000; // Example radius in meters
+          const radiusInM = 8000; // Example radius in meters
           await this.fetchAndDisplayDrivers(center, radiusInM);
         } else {
           console.log('No network connection.', this.stopPolling);
@@ -804,7 +804,9 @@ export class HomePage implements AfterViewInit {
   async initializeMap() {
     try {
       // Ensure coordinates are available before creating map
+      
       if (!this.coordinates || !this.coordinates.coords) {
+         await this.overlay.showAlert('Coordinates not available, using default location', '');
         console.warn('Coordinates not available, using default location');
         // Use default coordinates (Kuala Lumpur, Malaysia)
         this.coordinates = {
@@ -826,7 +828,7 @@ export class HomePage implements AfterViewInit {
       this.actualLocation = this.map.actualLocation;
      // console.log('Map initialized:', this.actualLocation, this.locationAddress);
     } catch (error) {
-      console.error('Error initializing map:', error);
+      this.overlay.showAlert('Error initializing map:', error);
       throw new Error('Map initialization failed');
     }
   }
@@ -2065,7 +2067,13 @@ async getDistanceAndDirections() {
         this.price = await this.database.getPriceEstimate(this.distance);
         this.duration = response.routes[0].legs[0].duration.text;
 
-        await this.createAndAddMarkers(this.LatLng, this.D_LatLng);
+        // Build full path from the directions response so polyline follows the route
+        const path = response.routes[0].overview_path.map(latlng => ({
+          lat: latlng.lat(),
+          lng: latlng.lng()
+        }));
+
+        await this.createAndAddMarkers(this.LatLng, this.D_LatLng, path);
 
         // Call getDistanceAndDirectionsDriver after this part is successful
         await this.getDistanceAndDirectionsDriver();
@@ -2445,7 +2453,8 @@ async handleDriverToRider(driverLatLng, riderLatLng) {
     
           // Clear existing polyline before drawing a new one
           await this.clearAllPolylines();
-          await this.addPolyline(driverLatLng, riderLatLng);
+          // Draw full route polyline (use overview_path)
+          await this.addPolyline(driverLatLng, riderLatLng, path);
             
             // Clear any existing animated marker before starting a new animation
             if (this.animatedMarker) {
@@ -2585,7 +2594,8 @@ async handleRiderToDestination(driverLatLng, destinationLatLng) {
     
           // Clear existing polyline before drawing a new one
           await this.clearAllPolylines();
-            await this.addPolyline(driverLatLng, destinationLatLng);
+            // Draw full route polyline (use overview_path)
+            await this.addPolyline(driverLatLng, destinationLatLng, path);
             
             // Clear any existing animated marker before starting a new animation
             if (this.animatedMarker) {
@@ -2615,23 +2625,27 @@ async handleRiderToDestination(driverLatLng, destinationLatLng) {
   }
 }
 
-async addPolyline(loc: { lat: number, lng: number }, des: { lat: number, lng: number }) {
+// Add polyline using either a full route path or fallback to start/end
+async addPolyline(loc: { lat: number, lng: number }, des: { lat: number, lng: number }, routePath?: { lat: number, lng: number }[]) {
   try {
     const polylineColor = "#007bff";
+    const pathPoints = Array.isArray(routePath) && routePath.length > 0 ? routePath : [
+      { lat: loc.lat, lng: loc.lng },
+      { lat: des.lat, lng: des.lng }
+    ];
+
     const polylines: Polyline[] = [
       {
-        path: [
-          { lat: loc.lat, lng: loc.lng },
-          { lat: des.lat, lng: des.lng }
-        ],
+        path: pathPoints,
         strokeColor: polylineColor,
         strokeWeight: 8,
         geodesic: true
       }
     ];
+
     const addedPolylines = await this.map.newMap.addPolylines(polylines);
     if (Array.isArray(addedPolylines) && addedPolylines.length > 0) {
-      this.newPoly = addedPolylines; // Change to assign the entire array
+      this.newPoly = addedPolylines; // assign the returned ids
       console.log('Polylines added:', this.newPoly);
       return this.newPoly;
     } else {
@@ -2639,11 +2653,12 @@ async addPolyline(loc: { lat: number, lng: number }, des: { lat: number, lng: nu
     }
   } catch (e) {
     console.error('Error Adding Polyline: ', e);
-    throw e; // Re-throw the error to be handled by the caller
+    throw e;
   }
 }
 
-async createAndAddMarkers(loc, des) {
+// create markers and optionally draw a full route if provided
+async createAndAddMarkers(loc, des, routePath?: { lat: number, lng: number }[]) {
   const markerSize = { width: 30, height: 30 };
   const iconAnchor = { x: 10, y: 0 }; // Center bottom of the icon
 
@@ -2702,14 +2717,16 @@ async createAndAddMarkers(loc, des) {
     // Set the camera to focus on the center point with appropriate zoom level
     await this.map.setCameraToLocation({ lat: center.latitude, lng: center.longitude }, adjustedZoomLevel, this.map.calculateBearing(loc, des));
 
-    // Add polyline for the route
+    // Add polyline for the route. Prefer full routePath when provided.
     const polylineColor = "#007bff";
+    const pathPoints = Array.isArray(routePath) && routePath.length > 0 ? routePath : [
+      { lat: loc.lat, lng: loc.lng },
+      { lat: des.lat, lng: des.lng }
+    ];
+
     const polylines: Polyline[] = [
       {
-        path: [
-          { lat: loc.lat, lng: loc.lng },
-          { lat: des.lat, lng: des.lng }
-        ],
+        path: pathPoints,
         strokeColor: polylineColor,
         strokeWeight: 8,
         geodesic: true

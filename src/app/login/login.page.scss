@@ -11,7 +11,8 @@
   h1 {
     font-size: 32px;
     font-weight: 700;
-    margin: 0;
+    margin:0;
+    padding:0;
     color: var(--ion-color-primary);
   }
   
@@ -280,6 +281,7 @@ ion-footer {
 @media (max-width: 360px) {
   .app-title h1 {
     font-size: 28px;
+   
   }
   
   .slider-container ion-slides {
@@ -302,4 +304,31 @@ ion-footer {
     max-width: 500px;
     margin: 0 auto;
   }
+}
+
+// Flag emoji styles
+.country-flag-emoji {
+  font-size: 20px;
+  width: 24px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.lang-flag {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Ensure country flag img has consistent sizing
+.country-flag {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  margin-right: 8px;
+  border-radius: 2px;
 }
