@@ -34,10 +34,14 @@
     <ion-card-content class="no-shadow">
       <ion-radio-group [(ngModel)]="selectedCardId" (ionChange)="setActiveCard($event)">
         <ion-item *ngFor="let method of savedPaymentMethods">
-          <ion-label>{{ method.last4 }}</ion-label>
-          <ion-radio slot="start" [value]="method.cardId"></ion-radio>
-          <ion-button slot="end" color="danger" (click)="deletePaymentMethod(method.cardId)">
-            {{ 'PAYMENT.DELETE' | translate }}
+          <ion-icon name="card-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <h2>{{ method.brand ? (method.brand | uppercase) : 'Card' }}</h2>
+            <p>**** **** **** {{ method.last4 }}</p>
+          </ion-label>
+          <ion-radio slot="end" [value]="method.cardId"></ion-radio>
+          <ion-button slot="end" fill="clear" color="danger" (click)="deletePaymentMethod(method.cardId)">
+            <ion-icon name="trash-outline"></ion-icon>
           </ion-button>
         </ion-item>
       </ion-radio-group>

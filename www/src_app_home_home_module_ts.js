@@ -295,25 +295,69 @@ function HomePage_ion_fab_12_Template(rf, ctx) {
   }
 }
 
+function HomePage_ion_list_17_ion_chip_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r32 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-chip", 48);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_17_ion_chip_2_Template_ion_chip_click_0_listener() {
+      const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r32);
+      const p_r29 = restoredCtx.$implicit;
+      const ctx_r31 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"](2);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r31.selectPreset(p_r29));
+    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](1, "ion-label");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](3, "ion-icon", 49);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_17_ion_chip_2_Template_ion_icon_click_3_listener($event) {
+      const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r32);
+      const i_r30 = restoredCtx.index;
+      const ctx_r33 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"](2);
+      ctx_r33.deletePreset(i_r30);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"]($event.stopPropagation());
+    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
+  }
+
+  if (rf & 2) {
+    const p_r29 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate"](p_r29.name);
+  }
+}
+
 function HomePage_ion_list_17_Template(rf, ctx) {
   if (rf & 1) {
-    const _r29 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+    const _r35 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 41)(1, "ion-item-group", 14)(2, "ion-button", 42);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_17_Template_ion_button_click_2_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r29);
-      const ctx_r28 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r28.showAutocompleteModal());
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 41)(1, "div", 42);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](2, HomePage_ion_list_17_ion_chip_2_Template, 4, 1, "ion-chip", 43);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](3, "ion-button", 44);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_17_Template_ion_button_click_3_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r35);
+      const ctx_r34 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r34.addCurrentAsPreset());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](3, "ion-icon", 43);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "ion-label");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](4, "ion-icon", 45);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](5, "ion-item-group", 14)(6, "ion-button", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_17_Template_ion_button_click_6_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r35);
+      const ctx_r36 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r36.showAutocompleteModal());
+    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](7, "ion-icon", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "ion-label");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](9);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()();
   }
 
   if (rf & 2) {
     const ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngForOf", ctx_r11.presets);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](4);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("disabled", !ctx_r11.locationAddress);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate"](ctx_r11.locationAddress ? "Where To?" : "Waiting for address...");
@@ -322,18 +366,18 @@ function HomePage_ion_list_17_Template(rf, ctx) {
 
 function HomePage_ion_list_24_Template(rf, ctx) {
   if (rf & 1) {
-    const _r31 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+    const _r38 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 44)(1, "ion-list-header")(2, "ion-item", 45);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](3, "img", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 50)(1, "ion-list-header")(2, "ion-item", 51);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](3, "img", 52);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "ion-item-group", 14)(5, "ion-button", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "ion-item-group", 14)(5, "ion-button", 53);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_24_Template_ion_button_click_5_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r31);
-      const ctx_r30 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r30.ReturnHome());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r38);
+      const ctx_r37 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r37.ReturnHome());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](6, "ion-icon", 48);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](6, "ion-icon", 54);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](7, "ion-label");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](8, " No Drivers Here ");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()();
@@ -342,68 +386,68 @@ function HomePage_ion_list_24_Template(rf, ctx) {
 
 function HomePage_ion_list_25_div_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r39 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+    const _r46 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "div", 64)(1, "div", 65);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "div", 70)(1, "div", 71);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_25_div_2_Template_div_click_1_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r39);
-      const ctx_r38 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"](2);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r38.ShowDriverInfoPop());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r46);
+      const ctx_r45 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"](2);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r45.ShowDriverInfoPop());
     });
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](2, "ion-avatar");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](3, "ion-img", 66);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](3, "ion-img", 72);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "div", 67)(5, "h2");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "div", 73)(5, "h2");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](7, "ion-icon", 68);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](7, "ion-icon", 74);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "p", 69)(9, "span");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](10, "ion-icon", 70);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "p", 75)(9, "span");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](10, "ion-icon", 76);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](11);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](12, "span");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](13, "ion-icon", 71);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](13, "ion-icon", 77);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](14);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](15, "div", 72)(16, "h2");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](15, "div", 78)(16, "h2");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](17);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](18, "p", 73)(19, "del");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](18, "p", 79)(19, "del");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](20);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()()();
   }
 
   if (rf & 2) {
-    const ctx_r32 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"](2);
+    const ctx_r39 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"]("", ctx_r32.carname, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"]("", ctx_r39.carname, " ");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" ", ctx_r32.D_duration, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" ", ctx_r39.D_duration, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" ", ctx_r32.driver_number_of_seats, " seats");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" ", ctx_r39.driver_number_of_seats, " seats");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"]("$", ctx_r32.price, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"]("$", ctx_r39.price, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"]("$", ctx_r32.price * 2, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"]("$", ctx_r39.price * 2, "");
   }
 }
 
 function HomePage_ion_list_25_div_3_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "div", 74)(1, "div", 75)(2, "ion-avatar");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](3, "ion-skeleton-text", 76);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "div", 80)(1, "div", 81)(2, "ion-avatar");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](3, "ion-skeleton-text", 82);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "div", 67)(5, "h2");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](6, "ion-skeleton-text", 77);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "div", 73)(5, "h2");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](6, "ion-skeleton-text", 83);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](7, "p", 69);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](8, "ion-skeleton-text", 77);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](7, "p", 75);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](8, "ion-skeleton-text", 83);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](9, "div", 72)(10, "h2");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](11, "ion-skeleton-text", 78);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](9, "div", 78)(10, "h2");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](11, "ion-skeleton-text", 84);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](12, "p");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](13, "ion-skeleton-text", 78);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](13, "ion-skeleton-text", 84);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()();
   }
 
@@ -423,29 +467,29 @@ function HomePage_ion_list_25_div_3_Template(rf, ctx) {
 
 function HomePage_ion_list_25_ion_select_option_13_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-select-option", 79);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](1, "ion-icon", 80);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-select-option", 85);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](1, "ion-icon", 86);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
   }
 
   if (rf & 2) {
-    const card_r40 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("value", card_r40.cardId);
+    const card_r47 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("value", card_r47.cardId);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" \u2022\u2022\u2022\u2022 ", card_r40.last4, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" \u2022\u2022\u2022\u2022 ", card_r47.last4, " ");
   }
 }
 
 function HomePage_ion_list_25_ion_icon_16_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](0, "ion-icon", 81);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](0, "ion-icon", 87);
   }
 }
 
 function HomePage_ion_list_25_ion_progress_bar_17_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](0, "ion-progress-bar", 82);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](0, "ion-progress-bar", 88);
   }
 }
 
@@ -459,37 +503,37 @@ function HomePage_ion_list_25_ion_label_18_Template(rf, ctx) {
 
 function HomePage_ion_list_25_Template(rf, ctx) {
   if (rf & 1) {
-    const _r42 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+    const _r49 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 44)(1, "div", 49);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](2, HomePage_ion_list_25_div_2_Template, 21, 5, "div", 50);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](3, HomePage_ion_list_25_div_3_Template, 14, 5, "div", 51);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "div", 52)(5, "ion-item", 53);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](6, "ion-icon", 54);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 50)(1, "div", 55);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](2, HomePage_ion_list_25_div_2_Template, 21, 5, "div", 56);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](3, HomePage_ion_list_25_div_3_Template, 14, 5, "div", 57);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](4, "div", 58)(5, "ion-item", 59);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](6, "ion-icon", 60);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](7, "ion-label");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](8, "Payment Method");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](9, "ion-select", 55);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](9, "ion-select", 61);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("ionChange", function HomePage_ion_list_25_Template_ion_select_ionChange_9_listener($event) {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r42);
-      const ctx_r41 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r41.chooseCard($event));
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r49);
+      const ctx_r48 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r48.chooseCard($event));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](10, "ion-select-option", 56);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](11, "ion-icon", 57);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](10, "ion-select-option", 62);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](11, "ion-icon", 63);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](12, " Cash ");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](13, HomePage_ion_list_25_ion_select_option_13_Template, 3, 2, "ion-select-option", 58);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](13, HomePage_ion_list_25_ion_select_option_13_Template, 3, 2, "ion-select-option", 64);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](14, "div", 59)(15, "ion-button", 60);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](14, "div", 65)(15, "ion-button", 66);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_25_Template_ion_button_click_15_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r42);
-      const ctx_r43 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r43.StartRide());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r49);
+      const ctx_r50 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r50.StartRide());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](16, HomePage_ion_list_25_ion_icon_16_Template, 1, 0, "ion-icon", 61);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](17, HomePage_ion_list_25_ion_progress_bar_17_Template, 1, 0, "ion-progress-bar", 62);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](18, HomePage_ion_list_25_ion_label_18_Template, 2, 0, "ion-label", 63);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](16, HomePage_ion_list_25_ion_icon_16_Template, 1, 0, "ion-icon", 67);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](17, HomePage_ion_list_25_ion_progress_bar_17_Template, 1, 0, "ion-progress-bar", 68);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](18, HomePage_ion_list_25_ion_label_18_Template, 2, 0, "ion-label", 69);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()();
   }
 
@@ -514,10 +558,10 @@ function HomePage_ion_list_25_Template(rf, ctx) {
 
 function HomePage_ion_list_26_Template(rf, ctx) {
   if (rf & 1) {
-    const _r45 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+    const _r52 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 44)(1, "ion-list-header")(2, "ion-item")(3, "ion-avatar", 19);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](4, "ion-img", 83);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 50)(1, "ion-list-header")(2, "ion-item")(3, "ion-avatar", 19);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](4, "ion-img", 89);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](5, "ion-label")(6, "h1");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](7);
@@ -525,15 +569,15 @@ function HomePage_ion_list_26_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "p");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](9);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](10, "ion-item-group", 14)(11, "ion-button", 84);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](10, "ion-item-group", 14)(11, "ion-button", 90);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_26_Template_ion_button_click_11_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r45);
-      const ctx_r44 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r44.presentCancelRideActionSheet());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r52);
+      const ctx_r51 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r51.presentCancelRideActionSheet());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](12, "ion-label")(13, "ion-icon", 85);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](12, "ion-label")(13, "ion-icon", 91);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](14, "ion-progress-bar", 86);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](14, "ion-progress-bar", 92);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
   }
 
@@ -551,7 +595,7 @@ function HomePage_ion_list_26_Template(rf, ctx) {
 function HomePage_ion_list_27_ion_label_22_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-label")(1, "h2");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 101);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 107);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](3, " Cash");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
   }
@@ -560,7 +604,7 @@ function HomePage_ion_list_27_ion_label_22_Template(rf, ctx) {
 function HomePage_ion_list_27_ion_label_23_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-label")(1, "h2");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 102);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 108);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](3, " Card");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
   }
@@ -568,64 +612,64 @@ function HomePage_ion_list_27_ion_label_23_Template(rf, ctx) {
 
 function HomePage_ion_list_27_Template(rf, ctx) {
   if (rf & 1) {
-    const _r49 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+    const _r56 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 44)(1, "div", 87)(2, "ion-item", 88)(3, "ion-label")(4, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 50)(1, "div", 93)(2, "ion-item", 94)(3, "ion-label")(4, "p");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](6, "h1");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](7);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "div", 89)(9, "ion-avatar");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](10, "ion-img", 83);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "div", 95)(9, "ion-avatar");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](10, "ion-img", 89);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](11, "div", 90);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](12, "ion-icon", 91);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](11, "div", 96);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](12, "ion-icon", 97);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](13, "span");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](14);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](15, "ion-item", 88)(16, "ion-label")(17, "ion-text", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](15, "ion-item", 94)(16, "ion-label")(17, "ion-text", 26);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](18);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](19, "p");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](20, "1,832 rides");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](21, "ion-item", 88);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](22, HomePage_ion_list_27_ion_label_22_Template, 4, 0, "ion-label", 63);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](23, HomePage_ion_list_27_ion_label_23_Template, 4, 0, "ion-label", 63);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](24, "div", 92)(25, "h1");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](21, "ion-item", 94);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](22, HomePage_ion_list_27_ion_label_22_Template, 4, 0, "ion-label", 69);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](23, HomePage_ion_list_27_ion_label_23_Template, 4, 0, "ion-label", 69);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](24, "div", 98)(25, "h1");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](26);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](27, "ion-accordion-group", 93)(28, "ion-accordion", 94)(29, "ion-item", 95)(30, "ion-label")(31, "h2");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](27, "ion-accordion-group", 99)(28, "ion-accordion", 100)(29, "ion-item", 101)(30, "ion-label")(31, "h2");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](32, "More Options");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](33, "div", 96)(34, "ion-button", 97);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](33, "div", 102)(34, "ion-button", 103);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_27_Template_ion_button_click_34_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r49);
-      const ctx_r48 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r48.CallDriver());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r56);
+      const ctx_r55 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r55.CallDriver());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](35, "ion-icon", 98);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](35, "ion-icon", 104);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](36, "ion-label");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](37, "Contact");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](38, "ion-button", 97);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](38, "ion-button", 103);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_27_Template_ion_button_click_38_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r49);
-      const ctx_r50 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r50.EnterChat());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r56);
+      const ctx_r57 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r57.EnterChat());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](39, "ion-icon", 99);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](39, "ion-icon", 105);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](40, "ion-label");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](41, "Chat");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](42, "ion-button", 97);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](42, "ion-button", 103);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_27_Template_ion_button_click_42_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r49);
-      const ctx_r51 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r51.presentCancelRideActionSheet());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r56);
+      const ctx_r58 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r58.presentCancelRideActionSheet());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](43, "ion-icon", 100);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](43, "ion-icon", 106);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](44, "ion-label");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](45, "Cancel ride");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()()()()();
@@ -655,7 +699,7 @@ function HomePage_ion_list_27_Template(rf, ctx) {
 function HomePage_ion_list_28_ion_label_22_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-label")(1, "h2");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 101);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 107);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](3, " Cash");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
   }
@@ -664,7 +708,7 @@ function HomePage_ion_list_28_ion_label_22_Template(rf, ctx) {
 function HomePage_ion_list_28_ion_label_23_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-label")(1, "h2");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 102);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](2, "ion-icon", 108);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](3, " Card");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
   }
@@ -672,54 +716,54 @@ function HomePage_ion_list_28_ion_label_23_Template(rf, ctx) {
 
 function HomePage_ion_list_28_Template(rf, ctx) {
   if (rf & 1) {
-    const _r55 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
+    const _r62 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 44)(1, "div", 87)(2, "ion-item", 88)(3, "ion-label")(4, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-list", 50)(1, "div", 93)(2, "ion-item", 94)(3, "ion-label")(4, "p");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](6, "h1");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](7);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "div", 89)(9, "ion-avatar");
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](10, "ion-img", 83);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](8, "div", 95)(9, "ion-avatar");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](10, "ion-img", 89);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](11, "div", 90);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](12, "ion-icon", 103);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](11, "div", 96);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](12, "ion-icon", 109);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](13, "span");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](14);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](15, "ion-item", 88)(16, "ion-label")(17, "ion-text", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](15, "ion-item", 94)(16, "ion-label")(17, "ion-text", 26);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](18);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](19, "p");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](20, "1,832 rides");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](21, "ion-item", 88);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](22, HomePage_ion_list_28_ion_label_22_Template, 4, 0, "ion-label", 63);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](23, HomePage_ion_list_28_ion_label_23_Template, 4, 0, "ion-label", 63);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](24, "div", 92)(25, "h1");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](21, "ion-item", 94);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](22, HomePage_ion_list_28_ion_label_22_Template, 4, 0, "ion-label", 69);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](23, HomePage_ion_list_28_ion_label_23_Template, 4, 0, "ion-label", 69);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](24, "div", 98)(25, "h1");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](26);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](27, "ion-accordion-group", 93)(28, "ion-accordion", 94)(29, "ion-item", 95)(30, "ion-label")(31, "h2");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](27, "ion-accordion-group", 99)(28, "ion-accordion", 100)(29, "ion-item", 101)(30, "ion-label")(31, "h2");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](32, "More Options");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](33, "div", 96)(34, "ion-button", 97);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](33, "div", 102)(34, "ion-button", 103);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_28_Template_ion_button_click_34_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r55);
-      const ctx_r54 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r54.CallDriver());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r62);
+      const ctx_r61 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r61.CallDriver());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](35, "ion-icon", 98);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](35, "ion-icon", 104);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](36, "ion-label");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](37, "Contact");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](38, "ion-button", 97);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](38, "ion-button", 103);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_ion_list_28_Template_ion_button_click_38_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r55);
-      const ctx_r56 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r56.EnterChat());
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵrestoreView"](_r62);
+      const ctx_r63 = _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵnextContext"]();
+      return _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵresetView"](ctx_r63.EnterChat());
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](39, "ion-icon", 99);
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelement"](39, "ion-icon", 105);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](40, "ion-label");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtext"](41, "Chat");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]()()()()()()();
@@ -766,6 +810,7 @@ class HomePage {
     this.toastController = toastController;
     this.actionSheetController = actionSheetController;
     this.profile = null;
+    this.presets = [];
     this.address = 'Unknown';
     this.cash = false;
     this.state = [];
@@ -837,7 +882,9 @@ class HomePage {
 
         yield _this2.initializeApp();
         yield _this2.initializeNetworkMonitoring();
-        yield _this2.fetchSavedPaymentMethods();
+        yield _this2.fetchSavedPaymentMethods(); // load user preset places (localStorage-backed)
+
+        yield _this2.loadPresets();
 
         _this2.EnterBookingStage();
 
@@ -853,11 +900,126 @@ class HomePage {
         _this2.overlay.showAlert('Error', 'An error occurred during initialization. Please try again.');
       }
     })();
+  } // Preset places management (localStorage)
+
+
+  loadPresets() {
+    var _this3 = this;
+
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      try {
+        const raw = localStorage.getItem('presetPlaces');
+
+        if (raw) {
+          _this3.presets = JSON.parse(raw);
+        } else {
+          // default presets
+          _this3.presets = [{
+            name: 'Queensbay Mall, Penang',
+            address: 'Queensbay Mall, Bayan Lepas, Penang',
+            lat: 5.2939,
+            lng: 100.2719
+          }, {
+            name: 'George Town Ferry Terminal',
+            address: 'Weld Quay, George Town, Penang',
+            lat: 5.4141,
+            lng: 100.3294
+          }];
+          localStorage.setItem('presetPlaces', JSON.stringify(_this3.presets));
+        }
+      } catch (e) {
+        console.error('Failed to load presets', e);
+        _this3.presets = [];
+      }
+    })();
+  }
+
+  savePresets() {
+    var _this4 = this;
+
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      try {
+        localStorage.setItem('presetPlaces', JSON.stringify(_this4.presets));
+      } catch (e) {
+        console.error('Failed to save presets', e);
+      }
+    })();
+  } // Add current destination as preset
+
+
+  addCurrentAsPreset() {
+    var _this5 = this;
+
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      try {
+        if (!_this5.destinationAddress || !_this5.D_LatLng || !_this5.D_LatLng.lat) {
+          const alert = yield _this5.alert.create({
+            header: 'Add preset',
+            message: 'Please choose a destination on the map first (pin or search).',
+            buttons: ['OK']
+          });
+          yield alert.present();
+          return;
+        }
+
+        const name = _this5.destinationAddress || 'New Place';
+
+        _this5.presets.unshift({
+          name,
+          address: name,
+          lat: _this5.D_LatLng.lat,
+          lng: _this5.D_LatLng.lng
+        }); // keep only latest 10
+
+
+        if (_this5.presets.length > 10) _this5.presets.length = 10;
+        yield _this5.savePresets();
+      } catch (e) {
+        console.error('Error adding preset', e);
+      }
+    })();
+  } // Delete preset by index
+
+
+  deletePreset(i) {
+    var _this6 = this;
+
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this6.presets.splice(i, 1);
+
+      yield _this6.savePresets();
+    })();
+  } // Select a preset: set destination and trigger directions
+
+
+  selectPreset(preset) {
+    var _this7 = this;
+
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      try {
+        _this7.destinationAddress = preset.name || preset.address || '';
+
+        if (preset.lat && preset.lng) {
+          _this7.D_LatLng = {
+            lat: preset.lat,
+            lng: preset.lng
+          }; // trigger distance/directions calculation
+
+          yield _this7.getDistanceAndDirections();
+        } else {
+          // fallback: if no coords, open autocomplete modal with address prefilled
+          // set data for modal then open it
+          yield _this7.showAutocompleteModal();
+        }
+      } catch (e) {
+        console.error('Failed to select preset', e);
+      }
+    })();
   } // Add this new method
 
 
   initializeProfile() {
-    var _this3 = this;
+    var _this8 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
@@ -865,7 +1027,7 @@ class HomePage {
         // await this.overlay.showLoader('Loading profile...');
         // Wait for auth state to be ready
         const user = yield new Promise(resolve => {
-          const unsubscribe = (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_18__.onAuthStateChanged)(_this3.auth, user => {
+          const unsubscribe = (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_18__.onAuthStateChanged)(_this8.auth, user => {
             unsubscribe();
             resolve(user);
           });
@@ -876,29 +1038,29 @@ class HomePage {
         } // Get profile data
 
 
-        _this3.profile = yield _this3.database.getUserProfile();
+        _this8.profile = yield _this8.database.getUserProfile();
 
-        if (!_this3.profile) {
+        if (!_this8.profile) {
           console.log('Creating new profile...'); // If profile doesn't exist, create it with default values
 
-          _this3.profile = {
+          _this8.profile = {
             userId: user.uid,
             email: user.email,
             createdAt: new Date().toISOString() // Add any other default profile fields you need
 
           };
-          yield _this3.database.createUserProfile(_this3.profile);
+          yield _this8.database.createUserProfile(_this8.profile);
         }
 
-        console.log('Profile initialized:', _this3.profile);
+        console.log('Profile initialized:', _this8.profile);
 
-        _this3.overlay.hideLoader();
+        _this8.overlay.hideLoader();
       } catch (error) {
         console.error('Error initializing profile:', error);
 
-        _this3.overlay.hideLoader();
+        _this8.overlay.hideLoader();
 
-        yield _this3.overlay.showAlert('Profile Error', 'Unable to initialize user profile. Please try again or contact support.');
+        yield _this8.overlay.showAlert('Profile Error', 'Unable to initialize user profile. Please try again or contact support.');
         throw error;
       }
     })();
@@ -906,12 +1068,12 @@ class HomePage {
 
 
   ensureProfileInitialized() {
-    var _this4 = this;
+    var _this9 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (!_this4.profile) {
+      if (!_this9.profile) {
         try {
-          yield _this4.initializeProfile();
+          yield _this9.initializeProfile();
           return true;
         } catch (error) {
           console.error('Error ensuring profile is initialized:', error);
@@ -924,7 +1086,7 @@ class HomePage {
   }
 
   initializeRideStateListener() {
-    var _this5 = this;
+    var _this10 = this;
 
     console.log('Initializing ride state listener'); // Reset lastHandledState on initialization to ensure proper state restoration
 
@@ -940,7 +1102,7 @@ class HomePage {
             if (snapshot.empty) {
               console.log('No active rides found');
 
-              _this5.setStage(_this5.STAGES.BOOKING);
+              _this10.setStage(_this10.STAGES.BOOKING);
 
               return;
             } // Get the most recent active ride
@@ -949,73 +1111,73 @@ class HomePage {
             const activeRides = snapshot.docs;
             const currentRide = activeRides[0];
             const rideData = currentRide.data();
-            _this5.requestID = currentRide.id; // Restore price information
+            _this10.requestID = currentRide.id; // Restore price information
 
-            _this5.price = rideData.price || 0;
-            console.log('Restored ride price:', _this5.price);
+            _this10.price = rideData.price || 0;
+            console.log('Restored ride price:', _this10.price);
             console.log('Current ride status:', rideData.status); // IMPORTANT: On app initialization, always restore ride state regardless of lastHandledState
 
-            const isAppInitialization = !_this5.lastHandledState; // Only skip if we've already handled this state AND it's not initial app load
+            const isAppInitialization = !_this10.lastHandledState; // Only skip if we've already handled this state AND it's not initial app load
 
-            if (_this5.lastHandledState === rideData.status && !isAppInitialization) {
+            if (_this10.lastHandledState === rideData.status && !isAppInitialization) {
               console.log('State already properly handled:', rideData.status);
               return;
             } // Store location data for later use
 
 
             if (rideData.Loc_lat && rideData.Loc_lng) {
-              _this5.LatLng = {
+              _this10.LatLng = {
                 lat: rideData.Loc_lat,
                 lng: rideData.Loc_lng
               };
             }
 
             if (rideData.Des_lat && rideData.Des_lng) {
-              _this5.D_LatLng = {
+              _this10.D_LatLng = {
                 lat: rideData.Des_lat,
                 lng: rideData.Des_lng
               };
             } // Store addresses
 
 
-            _this5.locationAddress = rideData.Rider_Location || 'Unknown location';
-            _this5.destinationAddress = rideData.Rider_Destination || 'Unknown destination';
+            _this10.locationAddress = rideData.Rider_Location || 'Unknown location';
+            _this10.destinationAddress = rideData.Rider_Destination || 'Unknown destination';
             console.log('Restoring ride state:', rideData.status); // Handle different ride states
 
             switch (rideData.status) {
               case 'pending':
-                yield _this5.handlePendingState();
+                yield _this10.handlePendingState();
                 break;
 
               case 'confirmed':
                 console.log('Handling confirmed state on restore...');
-                yield _this5.handleRideConfirmation(rideData);
+                yield _this10.handleRideConfirmation(rideData);
                 break;
 
               case 'started':
-                yield _this5.handleRideStart(currentRide);
+                yield _this10.handleRideStart(currentRide);
                 break;
 
               case 'cancelled':
-                yield _this5.handleRideCancellation(rideData);
+                yield _this10.handleRideCancellation(rideData);
                 break;
 
               default:
                 console.log('Unknown ride status:', rideData.status);
 
-                _this5.setStage(_this5.STAGES.BOOKING);
+                _this10.setStage(_this10.STAGES.BOOKING);
 
             } // Only update lastHandledState AFTER successful handling
 
 
-            _this5.lastHandledState = rideData.status;
+            _this10.lastHandledState = rideData.status;
           } catch (error) {
             console.error('Error handling ride state:', error);
 
             if (error.code === 'permission-denied' || error.code === 'not-found') {
-              _this5.overlay.showAlert('Error', 'Failed to restore ride state. Please try again.');
+              _this10.overlay.showAlert('Error', 'Failed to restore ride state. Please try again.');
 
-              _this5.setStage(_this5.STAGES.BOOKING);
+              _this10.setStage(_this10.STAGES.BOOKING);
             }
           }
         });
@@ -1044,21 +1206,21 @@ class HomePage {
   }
 
   checkAndRequestLocationPermissions() {
-    var _this6 = this;
+    var _this11 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Check if running on web platform
-        if (_this6.platform.is('capacitor')) {
+        if (_this11.platform.is('capacitor')) {
           const permissionStatus = yield _capacitor_geolocation__WEBPACK_IMPORTED_MODULE_1__.Geolocation.checkPermissions();
 
           if (permissionStatus.location === 'granted') {
-            _this6.overlay.hideLoader();
+            _this11.overlay.hideLoader();
 
             return true;
           }
 
-          const alert = yield _this6.alert.create({
+          const alert = yield _this11.alert.create({
             header: 'Location Permission Required',
             message: 'This app needs access to your location to function properly.',
             buttons: [{
@@ -1067,10 +1229,10 @@ class HomePage {
                 var _ref2 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
                   const newStatus = yield _capacitor_geolocation__WEBPACK_IMPORTED_MODULE_1__.Geolocation.requestPermissions();
 
-                  _this6.overlay.hideLoader();
+                  _this11.overlay.hideLoader();
 
                   if (newStatus.location !== 'granted') {
-                    yield _this6.showLocationRequiredAlert();
+                    yield _this11.showLocationRequiredAlert();
                     return false;
                   }
 
@@ -1090,9 +1252,9 @@ class HomePage {
           } = yield alert.onDidDismiss();
 
           if (role === 'backdrop') {
-            _this6.overlay.hideLoader();
+            _this11.overlay.hideLoader();
 
-            yield _this6.showLocationRequiredAlert();
+            yield _this11.showLocationRequiredAlert();
             return false;
           }
         } else {
@@ -1103,20 +1265,20 @@ class HomePage {
                 name: 'geolocation'
               }).then(result => {
                 if (result.state === 'granted') {
-                  _this6.overlay.hideLoader();
+                  _this11.overlay.hideLoader();
 
                   resolve(true);
                 } else {
-                  _this6.overlay.hideLoader();
+                  _this11.overlay.hideLoader();
 
-                  resolve(_this6.showWebLocationPrompt());
+                  resolve(_this11.showWebLocationPrompt());
                 }
               });
             });
           } else {
-            _this6.overlay.hideLoader();
+            _this11.overlay.hideLoader();
 
-            yield _this6.overlay.showAlert('Error', 'Geolocation is not supported in this browser.');
+            yield _this11.overlay.showAlert('Error', 'Geolocation is not supported in this browser.');
             return false;
           }
         }
@@ -1125,7 +1287,7 @@ class HomePage {
       } catch (error) {
         console.error('Error checking/requesting location permissions:', error);
 
-        _this6.overlay.hideLoader();
+        _this11.overlay.hideLoader();
 
         throw error;
       }
@@ -1133,10 +1295,10 @@ class HomePage {
   }
 
   showWebLocationPrompt() {
-    var _this7 = this;
+    var _this12 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const alert = yield _this7.alert.create({
+      const alert = yield _this12.alert.create({
         header: 'Location Access',
         message: 'This app needs your location. Please allow location access when prompted by your browser.',
         buttons: [{
@@ -1144,7 +1306,7 @@ class HomePage {
           handler: () => {
             return new Promise(resolve => {
               navigator.geolocation.getCurrentPosition(() => resolve(true), () => {
-                _this7.showLocationRequiredAlert();
+                _this12.showLocationRequiredAlert();
 
                 resolve(false);
               });
@@ -1158,10 +1320,10 @@ class HomePage {
   }
 
   showLocationRequiredAlert() {
-    var _this8 = this;
+    var _this13 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const alert = yield _this8.alert.create({
+      const alert = yield _this13.alert.create({
         header: 'Location Required',
         message: 'Location permission is required to use this app. Please enable location services in your device settings.',
         buttons: ['OK']
@@ -1171,19 +1333,19 @@ class HomePage {
   }
 
   fetchSavedPaymentMethods() {
-    var _this9 = this;
+    var _this14 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        _this9.savedPaymentMethods = yield _this9.database.getSavedPaymentMethods();
-        console.log('Saved Payment Methods:', _this9.savedPaymentMethods); // Set default payment method to cash if no cards are saved
+        _this14.savedPaymentMethods = yield _this14.database.getSavedPaymentMethods();
+        console.log('Saved Payment Methods:', _this14.savedPaymentMethods); // Set default payment method to cash if no cards are saved
 
-        if (_this9.savedPaymentMethods.length === 0) {
-          _this9.selectedCard = 'cash';
-          _this9.cash = true;
+        if (_this14.savedPaymentMethods.length === 0) {
+          _this14.selectedCard = 'cash';
+          _this14.cash = true;
         } else {
-          _this9.selectedCard = _this9.savedPaymentMethods[0].cardId;
-          _this9.cash = false;
+          _this14.selectedCard = _this14.savedPaymentMethods[0].cardId;
+          _this14.cash = false;
         }
       } catch (error) {
         console.error('Error fetching saved payment methods:', error);
@@ -1200,37 +1362,37 @@ class HomePage {
   }
 
   processPayment(email, amount, cardId) {
-    var _this10 = this;
+    var _this15 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this10.overlay.showLoader('Processing payment...');
+      _this15.overlay.showLoader('Processing payment...');
 
       try {
-        const paymentResult = yield _this10.payME.processPaymentWithCardId(email, amount, cardId).toPromise();
+        const paymentResult = yield _this15.payME.processPaymentWithCardId(email, amount, cardId).toPromise();
         console.log('Payment successful:', paymentResult);
-        yield _this10.overlay.showAlert('Success', 'Payment successful!');
+        yield _this15.overlay.showAlert('Success', 'Payment successful!');
       } catch (error) {
         console.error('Error during payment:', error);
         const errorMessage = error.error ? error.error.error : 'An unexpected error occurred.';
-        yield _this10.showPaymentErrorModal(errorMessage);
+        yield _this15.showPaymentErrorModal(errorMessage);
       } finally {
-        _this10.overlay.hideLoader();
+        _this15.overlay.hideLoader();
       }
     })();
   }
 
   showPaymentErrorModal(errorMessage) {
-    var _this11 = this;
+    var _this16 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const alert = yield _this11.alert.create({
+      const alert = yield _this16.alert.create({
         header: 'Payment Error',
         message: errorMessage,
         buttons: [{
           text: 'Add New Card',
           handler: function () {
             var _ref3 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-              const modal = yield _this11.modalCtrl.create({
+              const modal = yield _this16.modalCtrl.create({
                 component: _add_card_add_card_component__WEBPACK_IMPORTED_MODULE_6__.AddCardComponent // Create this component to handle adding a new card
 
               });
@@ -1240,8 +1402,8 @@ class HomePage {
               } = yield modal.onWillDismiss();
 
               if (data && data.newCardId) {
-                _this11.selectedCard = data.newCardId;
-                _this11.cash = false;
+                _this16.selectedCard = data.newCardId;
+                _this16.cash = false;
               }
             });
 
@@ -1300,54 +1462,54 @@ class HomePage {
   }
 
   initializeNetworkMonitoring() {
-    var _this12 = this;
+    var _this17 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const status = yield _capacitor_network__WEBPACK_IMPORTED_MODULE_4__.Network.getStatus();
-      _this12.isConnected = status.connected;
+      _this17.isConnected = status.connected;
 
-      _this12.networkStatus$.next(_this12.isConnected);
+      _this17.networkStatus$.next(_this17.isConnected);
 
-      console.log('Network monitoring initialized. Initial status:', _this12.isConnected);
+      console.log('Network monitoring initialized. Initial status:', _this17.isConnected);
       _capacitor_network__WEBPACK_IMPORTED_MODULE_4__.Network.addListener('networkStatusChange', status => {
         console.log('Network status changed:', status);
-        _this12.isConnected = status.connected;
+        _this17.isConnected = status.connected;
 
-        _this12.networkStatus$.next(_this12.isConnected);
+        _this17.networkStatus$.next(_this17.isConnected);
       });
 
-      _this12.networkStatus$.subscribe(isConnected => {
+      _this17.networkStatus$.subscribe(isConnected => {
         if (isConnected) {
-          _this12.router.navigate(['home']);
+          _this17.router.navigate(['home']);
         } else {
-          _this12.router.navigate(['network']);
+          _this17.router.navigate(['network']);
         }
       });
     })();
   }
 
   initializeApp() {
-    var _this13 = this;
+    var _this18 = this;
 
     this.platform.ready().then( /*#__PURE__*/(0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        yield _this13.initializeRideStateListener();
+        yield _this18.initializeRideStateListener();
       } catch (error) {
         console.error('Error initializing app:', error);
 
-        _this13.setStage(_this13.STAGES.BOOKING);
+        _this18.setStage(_this18.STAGES.BOOKING);
       }
     }));
   }
 
   initializeGeolocation() {
-    var _this14 = this;
+    var _this19 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         let coordinates;
 
-        if (_this14.platform.is('capacitor')) {
+        if (_this19.platform.is('capacitor')) {
           coordinates = yield _capacitor_geolocation__WEBPACK_IMPORTED_MODULE_1__.Geolocation.getCurrentPosition({
             timeout: 10000
           });
@@ -1373,51 +1535,51 @@ class HomePage {
           });
         }
 
-        _this14.coordinates = coordinates;
-        _this14.LatLng = {
+        _this19.coordinates = coordinates;
+        _this19.LatLng = {
           lat: coordinates.coords.latitude,
           lng: coordinates.coords.longitude
         };
-        yield _this14.database.updateLocation(_this14.LatLng);
-        console.log('Geolocation initialized:', _this14.LatLng);
+        yield _this19.database.updateLocation(_this19.LatLng);
+        console.log('Geolocation initialized:', _this19.LatLng);
 
-        _this14.startPollingPosition();
+        _this19.startPollingPosition();
       } catch (error) {
         console.error('Error initializing geolocation:', error);
 
-        _this14.overlay.hideLoader();
+        _this19.overlay.hideLoader();
 
-        yield _this14.overlay.showAlert('Location Error', 'Unable to get your location. Please check your device settings and try again.');
+        yield _this19.overlay.showAlert('Location Error', 'Unable to get your location. Please check your device settings and try again.');
       }
     })();
   }
 
   startPermissionPolling() {
-    var _this15 = this;
+    var _this20 = this;
 
     this.permissionCheckInterval = setInterval( /*#__PURE__*/(0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const permissionStatus = yield _capacitor_geolocation__WEBPACK_IMPORTED_MODULE_1__.Geolocation.checkPermissions();
 
       if (permissionStatus.location === 'granted') {
-        _this15.overlay.hideLoader();
+        _this20.overlay.hideLoader();
 
-        clearInterval(_this15.permissionCheckInterval); // Try to get the current position again if permissions are granted
+        clearInterval(_this20.permissionCheckInterval); // Try to get the current position again if permissions are granted
 
         const coordinates = yield _capacitor_geolocation__WEBPACK_IMPORTED_MODULE_1__.Geolocation.getCurrentPosition();
-        _this15.coordinates = coordinates;
-        _this15.LatLng = {
+        _this20.coordinates = coordinates;
+        _this20.LatLng = {
           lat: coordinates.coords.latitude,
           lng: coordinates.coords.longitude
         };
-        console.log('Geolocation initialized:', _this15.LatLng); // Start polling the user's position
+        console.log('Geolocation initialized:', _this20.LatLng); // Start polling the user's position
 
-        _this15.startPollingPosition();
+        _this20.startPollingPosition();
       }
     }), 1000); // Check every second
   }
 
   startPollingPosition() {
-    var _this16 = this;
+    var _this21 = this;
 
     let lastLatLng = {
       lat: null,
@@ -1428,7 +1590,7 @@ class HomePage {
       try {
         let position;
 
-        if (_this16.platform.is('capacitor')) {
+        if (_this21.platform.is('capacitor')) {
           position = yield _capacitor_geolocation__WEBPACK_IMPORTED_MODULE_1__.Geolocation.getCurrentPosition();
         } else {
           // Web fallback
@@ -1441,23 +1603,23 @@ class HomePage {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-        yield _this16.database.updateLocation(newLatLng);
+        yield _this21.database.updateLocation(newLatLng);
 
-        if (_this16.hasSignificantLocationChange(lastLatLng, newLatLng, 50)) {
+        if (_this21.hasSignificantLocationChange(lastLatLng, newLatLng, 50)) {
           // Check if moved at least 50 meters
           lastLatLng = newLatLng;
-          const address = yield _this16.map.getAddress(newLatLng.lat, newLatLng.lng);
+          const address = yield _this21.map.getAddress(newLatLng.lat, newLatLng.lng);
 
           if (address && address.results && address.results.length > 1) {
             const components = address.results[1].address_components;
 
             if (components.length >= 2) {
-              _this16.locationAddress = components[0].long_name + ' ' + components[1].long_name;
-              _this16.actualLocation = address.results[0].formatted_address;
+              _this21.locationAddress = components[0].long_name + ' ' + components[1].long_name;
+              _this21.actualLocation = address.results[0].formatted_address;
 
-              if (_this16.locationAddress !== lastAddress) {
-                console.log('Updated Location Address:', _this16.locationAddress);
-                lastAddress = _this16.locationAddress;
+              if (_this21.locationAddress !== lastAddress) {
+                console.log('Updated Location Address:', _this21.locationAddress);
+                lastAddress = _this21.locationAddress;
               }
             }
           } else {
@@ -1465,13 +1627,13 @@ class HomePage {
           }
         }
 
-        if (_this16.networkService.isConnected() && !_this16.stopPolling) {
+        if (_this21.networkService.isConnected() && !_this21.stopPolling) {
           const center = [newLatLng.lat, newLatLng.lng];
-          const radiusInM = 5000; // Example radius in meters
+          const radiusInM = 8000; // Example radius in meters
 
-          yield _this16.fetchAndDisplayDrivers(center, radiusInM);
+          yield _this21.fetchAndDisplayDrivers(center, radiusInM);
         } else {
-          console.log('No network connection.', _this16.stopPolling);
+          console.log('No network connection.', _this21.stopPolling);
         }
       } catch (err) {
         console.error('Error getting position:', err); // Reduce error alerts by not showing specific errors repeatedly
@@ -1505,16 +1667,16 @@ class HomePage {
   }
 
   initializeMap() {
-    var _this17 = this;
+    var _this22 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Ensure coordinates are available before creating map
-        if (!_this17.coordinates || !_this17.coordinates.coords) {
-          yield _this17.overlay.showAlert('Coordinates not available, using default location', '');
+        if (!_this22.coordinates || !_this22.coordinates.coords) {
+          yield _this22.overlay.showAlert('Coordinates not available, using default location', '');
           console.warn('Coordinates not available, using default location'); // Use default coordinates (Kuala Lumpur, Malaysia)
 
-          _this17.coordinates = {
+          _this22.coordinates = {
             coords: {
               latitude: 3.1390,
               longitude: 101.6869,
@@ -1528,11 +1690,11 @@ class HomePage {
           };
         }
 
-        yield _this17.map.createMap(_this17.mapRef.nativeElement, _this17.coordinates);
-        _this17.mapy = true;
-        _this17.actualLocation = _this17.map.actualLocation; // console.log('Map initialized:', this.actualLocation, this.locationAddress);
+        yield _this22.map.createMap(_this22.mapRef.nativeElement, _this22.coordinates);
+        _this22.mapy = true;
+        _this22.actualLocation = _this22.map.actualLocation; // console.log('Map initialized:', this.actualLocation, this.locationAddress);
       } catch (error) {
-        _this17.overlay.showAlert('Error initializing map:', error);
+        _this22.overlay.showAlert('Error initializing map:', error);
 
         throw new Error('Map initialization failed');
       }
@@ -1575,17 +1737,17 @@ class HomePage {
   }
 
   setupMapListeners() {
-    var _this18 = this;
+    var _this23 = this;
 
     this.map.newMap.setOnCameraIdleListener( /*#__PURE__*/function () {
       var _ref7 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (g) {
-        _this18.ngZone.run( /*#__PURE__*/(0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-          _this18.showResetLocationButton = true;
+        _this23.ngZone.run( /*#__PURE__*/(0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+          _this23.showResetLocationButton = true;
 
-          if (_this18.mapPinStage) {
-            const addressResponse = yield _this18.geocode.getAddress(g.latitude, g.longitude).toPromise();
+          if (_this23.mapPinStage) {
+            const addressResponse = yield _this23.geocode.getAddress(g.latitude, g.longitude).toPromise();
 
-            _this18.processAddressResponse(addressResponse);
+            _this23.processAddressResponse(addressResponse);
           }
         }));
       });
@@ -1597,55 +1759,55 @@ class HomePage {
   }
 
   logout() {
-    var _this19 = this;
+    var _this24 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this19.authService.logout();
+      yield _this24.authService.logout();
     })();
   }
 
   fetchAndDisplayDrivers(center, radiusInM) {
-    var _this20 = this;
+    var _this25 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const drivers = yield _this20.database.checkDriversWithin(center, radiusInM);
+        const drivers = yield _this25.database.checkDriversWithin(center, radiusInM);
         console.log('Fetched drivers:', drivers);
-        yield _this20.handleDrivers(drivers);
+        yield _this25.handleDrivers(drivers);
 
-        if (_this20.drivers_Requested.length > 0) {
-          _this20.current_Request_Number = 0; // Set to the first available driver
+        if (_this25.drivers_Requested.length > 0) {
+          _this25.current_Request_Number = 0; // Set to the first available driver
 
-          yield _this20.UpdateCarMarker(_this20.drivers_Requested);
-          _this20.NoDrivers = false;
+          yield _this25.UpdateCarMarker(_this25.drivers_Requested);
+          _this25.NoDrivers = false;
         } else {
-          _this20.current_Request_Number = -1; // No valid driver
+          _this25.current_Request_Number = -1; // No valid driver
 
-          yield _this20.UpdateCarMarker([]); // Clear all markers if no drivers are requested
+          yield _this25.UpdateCarMarker([]); // Clear all markers if no drivers are requested
 
-          _this20.NoDrivers = true;
+          _this25.NoDrivers = true;
         }
       } catch (error) {
         console.error('Error fetching drivers:', error);
-        _this20.current_Request_Number = -1; // Reset the request number
+        _this25.current_Request_Number = -1; // Reset the request number
 
-        yield _this20.UpdateCarMarker([]); // Clear all markers if there's an error
+        yield _this25.UpdateCarMarker([]); // Clear all markers if there's an error
 
-        _this20.NoDrivers = true;
+        _this25.NoDrivers = true;
       }
     })();
   }
 
   handleDrivers(drivers) {
-    var _this21 = this;
+    var _this26 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this21.drivers_Requested = [];
-      _this21.closeDrivers = null;
+      _this26.drivers_Requested = [];
+      _this26.closeDrivers = null;
       console.log('Handling drivers:', drivers);
 
       if (drivers.length === 0) {
-        _this21.NoDrivers = true;
+        _this26.NoDrivers = true;
         console.log('No drivers found.');
         return;
       }
@@ -1655,27 +1817,27 @@ class HomePage {
           console.log('Processing driver:', driver);
 
           if (driver.duration <= 1000 && driver.onlineState) {
-            _this21.drivers_Requested.push(driver);
+            _this26.drivers_Requested.push(driver);
 
-            _this21.updateDriverInfo(driver);
+            _this26.updateDriverInfo(driver);
           }
 
-          if (!_this21.closeDrivers || driver.duration < _this21.closeDrivers.duration) {
-            _this21.closeDrivers = driver;
+          if (!_this26.closeDrivers || driver.duration < _this26.closeDrivers.duration) {
+            _this26.closeDrivers = driver;
           }
         } else {
           console.error('Driver is null or undefined:', driver);
         }
       });
 
-      if (_this21.drivers_Requested.length === 0) {
-        _this21.NoDrivers = true;
+      if (_this26.drivers_Requested.length === 0) {
+        _this26.NoDrivers = true;
       } else {
         // Ensuring current_Request_Number is within the bounds
-        _this21.current_Request_Number = Math.min(_this21.current_Request_Number, _this21.drivers_Requested.length - 1);
+        _this26.current_Request_Number = Math.min(_this26.current_Request_Number, _this26.drivers_Requested.length - 1);
       }
 
-      console.log('Final requested drivers list:', _this21.drivers_Requested);
+      console.log('Final requested drivers list:', _this26.drivers_Requested);
     })();
   } // Unsubscribe from all active listeners (for cleanup)
 
@@ -1698,80 +1860,80 @@ class HomePage {
   }
 
   StartRide() {
-    var _this22 = this;
+    var _this27 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this22.isLoadingDriver) {
+      if (_this27.isLoadingDriver) {
         console.log('Ride request already in progress...');
         return;
       }
 
-      _this22.isLoadingDriver = true;
+      _this27.isLoadingDriver = true;
 
-      _this22.overlay.showLoader('Preparing your ride...');
+      _this27.overlay.showLoader('Preparing your ride...');
 
       try {
         // Group operations that can be done concurrently
-        yield Promise.all([_this22.clearPrevMarkers(), _this22.clearAllPolylines()]);
+        yield Promise.all([_this27.clearPrevMarkers(), _this27.clearAllPolylines()]);
 
-        _this22.map.newMap.enableTouch();
+        _this27.map.newMap.enableTouch();
 
-        yield _this22.BookRide();
+        yield _this27.BookRide();
       } catch (error) {
         console.error('Error starting ride:', error);
-        yield _this22.overlay.showAlert('Starting Ride Error', error.message || 'Failed to start ride');
+        yield _this27.overlay.showAlert('Starting Ride Error', error.message || 'Failed to start ride');
       } finally {
         // Ensure we always hide the loader and reset the loading state
-        _this22.isLoadingDriver = false;
+        _this27.isLoadingDriver = false;
 
-        _this22.overlay.hideLoader();
+        _this27.overlay.hideLoader();
       }
     })();
   }
 
   clearMarkers() {
-    var _this23 = this;
+    var _this28 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this23.marker1) {
-        yield _this23.map.newMap.removeMarker(_this23.marker1);
-        _this23.marker1 = null;
+      if (_this28.marker1) {
+        yield _this28.map.newMap.removeMarker(_this28.marker1);
+        _this28.marker1 = null;
       }
 
-      if (_this23.marker2) {
-        yield _this23.map.newMap.removeMarker(_this23.marker2.toString());
-        _this23.marker2 = null;
+      if (_this28.marker2) {
+        yield _this28.map.newMap.removeMarker(_this28.marker2.toString());
+        _this28.marker2 = null;
       }
 
-      if (_this23._carmarkers) {
+      if (_this28._carmarkers) {
         for (const {
           marker
-        } of _this23._carmarkers) {
-          yield _this23.map.newMap.removeMarker(marker); // Assuming marker is the instance
+        } of _this28._carmarkers) {
+          yield _this28.map.newMap.removeMarker(marker); // Assuming marker is the instance
         }
 
-        _this23._carmarkers = []; // Clear the array after removing markers
+        _this28._carmarkers = []; // Clear the array after removing markers
       }
     })();
   }
 
   BookRide() {
-    var _this24 = this;
+    var _this29 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        if (!(yield _this24.ensureProfileInitialized())) {
+        if (!(yield _this29.ensureProfileInitialized())) {
           throw new Error('Profile not initialized');
         }
 
-        if (!_this24.hasValidDriver()) {
-          _this24.showNoDriversAlert();
+        if (!_this29.hasValidDriver()) {
+          _this29.showNoDriversAlert();
 
           return;
         }
 
-        const driver = _this24.drivers_Requested[_this24.current_Request_Number];
-        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this24.firestore, `Drivers`, driver.Driver_id);
+        const driver = _this29.drivers_Requested[_this29.current_Request_Number];
+        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this29.firestore, `Drivers`, driver.Driver_id);
         const docSnapshot = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.getDoc)(userDocRef);
 
         if (!docSnapshot.exists()) {
@@ -1781,18 +1943,18 @@ class HomePage {
         const data = docSnapshot.data();
 
         if (!data?.onlineState) {
-          yield _this24.handleNoAvailableDriver();
+          yield _this29.handleNoAvailableDriver();
           return;
         }
 
-        _this24.driverInfo = data;
-        yield _this24.requestRideWithDriverDetails(driver, userDocRef);
+        _this29.driverInfo = data;
+        yield _this29.requestRideWithDriverDetails(driver, userDocRef);
 
-        _this24.updateDriverInfo(driver);
+        _this29.updateDriverInfo(driver);
       } catch (error) {
         console.error('Error in BookRide:', error);
 
-        _this24.overlay.showAlert('Error', 'Unable to book ride. Please try again.');
+        _this29.overlay.showAlert('Error', 'Unable to book ride. Please try again.');
       }
     })();
   }
@@ -1802,33 +1964,33 @@ class HomePage {
   }
 
   requestRideWithDriverDetails(driver, userDocRef) {
-    var _this25 = this;
+    var _this30 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        if (!(yield _this25.ensureProfileInitialized())) {
+        if (!(yield _this30.ensureProfileInitialized())) {
           throw new Error('Profile not initialized');
         }
 
         const requestDetails = {
-          latLng: _this25.LatLng,
-          destinationAddress: _this25.destinationAddress,
-          locationAddress: _this25.locationAddress,
-          dLatLng: _this25.D_LatLng,
+          latLng: _this30.LatLng,
+          destinationAddress: _this30.destinationAddress,
+          locationAddress: _this30.locationAddress,
+          dLatLng: _this30.D_LatLng,
           driverId: driver.Driver_id,
-          price: _this25.price,
-          cash: _this25.cash
+          price: _this30.price,
+          cash: _this30.cash
         };
-        _this25.requestID = yield _this25.database.RequestRideWithRiderDetails(requestDetails);
+        _this30.requestID = yield _this30.database.RequestRideWithRiderDetails(requestDetails);
 
-        if (_this25.requestID) {
-          _this25.currentDriver = driver; // Set up listener before handling pending state
+        if (_this30.requestID) {
+          _this30.currentDriver = driver; // Set up listener before handling pending state
 
-          const rideRequestDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this25.firestore, `Request`, _this25.requestID);
+          const rideRequestDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this30.firestore, `Request`, _this30.requestID);
           const unsub = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.onSnapshot)(rideRequestDocRef, /*#__PURE__*/function () {
             var _ref9 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (doc) {
               if (doc.exists()) {
-                yield _this25.handleRideUpdates(doc);
+                yield _this30.handleRideUpdates(doc);
               } else {
                 console.error('Ride request document does not exist.');
               }
@@ -1838,16 +2000,16 @@ class HomePage {
               return _ref9.apply(this, arguments);
             };
           }());
-          _this25.unsubscribe = unsub; // Now handle the pending state
+          _this30.unsubscribe = unsub; // Now handle the pending state
 
-          yield _this25.handlePendingState();
+          yield _this30.handlePendingState();
         } else {
           throw new Error('Failed to generate requestID');
         }
       } catch (error) {
         console.error('Error in requestRideWithDriverDetails:', error);
 
-        _this25.overlay.showAlert('Error', 'Unable to request ride. Please try again.');
+        _this30.overlay.showAlert('Error', 'Unable to request ride. Please try again.');
       }
     })();
   }
@@ -1858,16 +2020,16 @@ class HomePage {
   }
 
   handleNoAvailableDriver() {
-    var _this26 = this;
+    var _this31 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log('Driver is not available, moving to next.');
-      _this26.current_Request_Number++;
+      _this31.current_Request_Number++;
 
-      if (_this26.hasValidDriver()) {
-        yield _this26.BookRide();
+      if (_this31.hasValidDriver()) {
+        yield _this31.BookRide();
       } else {
-        _this26.showNoDriversAlert();
+        _this31.showNoDriversAlert();
       }
     })();
   } // Make sure to clear the subscription when it's no longer needed
@@ -1908,7 +2070,7 @@ class HomePage {
   }
 
   handleRideUpdates(doc) {
-    var _this27 = this;
+    var _this32 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const data = doc.data();
@@ -1917,68 +2079,68 @@ class HomePage {
       try {
         switch (data.status) {
           case 'confirmed':
-            yield _this27.handleRideConfirmation(doc);
+            yield _this32.handleRideConfirmation(doc);
             break;
 
           case 'started':
-            yield _this27.handleRideStart(doc);
+            yield _this32.handleRideStart(doc);
             break;
 
           case 'stopped':
-            yield _this27.handleRideStop(doc);
+            yield _this32.handleRideStop(doc);
             break;
 
           case 'cancelled':
-            yield _this27.handleRideCancellation(data);
+            yield _this32.handleRideCancellation(data);
             break;
         }
       } catch (error) {
         console.error('Error handling ride updates:', error);
 
         if (error.code === 'permission-denied' || error.code === 'not-found') {
-          yield _this27.ReturnHome();
+          yield _this32.ReturnHome();
         }
       }
     })();
   }
 
   handlePendingState() {
-    var _this28 = this;
+    var _this33 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Don't show another loader here since BookRide is already showing one
-        if (!_this28.currentDriver?.Driver_id) {
+        if (!_this33.currentDriver?.Driver_id) {
           throw new Error('No valid driver ID found');
         } // Get driver location with timeout
 
 
-        const locationPromise = _this28.getDriverLocation(_this28.currentDriver.Driver_id);
+        const locationPromise = _this33.getDriverLocation(_this33.currentDriver.Driver_id);
 
         const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Location fetch timeout')), 10000));
         yield Promise.race([locationPromise, timeoutPromise]);
 
-        if (!_this28.DriverLatLng) {
+        if (!_this33.DriverLatLng) {
           throw new Error('Failed to get driver location');
         } // Group all map operations
 
 
-        yield Promise.all([_this28.clearPrevMarkers(), _this28.clearPolyline(_this28.newPoly), _this28.map.newMap.setCamera({
+        yield Promise.all([_this33.clearPrevMarkers(), _this33.clearPolyline(_this33.newPoly), _this33.map.newMap.setCamera({
           animate: true,
           animationDuration: 500,
           zoom: 15,
-          coordinate: _this28.DriverLatLng
+          coordinate: _this33.DriverLatLng
         })]); // Update map height properly instead of using fixed positioning
 
-        _this28.ngZone.run(() => {
-          _this28.setMapHeightHandleDrivertoRider();
+        _this33.ngZone.run(() => {
+          _this33.setMapHeightHandleDrivertoRider();
         });
 
-        yield _this28.handleDriverToRider(_this28.DriverLatLng, _this28.LatLng);
+        yield _this33.handleDriverToRider(_this33.DriverLatLng, _this33.LatLng);
 
-        _this28.EnterSearchingStage();
+        _this33.EnterSearchingStage();
 
-        yield _this28.startCountdown(20, _this28.requestID);
+        yield _this33.startCountdown(20, _this33.requestID);
       } catch (error) {
         console.error('Error in handlePendingState:', error);
         throw error; // Let BookRide handle the error and cleanup
@@ -1987,30 +2149,30 @@ class HomePage {
   }
 
   presentCancelRideActionSheet() {
-    var _this29 = this;
+    var _this34 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const actionSheet = yield _this29.actionSheetController.create({
+      const actionSheet = yield _this34.actionSheetController.create({
         header: 'Cancel Ride',
         buttons: [{
           text: 'Changed my mind',
           handler: () => {
-            _this29.cancelRide('Changed my mind');
+            _this34.cancelRide('Changed my mind');
           }
         }, {
           text: 'Driver took too long',
           handler: () => {
-            _this29.cancelRide('Driver took too long');
+            _this34.cancelRide('Driver took too long');
           }
         }, {
           text: 'Found another ride',
           handler: () => {
-            _this29.cancelRide('Found another ride');
+            _this34.cancelRide('Found another ride');
           }
         }, {
           text: 'Other',
           handler: () => {
-            _this29.cancelRide('Other');
+            _this34.cancelRide('Other');
           }
         }, {
           text: 'Cancel',
@@ -2022,16 +2184,16 @@ class HomePage {
   }
 
   cancelRide(reason) {
-    var _this30 = this;
+    var _this35 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const rideRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this30.firestore, 'Request', _this30.requestID);
+      const rideRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this35.firestore, 'Request', _this35.requestID);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.updateDoc)(rideRef, {
         status: 'cancelled',
         cancellationReason: reason,
         canceledBy: 'rider'
       });
-      const toast = yield _this30.toastController.create({
+      const toast = yield _this35.toastController.create({
         message: 'Ride has been cancelled.',
         duration: 2000
       });
@@ -2040,41 +2202,41 @@ class HomePage {
   }
 
   handleRideCancellation(data) {
-    var _this31 = this;
+    var _this36 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this31.stopCountdown();
+      _this36.stopCountdown();
 
-      yield _this31.clearPrevMarkers();
+      yield _this36.clearPrevMarkers();
 
-      _this31.unsubscribe();
+      _this36.unsubscribe();
 
-      _this31.clearSubscriptions();
+      _this36.clearSubscriptions();
 
-      if (_this31.drivers_Requested[_this31.current_Request_Number + 1] && !_this31.rideHasStarted) {
-        _this31.current_Request_Number++;
-        yield _this31.BookRide();
+      if (_this36.drivers_Requested[_this36.current_Request_Number + 1] && !_this36.rideHasStarted) {
+        _this36.current_Request_Number++;
+        yield _this36.BookRide();
       } else {
         if (data.canceledBy == 'driver') {
-          _this31.overlay.showAlert('Cancelled', 'Driver cancelled');
+          _this36.overlay.showAlert('Cancelled', 'Driver cancelled');
         }
 
-        _this31.ClearRide();
+        _this36.ClearRide();
 
-        _this31.ReturnHome();
+        _this36.ReturnHome();
       }
     })();
   }
 
   handleRideStart(doc) {
-    var _this32 = this;
+    var _this37 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         console.log('Starting ride tracking setup...'); // Clear previous visual elements
 
-        yield _this32.clearPrevMarkers();
-        yield _this32.clearPolyline(_this32.newPoly); // Get ride data and validate
+        yield _this37.clearPrevMarkers();
+        yield _this37.clearPolyline(_this37.newPoly); // Get ride data and validate
 
         const data = doc.data();
 
@@ -2085,20 +2247,20 @@ class HomePage {
 
         console.log('handleRideStart data:', data); // Set ride state flag first to prevent race conditions
 
-        _this32.rideHasStarted = true; // Set current driver from document data with fallback options
+        _this37.rideHasStarted = true; // Set current driver from document data with fallback options
 
         if (data.driverDetails) {
-          _this32.currentDriver = data.driverDetails;
-          _this32.driverInfo = data.driverDetails;
+          _this37.currentDriver = data.driverDetails;
+          _this37.driverInfo = data.driverDetails;
         } else if (data.driverId) {
           console.log('Driver details missing, attempting to fetch from driver ID');
 
           try {
-            const driverDoc = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.getDoc)(doc(_this32.firestore, 'Drivers', data.driverId));
+            const driverDoc = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.getDoc)(doc(_this37.firestore, 'Drivers', data.driverId));
 
             if (driverDoc.exists()) {
-              _this32.driverInfo = driverDoc.data();
-              _this32.currentDriver = _this32.driverInfo;
+              _this37.driverInfo = driverDoc.data();
+              _this37.currentDriver = _this37.driverInfo;
             }
           } catch (error) {
             console.warn('Failed to fetch driver details:', error); // Continue with limited driver info
@@ -2106,24 +2268,24 @@ class HomePage {
         } // Adjust map height before adding markers
 
 
-        _this32.setMapHeightHandleDrivertoDestination();
+        _this37.setMapHeightHandleDrivertoDestination();
 
-        window.addEventListener('resize', _this32.setMapHeightHandleDrivertoDestination.bind(_this32)); // Initialize locations with fallbacks
+        window.addEventListener('resize', _this37.setMapHeightHandleDrivertoDestination.bind(_this37)); // Initialize locations with fallbacks
 
-        _this32.LatLng = {
-          lat: data.Loc_lat || _this32.LatLng?.lat || 0,
-          lng: data.Loc_lng || _this32.LatLng?.lng || 0
+        _this37.LatLng = {
+          lat: data.Loc_lat || _this37.LatLng?.lat || 0,
+          lng: data.Loc_lng || _this37.LatLng?.lng || 0
         };
-        _this32.D_LatLng = {
-          lat: data.Des_lat || _this32.D_LatLng?.lat || 0,
-          lng: data.Des_lng || _this32.D_LatLng?.lng || 0
+        _this37.D_LatLng = {
+          lat: data.Des_lat || _this37.D_LatLng?.lat || 0,
+          lng: data.Des_lng || _this37.D_LatLng?.lng || 0
         }; // Ensure map is initialized
 
-        if (!_this32.map.newMap) {
+        if (!_this37.map.newMap) {
           console.log('Map not initialized in handleRideStart, initializing now...');
 
           try {
-            yield _this32.initializeMap();
+            yield _this37.initializeMap();
           } catch (mapError) {
             console.error('Failed to initialize map:', mapError); // Allow continuation with limited functionality
           }
@@ -2136,14 +2298,14 @@ class HomePage {
           try {
             console.log('Fetching driver location for ID:', data.driverId); // Use Promise.race with a timeout to prevent hanging
 
-            const locationPromise = _this32.database.getDriverLocation(data.driverId);
+            const locationPromise = _this37.database.getDriverLocation(data.driverId);
 
             const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Driver location fetch timeout')), 5000));
             const driverLocation = yield Promise.race([locationPromise, timeoutPromise]);
 
             if (driverLocation && typeof driverLocation === 'object' && 'lat' in driverLocation && 'lng' in driverLocation) {
               console.log('Got real-time driver location:', driverLocation);
-              _this32.DriverLatLng = {
+              _this37.DriverLatLng = {
                 lat: driverLocation.lat,
                 lng: driverLocation.lng
               };
@@ -2157,34 +2319,34 @@ class HomePage {
 
         if (!driverLocationFetched) {
           console.log('Using driver location from document data');
-          _this32.DriverLatLng = {
-            lat: data.driverDetails?.Driver_lat || data.driver_lat || _this32.LatLng.lat,
-            lng: data.driverDetails?.Driver_lng || data.driver_lng || _this32.LatLng.lng
+          _this37.DriverLatLng = {
+            lat: data.driverDetails?.Driver_lat || data.driver_lat || _this37.LatLng.lat,
+            lng: data.driverDetails?.Driver_lng || data.driver_lng || _this37.LatLng.lng
           };
         } // Setup UI state even if visualization might fail
 
 
-        _this32.EnterDrivingToDestinationStage();
+        _this37.EnterDrivingToDestinationStage();
 
-        _this32.canCheck = true; // Proceed with visualization if we have valid coordinates
+        _this37.canCheck = true; // Proceed with visualization if we have valid coordinates
 
-        if (_this32.DriverLatLng?.lat && _this32.D_LatLng?.lat) {
-          console.log('Calling handleRiderToDestination with locations:', 'Driver:', _this32.DriverLatLng, 'Destination:', _this32.D_LatLng);
+        if (_this37.DriverLatLng?.lat && _this37.D_LatLng?.lat) {
+          console.log('Calling handleRiderToDestination with locations:', 'Driver:', _this37.DriverLatLng, 'Destination:', _this37.D_LatLng);
 
           try {
-            yield _this32.handleRiderToDestination(_this32.DriverLatLng, _this32.D_LatLng);
+            yield _this37.handleRiderToDestination(_this37.DriverLatLng, _this37.D_LatLng);
           } catch (visualError) {
             console.warn('Failed to visualize route, but ride is still active:', visualError); // Show a non-blocking toast or notification
 
-            const toast = yield _this32.toastController.create({
+            const toast = yield _this37.toastController.create({
               message: 'Route visualization failed, but your ride is still active',
               duration: 3000
             });
             toast.present();
           }
         } else {
-          console.warn('Invalid coordinates for visualization:', _this32.DriverLatLng, _this32.D_LatLng);
-          const toast = yield _this32.toastController.create({
+          console.warn('Invalid coordinates for visualization:', _this37.DriverLatLng, _this37.D_LatLng);
+          const toast = yield _this37.toastController.create({
             message: 'Location data incomplete. Your ride is active but not fully visualized.',
             duration: 3000
           });
@@ -2195,11 +2357,11 @@ class HomePage {
       } catch (error) {
         console.error('Error in handleRideStart:', error); // Still enter driving stage so user can see at least some UI
 
-        _this32.EnterDrivingToDestinationStage();
+        _this37.EnterDrivingToDestinationStage();
 
-        _this32.canCheck = true; // Show a less alarming message to the user
+        _this37.canCheck = true; // Show a less alarming message to the user
 
-        const toast = yield _this32.toastController.create({
+        const toast = yield _this37.toastController.create({
           message: 'Some ride details couldn\'t be loaded. Your ride is still active.',
           duration: 3000
         });
@@ -2210,36 +2372,36 @@ class HomePage {
 
 
   handleRideStop(docSnapshot) {
-    var _this33 = this;
+    var _this38 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         console.log('Handling ride stop...'); // If already processed, exit immediately
 
-        if (_this33.isRideStopProcessed) {
+        if (_this38.isRideStopProcessed) {
           console.log('Ride stop already processed, exiting function');
           return;
         } // Set flag immediately to prevent re-processing
 
 
-        _this33.isRideStopProcessed = true; // Stop all location polling and mapping activities immediately
+        _this38.isRideStopProcessed = true; // Stop all location polling and mapping activities immediately
 
-        _this33.stopPolling = true; // Unsubscribe from route updates first
+        _this38.stopPolling = true; // Unsubscribe from route updates first
 
-        if (_this33.routeUpdateSubscription) {
-          _this33.routeUpdateSubscription.unsubscribe();
+        if (_this38.routeUpdateSubscription) {
+          _this38.routeUpdateSubscription.unsubscribe();
 
-          _this33.routeUpdateSubscription = null;
+          _this38.routeUpdateSubscription = null;
         } // Then clear other subscriptions
 
 
-        _this33.clearSubscriptions(); // Force removal of all map elements with multiple attempts if needed
+        _this38.clearSubscriptions(); // Force removal of all map elements with multiple attempts if needed
 
 
         for (let attempt = 0; attempt < 3; attempt++) {
           try {
-            yield _this33.clearPrevMarkers();
-            yield _this33.clearAllPolylines();
+            yield _this38.clearPrevMarkers();
+            yield _this38.clearAllPolylines();
             break; // Exit loop if successful
           } catch (e) {
             console.error(`Map cleanup attempt ${attempt + 1} failed:`, e); // Short delay before retry
@@ -2250,27 +2412,27 @@ class HomePage {
 
 
         const docData = docSnapshot.data ? docSnapshot.data() : docSnapshot;
-        const tripId = docSnapshot.id || _this33.requestID;
+        const tripId = docSnapshot.id || _this38.requestID;
         const rideData = {
           tripId: tripId || '',
-          driverId: docData?.driverDetails?.Driver_id || _this33.driverInfo?.Driver_id || '',
-          driverName: docData?.driverDetails?.Driver_name || _this33.driverInfo?.Driver_name || 'Unknown Driver',
-          driverImage: docData?.driverDetails?.Driver_imgUrl || _this33.driverInfo?.Driver_imgUrl || '',
-          driverCar: docData?.driverDetails?.Driver_car || _this33.driverInfo?.Driver_car || '',
-          driverPlate: docData?.driverDetails?.Driver_plate || _this33.driverInfo?.Driver_plate || '',
-          pickup: docData?.Rider_Location || _this33.locationAddress || 'Unknown pickup',
-          destination: docData?.Rider_Destination || _this33.destinationAddress || 'Unknown destination',
-          price: docData?.price || _this33.price || 0,
-          distance: docData?.distance || _this33.distance || 0,
-          duration: docData?.duration || _this33.duration || '',
-          rating: docData?.driverDetails?.Driver_rating || _this33.driverInfo?.Driver_rating || 0,
+          driverId: docData?.driverDetails?.Driver_id || _this38.driverInfo?.Driver_id || '',
+          driverName: docData?.driverDetails?.Driver_name || _this38.driverInfo?.Driver_name || 'Unknown Driver',
+          driverImage: docData?.driverDetails?.Driver_imgUrl || _this38.driverInfo?.Driver_imgUrl || '',
+          driverCar: docData?.driverDetails?.Driver_car || _this38.driverInfo?.Driver_car || '',
+          driverPlate: docData?.driverDetails?.Driver_plate || _this38.driverInfo?.Driver_plate || '',
+          pickup: docData?.Rider_Location || _this38.locationAddress || 'Unknown pickup',
+          destination: docData?.Rider_Destination || _this38.destinationAddress || 'Unknown destination',
+          price: docData?.price || _this38.price || 0,
+          distance: docData?.distance || _this38.distance || 0,
+          duration: docData?.duration || _this38.duration || '',
+          rating: docData?.driverDetails?.Driver_rating || _this38.driverInfo?.Driver_rating || 0,
           completed: true,
           completedAt: new Date()
         }; // CRITICAL: Clear ride state from storage BEFORE showing modal
 
         try {
           yield _capacitor_preferences__WEBPACK_IMPORTED_MODULE_7__.Preferences.remove({
-            key: _this33.RIDE_STATE_KEY
+            key: _this38.RIDE_STATE_KEY
           });
           console.log('Cleared ride state from storage');
         } catch (e) {
@@ -2278,12 +2440,12 @@ class HomePage {
         } // Reset ride properties BEFORE showing modal
 
 
-        _this33.rideHasStarted = false;
-        _this33.driverLocation = null;
-        _this33.lastHandledState = null;
+        _this38.rideHasStarted = false;
+        _this38.driverLocation = null;
+        _this38.lastHandledState = null;
         console.log('Showing trip summary with data:', rideData); // Show the trip summary
 
-        const modal = yield _this33.modalCtrl.create({
+        const modal = yield _this38.modalCtrl.create({
           component: _trip_summary_trip_summary_component__WEBPACK_IMPORTED_MODULE_8__.TripSummaryComponent,
           componentProps: {
             rideData
@@ -2293,19 +2455,19 @@ class HomePage {
 
         modal.onDidDismiss().then(() => {
           console.log('Trip summary dismissed, resetting state');
-          _this33.isRideStopProcessed = false; // Reset the flag
+          _this38.isRideStopProcessed = false; // Reset the flag
 
-          _this33.clearRideState(); // Additional cleanup
+          _this38.clearRideState(); // Additional cleanup
 
 
-          _this33.ReturnHome(); // Return to booking view
+          _this38.ReturnHome(); // Return to booking view
 
         });
       } catch (error) {
         console.error('Error in handleRideStop:', error);
-        _this33.isRideStopProcessed = false;
+        _this38.isRideStopProcessed = false;
 
-        _this33.ReturnHome();
+        _this38.ReturnHome();
       }
     })();
   } // Add this method for more thorough ride state cleanup
@@ -2348,16 +2510,16 @@ class HomePage {
   }
 
   handleRideConfirmation(docOrData) {
-    var _this34 = this;
+    var _this39 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         console.log('Starting ride confirmation handling...', docOrData);
 
-        _this34.stopCountdown(); // Clear existing markers and polylines
+        _this39.stopCountdown(); // Clear existing markers and polylines
 
 
-        yield Promise.all([_this34.clearPrevMarkers(), _this34.clearPolyline(_this34.newPoly)]); // Get the ride data
+        yield Promise.all([_this39.clearPrevMarkers(), _this39.clearPolyline(_this39.newPoly)]); // Get the ride data
 
         let rideData;
         let docId;
@@ -2374,7 +2536,7 @@ class HomePage {
         } else {
           // It's already a data object from currentRide.data()
           rideData = docOrData;
-          docId = _this34.requestID; // Use the current requestID if available
+          docId = _this39.requestID; // Use the current requestID if available
         }
 
         if (!rideData) {
@@ -2382,72 +2544,72 @@ class HomePage {
         } // Update ride information
 
 
-        _this34.requestID = docId || rideData.requestId;
-        _this34.driverInfo = rideData.driverDetails; // Set driver information for UI display to avoid template errors
+        _this39.requestID = docId || rideData.requestId;
+        _this39.driverInfo = rideData.driverDetails; // Set driver information for UI display to avoid template errors
 
-        if (_this34.driverInfo) {
-          _this34.carname = _this34.driverInfo.Driver_car || 'Unknown Car';
-          _this34.driverImage = _this34.driverInfo.Driver_imgUrl || 'assets/icon/profile.png';
-          _this34.driver_ID = _this34.driverInfo.Driver_id;
-          _this34.driver_number_of_seats = _this34.driverInfo.seats || 4;
-          _this34.driver_duration_apart = _this34.driverInfo.duration ? Math.ceil(_this34.driverInfo.duration / 60000) : 0;
+        if (_this39.driverInfo) {
+          _this39.carname = _this39.driverInfo.Driver_car || 'Unknown Car';
+          _this39.driverImage = _this39.driverInfo.Driver_imgUrl || 'assets/icon/profile.png';
+          _this39.driver_ID = _this39.driverInfo.Driver_id;
+          _this39.driver_number_of_seats = _this39.driverInfo.seats || 4;
+          _this39.driver_duration_apart = _this39.driverInfo.duration ? Math.ceil(_this39.driverInfo.duration / 60000) : 0;
         } // Set locations
 
 
-        _this34.LatLng = {
+        _this39.LatLng = {
           lat: rideData.Loc_lat,
           lng: rideData.Loc_lng
         };
-        _this34.D_LatLng = {
+        _this39.D_LatLng = {
           lat: rideData.Des_lat,
           lng: rideData.Des_lng
         }; // Initialize map if not already initialized
 
-        if (!_this34.map.newMap) {
-          yield _this34.initializeMap();
+        if (!_this39.map.newMap) {
+          yield _this39.initializeMap();
         } // Get and wait for driver location
 
 
-        if (!_this34.driverInfo?.Driver_id) {
+        if (!_this39.driverInfo?.Driver_id) {
           console.warn('Driver ID not found in driver details, using fallback location'); // Use fallback location from driver details
 
-          _this34.driverLocation = {
-            lat: _this34.driverInfo?.Driver_lat || _this34.driverInfo?.driver_lat,
-            lng: _this34.driverInfo?.Driver_lng || _this34.driverInfo?.driver_lng
+          _this39.driverLocation = {
+            lat: _this39.driverInfo?.Driver_lat || _this39.driverInfo?.driver_lat,
+            lng: _this39.driverInfo?.Driver_lng || _this39.driverInfo?.driver_lng
           };
         } else {
           try {
-            yield _this34.getDriverLocation(_this34.driverInfo.Driver_id);
+            yield _this39.getDriverLocation(_this39.driverInfo.Driver_id);
           } catch (locationError) {
             console.warn('Error getting real-time driver location, using fallback:', locationError); // Use fallback location from driver details
 
-            _this34.driverLocation = {
-              lat: _this34.driverInfo?.Driver_lat || _this34.driverInfo?.driver_lat,
-              lng: _this34.driverInfo?.Driver_lng || _this34.driverInfo?.driver_lng
+            _this39.driverLocation = {
+              lat: _this39.driverInfo?.Driver_lat || _this39.driverInfo?.driver_lat,
+              lng: _this39.driverInfo?.Driver_lng || _this39.driverInfo?.driver_lng
             };
           }
         }
 
-        if (!_this34.driverLocation?.lat || !_this34.driverLocation?.lng) {
+        if (!_this39.driverLocation?.lat || !_this39.driverLocation?.lng) {
           throw new Error('Unable to determine driver location');
         }
 
-        _this34.DriverLatLng = {
-          lat: _this34.driverLocation.lat,
-          lng: _this34.driverLocation.lng
+        _this39.DriverLatLng = {
+          lat: _this39.driverLocation.lat,
+          lng: _this39.driverLocation.lng
         };
-        console.log('Driver location set:', _this34.DriverLatLng); // Set map height and add event listener
+        console.log('Driver location set:', _this39.DriverLatLng); // Set map height and add event listener
 
-        _this34.setMapHeightHandleDrivertoRider();
+        _this39.setMapHeightHandleDrivertoRider();
 
-        window.addEventListener('resize', _this34.setMapHeightHandleDrivertoRider.bind(_this34)); // Initialize the map view with driver and rider markers
+        window.addEventListener('resize', _this39.setMapHeightHandleDrivertoRider.bind(_this39)); // Initialize the map view with driver and rider markers
 
-        yield _this34.handleDriverToRider(_this34.DriverLatLng, _this34.LatLng); // Update UI state
+        yield _this39.handleDriverToRider(_this39.DriverLatLng, _this39.LatLng); // Update UI state
 
-        _this34.EnterTrackingStage(); // Save ride state to local storage
+        _this39.EnterTrackingStage(); // Save ride state to local storage
 
 
-        yield _this34.saveRideStateToStorage();
+        yield _this39.saveRideStateToStorage();
         console.log('Ride confirmation handled successfully');
         return true;
       } catch (error) {
@@ -2459,17 +2621,17 @@ class HomePage {
 
 
   saveRideStateToStorage() {
-    var _this35 = this;
+    var _this40 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         const rideState = {
-          requestID: _this35.requestID,
-          driverInfo: _this35.driverInfo,
-          LatLng: _this35.LatLng,
-          D_LatLng: _this35.D_LatLng,
-          DriverLatLng: _this35.DriverLatLng,
-          stage: _this35.getCurrentStage()
+          requestID: _this40.requestID,
+          driverInfo: _this40.driverInfo,
+          LatLng: _this40.LatLng,
+          D_LatLng: _this40.D_LatLng,
+          DriverLatLng: _this40.DriverLatLng,
+          stage: _this40.getCurrentStage()
         };
         yield _capacitor_preferences__WEBPACK_IMPORTED_MODULE_7__.Preferences.set({
           key: 'RIDE_STATE',
@@ -2503,39 +2665,39 @@ class HomePage {
   }
 
   EnterChat() {
-    var _this36 = this;
+    var _this41 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const options = {
         component: _enroute_chat_enroute_chat_component__WEBPACK_IMPORTED_MODULE_3__.EnrouteChatComponent,
         componentProps: {
-          userId: _this36.requestID,
+          userId: _this41.requestID,
           message: ""
         },
         swipeToClose: true
       };
-      const modal = yield _this36.modalCtrl.create(options);
+      const modal = yield _this41.modalCtrl.create(options);
       return yield modal.present();
     })();
   }
 
   startCountdown(initialTime, requestId) {
-    var _this37 = this;
+    var _this42 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this37.countdownActive = true;
+      _this42.countdownActive = true;
       let timeRemaining = initialTime;
 
       const updateCountdown = /*#__PURE__*/function () {
         var _ref10 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-          if (!_this37.countdownActive) {
+          if (!_this42.countdownActive) {
             console.log('Countdown stopped');
             return;
           }
 
           if (timeRemaining > 0) {
             try {
-              yield _this37.database.UpdateCountDown(timeRemaining, requestId);
+              yield _this42.database.UpdateCountDown(timeRemaining, requestId);
               timeRemaining--;
               setTimeout(updateCountdown, 1000);
             } catch (error) {
@@ -2544,7 +2706,7 @@ class HomePage {
               setTimeout(updateCountdown, 2000);
             }
           } else {
-            yield _this37.handleCountdownEnd(requestId);
+            yield _this42.handleCountdownEnd(requestId);
             console.log('Countdown ended');
           }
         });
@@ -2559,14 +2721,14 @@ class HomePage {
   }
 
   handleCountdownEnd(requestId) {
-    var _this38 = this;
+    var _this43 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Implement a grace period to account for any delays
         setTimeout( /*#__PURE__*/(0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-          yield _this38.clearPrevMarkers();
-          yield _this38.requestNextDriver();
+          yield _this43.clearPrevMarkers();
+          yield _this43.requestNextDriver();
         }), 5000); // 5-second grace period
       } catch (error) {
         console.error('Error handling countdown end:', error); // Optionally, retry the operation or notify the user
@@ -2579,15 +2741,15 @@ class HomePage {
   }
 
   goBackToAutoComplete() {
-    var _this39 = this;
+    var _this44 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        _this39.stopPolling = false; // Enable current location and set the camera to the initial position
+        _this44.stopPolling = false; // Enable current location and set the camera to the initial position
 
-        yield _this39.map.newMap.enableCurrentLocation(true);
-        yield _this39.ResetState();
-        yield _this39.showAutocompleteModal();
+        yield _this44.map.newMap.enableCurrentLocation(true);
+        yield _this44.ResetState();
+        yield _this44.showAutocompleteModal();
         console.log('Game state reset successfully');
       } catch (error) {
         console.error('Error resetting game state:', error);
@@ -2596,32 +2758,32 @@ class HomePage {
   }
 
   clearPrevMarkers() {
-    var _this40 = this;
+    var _this45 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Check if map is initialized
-        if (!_this40.map || !_this40.map.newMap) {
+        if (!_this45.map || !_this45.map.newMap) {
           console.warn('Map not initialized when clearing markers');
           return; // Exit early if map is not available
         }
 
         console.log('Clearing all markers...'); // Clear individual markers with proper error handling
 
-        const markers = [_this40.rider_marker, _this40.driver_marker, _this40.destinationMarker, _this40.marker1, _this40.marker2, _this40.animatedMarker];
-        const clearPromises = markers.filter(marker => marker !== null && marker !== undefined).map(marker => _this40.clearMarker(marker).catch(e => {
+        const markers = [_this45.rider_marker, _this45.driver_marker, _this45.destinationMarker, _this45.marker1, _this45.marker2, _this45.animatedMarker];
+        const clearPromises = markers.filter(marker => marker !== null && marker !== undefined).map(marker => _this45.clearMarker(marker).catch(e => {
           console.error('Error clearing specific marker:', e); // Continue despite error
 
           return null;
         }));
         yield Promise.all(clearPromises); // Reset all marker references
 
-        _this40.rider_marker = null;
-        _this40.driver_marker = null;
-        _this40.destinationMarker = null;
-        _this40.marker1 = null;
-        _this40.marker2 = null;
-        _this40.animatedMarker = null;
+        _this45.rider_marker = null;
+        _this45.driver_marker = null;
+        _this45.destinationMarker = null;
+        _this45.marker1 = null;
+        _this45.marker2 = null;
+        _this45.animatedMarker = null;
         console.log('All markers cleared successfully');
       } catch (e) {
         console.error('Error in clearPrevMarkers:', e); // Just log the error but don't throw, allowing the process to continue
@@ -2631,14 +2793,14 @@ class HomePage {
 
 
   clearMarker(marker) {
-    var _this41 = this;
+    var _this46 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (!marker || !_this41.map?.newMap) return Promise.resolve();
+      if (!marker || !_this46.map?.newMap) return Promise.resolve();
 
       try {
         console.log('Clearing marker:', marker);
-        yield _this41.map.newMap.removeMarker(marker);
+        yield _this46.map.newMap.removeMarker(marker);
         return true;
       } catch (error) {
         console.error('Error clearing marker:', error);
@@ -2649,20 +2811,20 @@ class HomePage {
 
 
   clearAllPolylines() {
-    var _this42 = this;
+    var _this47 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        if (!_this42.map || !_this42.map.newMap) {
+        if (!_this47.map || !_this47.map.newMap) {
           console.warn('Map not initialized when clearing polylines');
           return;
         }
 
         console.log('Clearing all polylines...'); // Try to clear specific polyline first
 
-        if (_this42.newPoly) {
+        if (_this47.newPoly) {
           try {
-            yield _this42.map.newMap.removePolylines(_this42.newPoly);
+            yield _this47.map.newMap.removePolylines(_this47.newPoly);
             console.log('Specific polyline cleared');
           } catch (error) {
             console.error('Error clearing specific polyline:', error);
@@ -2670,7 +2832,7 @@ class HomePage {
         } // Reset reference
 
 
-        _this42.newPoly = null;
+        _this47.newPoly = null;
       } catch (error) {
         console.error('Error in clearAllPolylines:', error); // Just log the error but don't throw
       }
@@ -2678,37 +2840,37 @@ class HomePage {
   }
 
   ResetState() {
-    var _this43 = this;
+    var _this48 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Clear previous markers
-        yield _this43.clearPrevMarkers(); // Clear any existing polylines
+        yield _this48.clearPrevMarkers(); // Clear any existing polylines
 
-        yield _this43.clearPolyline(_this43.newPoly);
-        yield _this43.map.newMap.setCamera({
+        yield _this48.clearPolyline(_this48.newPoly);
+        yield _this48.map.newMap.setCamera({
           animate: true,
           animationDuration: 500,
           zoom: 15,
-          coordinate: _this43.LatLng
+          coordinate: _this48.LatLng
         });
 
-        _this43.ResetMapHeight();
+        _this48.ResetMapHeight();
 
-        window.addEventListener('resize', _this43.ResetMapHeight.bind(_this43));
+        window.addEventListener('resize', _this48.ResetMapHeight.bind(_this48));
 
-        _this43.map.newMap.enableTouch(); // Ensure the map respects the boundaries of the top and bottom bars
+        _this48.map.newMap.enableTouch(); // Ensure the map respects the boundaries of the top and bottom bars
 
 
-        _this43.current_Request_Number = 0;
-        _this43.price = null;
-        _this43.actualDestination = null;
-        _this43.D_LatLng = {
+        _this48.current_Request_Number = 0;
+        _this48.price = null;
+        _this48.actualDestination = null;
+        _this48.D_LatLng = {
           lat: null,
           lng: null
         };
-        _this43.destinationAddress = 'Unknown location';
-        yield _this43.map.newMap.enableCurrentLocation(true);
+        _this48.destinationAddress = 'Unknown location';
+        yield _this48.map.newMap.enableCurrentLocation(true);
       } catch (e) {
         throw new Error(e);
       }
@@ -2716,87 +2878,87 @@ class HomePage {
   }
 
   showAutocompleteModal() {
-    var _this44 = this;
+    var _this49 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const options = {
         component: _autocomplete_autocomplete_component__WEBPACK_IMPORTED_MODULE_2__.AutocompleteComponent,
         componentProps: {
-          LatLng: _this44.LatLng,
-          locationAddress: _this44.locationAddress
+          LatLng: _this49.LatLng,
+          locationAddress: _this49.locationAddress
         },
         swipeToClose: true
       };
-      const modal = yield _this44.modalCtrl.create(options);
+      const modal = yield _this49.modalCtrl.create(options);
       yield modal.present();
       const {
         data
       } = yield modal.onWillDismiss();
       console.log('Modal dismissed with data:', data);
-      _this44.data = data;
+      _this49.data = data;
 
       if (data.pinOnMap) {
-        _this44.EnterMapPinStage();
+        _this49.EnterMapPinStage();
 
-        _this44.mapPinDrag = true;
-        _this44.stopPolling = true;
+        _this49.mapPinDrag = true;
+        _this49.stopPolling = true;
       }
 
       if (data.home) {
         console.log("Entering Booking Stage...");
 
-        _this44.EnterBookingStage();
+        _this49.EnterBookingStage();
 
-        _this44.stopPolling = false;
+        _this49.stopPolling = false;
 
-        _this44.ResetState();
+        _this49.ResetState();
       }
 
       if (data.searching) {
-        _this44.database.AddKnownPlace(data);
+        _this49.database.AddKnownPlace(data);
 
-        _this44.destinationAddress = data.full;
-        _this44.actualDestination = data.whole.full;
+        _this49.destinationAddress = data.full;
+        _this49.actualDestination = data.whole.full;
 
         try {
-          const latLng = yield _this44.geocode.getLatLng(data.whole.description).toPromise();
-          _this44.D_LatLng = {
+          const latLng = yield _this49.geocode.getLatLng(data.whole.description).toPromise();
+          _this49.D_LatLng = {
             lat: latLng.results[0].geometry.location.lat,
             lng: latLng.results[0].geometry.location.lng
           };
-          console.log("Destination LatLng:", _this44.D_LatLng);
-          yield _this44.getDistanceAndDirections();
+          console.log("Destination LatLng:", _this49.D_LatLng);
+          yield _this49.getDistanceAndDirections();
         } catch (error) {
           console.error("Error in geocoding:", error);
 
-          _this44.overlay.showAlert('Error in geocoding:', error.message);
+          _this49.overlay.showAlert('Error in geocoding:', error.message);
         }
       }
     })();
   }
 
   RequestRide(dat) {
-    var _this45 = this;
+    var _this50 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (!_this45.NoDrivers) {
-        _this45.destinationAddress = dat.place.full;
-        _this45.actualDestination = dat.place.whole.full;
+      if (!_this50.NoDrivers) {
+        _this50.destinationAddress = dat.place.full;
+        _this50.actualDestination = dat.place.whole.full;
 
         try {
-          const latLng = yield _this45.geocode.getLatLng(dat.place.whole.description).toPromise();
-          _this45.D_LatLng = {
+          const latLng = yield _this50.geocode.getLatLng(dat.place.whole.description).toPromise();
+          _this50.D_LatLng = {
             lat: latLng.results[0].geometry.location.lat,
             lng: latLng.results[0].geometry.location.lng
           };
-          yield _this45.getDistanceAndDirections();
+          yield _this50.getDistanceAndDirections();
         } catch (error) {
           console.error("Error in geocoding:", error);
 
-          _this45.overlay.showAlert('Check Your Network', error.message);
+          _this50.overlay.showAlert('Check Your Network', error.message);
         }
       } else {
-        _this45.EnterNoDriverStage();
+        _this50.EnterNoDriverStage();
 
         console.log("No drivers available");
       }
@@ -2804,52 +2966,57 @@ class HomePage {
   }
 
   getDistanceAndDirections() {
-    var _this46 = this;
+    var _this51 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log("getDistanceAndDirections called");
-      _this46.duration = null;
-      yield _this46.clearMarkers();
+      _this51.duration = null;
+      yield _this51.clearMarkers();
 
-      _this46.cleanupListeners();
+      _this51.cleanupListeners();
 
-      _this46.stopPolling = true;
+      _this51.stopPolling = true;
 
-      if (_this46.D_LatLng && _this46.D_LatLng.lat) {
-        console.log("D_LatLng is set:", _this46.D_LatLng);
+      if (_this51.D_LatLng && _this51.D_LatLng.lat) {
+        console.log("D_LatLng is set:", _this51.D_LatLng);
 
-        if (!_this46.NoDrivers) {
-          _this46.EnterConfirmStage();
+        if (!_this51.NoDrivers) {
+          _this51.EnterConfirmStage();
         } else {
-          _this46.EnterNoDriverStage();
+          _this51.EnterNoDriverStage();
 
           console.log("No drivers available");
           return;
         }
 
-        const origin1 = new google.maps.LatLng(_this46.LatLng.lat, _this46.LatLng.lng);
-        const origin2 = new google.maps.LatLng(_this46.D_LatLng.lat, _this46.D_LatLng.lng);
+        const origin1 = new google.maps.LatLng(_this51.LatLng.lat, _this51.LatLng.lng);
+        const origin2 = new google.maps.LatLng(_this51.D_LatLng.lat, _this51.D_LatLng.lng);
         const request = {
           origin: origin1,
           destination: origin2,
           travelMode: google.maps.TravelMode.DRIVING
         };
 
-        _this46.geocode.directions.route(request, /*#__PURE__*/function () {
+        _this51.geocode.directions.route(request, /*#__PURE__*/function () {
           var _ref12 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (response, status) {
             if (status === 'OK') {
-              _this46.direction = response;
-              _this46.distance = response.routes[0].legs[0].distance.value;
-              _this46.bounds = response.routes[0].bounds;
-              _this46.price = yield _this46.database.getPriceEstimate(_this46.distance);
-              _this46.duration = response.routes[0].legs[0].duration.text;
-              yield _this46.createAndAddMarkers(_this46.LatLng, _this46.D_LatLng); // Call getDistanceAndDirectionsDriver after this part is successful
+              _this51.direction = response;
+              _this51.distance = response.routes[0].legs[0].distance.value;
+              _this51.bounds = response.routes[0].bounds;
+              _this51.price = yield _this51.database.getPriceEstimate(_this51.distance);
+              _this51.duration = response.routes[0].legs[0].duration.text; // Build full path from the directions response so polyline follows the route
 
-              yield _this46.getDistanceAndDirectionsDriver();
+              const path = response.routes[0].overview_path.map(latlng => ({
+                lat: latlng.lat(),
+                lng: latlng.lng()
+              }));
+              yield _this51.createAndAddMarkers(_this51.LatLng, _this51.D_LatLng, path); // Call getDistanceAndDirectionsDriver after this part is successful
+
+              yield _this51.getDistanceAndDirectionsDriver();
             } else {
               console.error('Direction ERROR:', response);
 
-              _this46.overlay.showAlert('Check Your Network', JSON.stringify(response));
+              _this51.overlay.showAlert('Check Your Network', JSON.stringify(response));
             }
           });
 
@@ -2858,7 +3025,7 @@ class HomePage {
           };
         }());
       } else {
-        _this46.overlay.showAlert('Drag Map', 'Drag the map and stop on your required destination');
+        _this51.overlay.showAlert('Drag Map', 'Drag the map and stop on your required destination');
 
         console.error('D_LatLng or D_LatLng.lat is undefined');
       }
@@ -2866,31 +3033,31 @@ class HomePage {
   }
 
   getDistanceAndDirectionsDriver() {
-    var _this47 = this;
+    var _this52 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log("getDistanceAndDirectionsDriver called");
 
-      if (!_this47.NoDrivers) {
-        console.log("Driver LatLng:", _this47.DriverLatLng);
+      if (!_this52.NoDrivers) {
+        console.log("Driver LatLng:", _this52.DriverLatLng);
 
-        if (_this47.DriverLatLng) {
-          const origin1 = new google.maps.LatLng(_this47.LatLng.lat, _this47.LatLng.lng);
-          const origin2 = new google.maps.LatLng(_this47.DriverLatLng.lat, _this47.DriverLatLng.lng);
+        if (_this52.DriverLatLng) {
+          const origin1 = new google.maps.LatLng(_this52.LatLng.lat, _this52.LatLng.lng);
+          const origin2 = new google.maps.LatLng(_this52.DriverLatLng.lat, _this52.DriverLatLng.lng);
           const request = {
             origin: origin1,
             destination: origin2,
             travelMode: google.maps.TravelMode.DRIVING
           };
 
-          _this47.geocode.directions.route(request, (response, status) => {
+          _this52.geocode.directions.route(request, (response, status) => {
             if (status === 'OK') {
-              _this47.D_duration = response.routes[0].legs[0].duration.text;
-              console.log("Driver duration:", _this47.D_duration);
+              _this52.D_duration = response.routes[0].legs[0].duration.text;
+              console.log("Driver duration:", _this52.D_duration);
             } else {
               console.error('Direction ERROR:', response);
 
-              _this47.overlay.showAlert('Direction ERROR:', JSON.stringify(response));
+              _this52.overlay.showAlert('Direction ERROR:', JSON.stringify(response));
             }
           });
         } else {
@@ -2903,17 +3070,17 @@ class HomePage {
   }
 
   resetLocation() {
-    var _this48 = this;
+    var _this53 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      console.log(_this48.LatLng);
-      yield _this48.map.newMap.setCamera({
+      console.log(_this53.LatLng);
+      yield _this53.map.newMap.setCamera({
         animate: true,
         animationDuration: 500,
         zoom: 15,
-        coordinate: _this48.LatLng
+        coordinate: _this53.LatLng
       });
-      _this48.showResetLocationButton = false;
+      _this53.showResetLocationButton = false;
     })();
   }
 
@@ -2958,7 +3125,7 @@ class HomePage {
   }
 
   UpdateCarMarker(elements) {
-    var _this49 = this;
+    var _this54 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log('Elements to update car markers:', elements);
@@ -2971,19 +3138,19 @@ class HomePage {
       for (const {
         id,
         marker
-      } of _this49._carmarkers) {
+      } of _this54._carmarkers) {
         const driver = driverMap.get(id);
 
         if (!driver || !driver.onlineState) {
           console.log(`Removing marker for driver ID: ${id}`);
-          yield _this49.map.newMap.removeMarker(marker); // Remove the marker from the map
+          yield _this54.map.newMap.removeMarker(marker); // Remove the marker from the map
         } else if (driver.Driver_lat !== undefined && driver.Driver_lng !== undefined) {
           const latlng = {
             lat: driver.Driver_lat,
             lng: driver.Driver_lng
           }; // Remove old marker and add a new one with updated position
 
-          yield _this49.map.newMap.removeMarker(marker); // updatedMarkers.push({ id, marker: newMarker });
+          yield _this54.map.newMap.removeMarker(marker); // updatedMarkers.push({ id, marker: newMarker });
 
           bounds.extend(latlng);
           console.log(`Updated marker for driver ID: ${id}`);
@@ -3024,29 +3191,29 @@ class HomePage {
       } // Update the _carmarkers array with the updated markers
 
 
-      _this49._carmarkers = updatedMarkers; // Center the map around the car markers if there are any markers
+      _this54._carmarkers = updatedMarkers; // Center the map around the car markers if there are any markers
 
       if (updatedMarkers.length > 0) {
         const mapDim = {
-          height: _this49.mapRef.nativeElement.offsetHeight,
-          width: _this49.mapRef.nativeElement.offsetWidth
+          height: _this54.mapRef.nativeElement.offsetHeight,
+          width: _this54.mapRef.nativeElement.offsetWidth
         };
         const minZoom = 5; // Define your minimum zoom level
 
         const maxZoom = 18; // Define your maximum zoom level
 
-        let zoomLevel = yield _this49.map.getBoundsZoomLevel(bounds, mapDim); // Constrain the zoom level within the min and max range
+        let zoomLevel = yield _this54.map.getBoundsZoomLevel(bounds, mapDim); // Constrain the zoom level within the min and max range
 
         zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
         console.log('Setting camera with zoom level:', zoomLevel);
-        yield _this49.map.newMap.setCamera({
+        yield _this54.map.newMap.setCamera({
           animate: true,
           animationDuration: 500,
           zoom: zoomLevel,
           coordinate: bounds.getCenter()
         });
 
-        _this49.map.newMap.fitBounds(bounds);
+        _this54.map.newMap.fitBounds(bounds);
       } else {
         console.log('No markers to display on the map.');
       }
@@ -3054,101 +3221,101 @@ class HomePage {
   }
 
   GoHome() {
-    var _this50 = this;
+    var _this55 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this50.map.newMap.enableCurrentLocation(true);
-      _this50.current_Request_Number = 0;
-      _this50.stopPolling = false;
-      _this50.price = null;
+      yield _this55.map.newMap.enableCurrentLocation(true);
+      _this55.current_Request_Number = 0;
+      _this55.stopPolling = false;
+      _this55.price = null;
 
-      _this50.EnterBookingStage();
+      _this55.EnterBookingStage();
 
-      yield _this50.map.newMap.setCamera({
+      yield _this55.map.newMap.setCamera({
         animate: true,
         animationDuration: 500,
         zoom: 15,
-        coordinate: _this50.LatLng
+        coordinate: _this55.LatLng
       });
     })();
   }
 
   GotoSupport() {
-    var _this51 = this;
+    var _this56 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this51.nav.navigateForward('support');
+      yield _this56.nav.navigateForward('support');
     })();
   }
 
   ReturnHome() {
-    var _this52 = this;
+    var _this57 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      yield _this52.ResetState();
+      yield _this57.ResetState();
 
-      _this52.EnterBookingStage();
+      _this57.EnterBookingStage();
 
-      _this52.stopPolling = false;
-      yield _this52.map.newMap.setCamera({
+      _this57.stopPolling = false;
+      yield _this57.map.newMap.setCamera({
         animate: true,
         animationDuration: 500,
         zoom: 15,
-        coordinate: _this52.LatLng
+        coordinate: _this57.LatLng
       });
     })();
   }
 
   CancelRide() {
-    var _this53 = this;
+    var _this58 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        _this53.overlay.showLoader('Cancelling your ride...');
+        _this58.overlay.showLoader('Cancelling your ride...');
 
-        yield _this53.clearPrevMarkers();
-        yield _this53.clearPolyline(_this53.newPoly);
+        yield _this58.clearPrevMarkers();
+        yield _this58.clearPolyline(_this58.newPoly);
 
-        _this53.unsubscribe();
+        _this58.unsubscribe();
 
-        _this53.numCalls.unsubscribe();
+        _this58.numCalls.unsubscribe();
 
-        _this53.riderCleared = true;
-        yield _this53.database.cancelRide(_this53.requestID);
-        yield _this53.map.newMap.enableCurrentLocation(true);
-        _this53.current_Request_Number = 0;
-        _this53.price = null;
+        _this58.riderCleared = true;
+        yield _this58.database.cancelRide(_this58.requestID);
+        yield _this58.map.newMap.enableCurrentLocation(true);
+        _this58.current_Request_Number = 0;
+        _this58.price = null;
 
-        _this53.EnterBookingStage();
+        _this58.EnterBookingStage();
 
-        _this53.overlay.hideLoader();
+        _this58.overlay.hideLoader();
 
-        yield _this53.map.newMap.setCamera({
+        yield _this58.map.newMap.setCamera({
           animate: true,
           animationDuration: 500,
           zoom: 15,
-          coordinate: _this53.LatLng
+          coordinate: _this58.LatLng
         });
-        yield _this53.clearRideState();
+        yield _this58.clearRideState();
       } catch (error) {
-        _this53.overlay.hideLoader();
+        _this58.overlay.hideLoader();
 
         console.error('Error cancelling ride:', error);
 
-        _this53.overlay.showAlert('Error', 'Failed to cancel ride. Please try again.');
+        _this58.overlay.showAlert('Error', 'Failed to cancel ride. Please try again.');
       }
     })();
   }
 
   ClearRide() {
-    var _this54 = this;
+    var _this59 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const user = _this54.auth.currentUser;
+        const user = _this59.auth.currentUser;
 
         if (user) {
-          const riderDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this54.firestore, 'Riders', user.uid);
+          const riderDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.doc)(_this59.firestore, 'Riders', user.uid);
           yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_19__.updateDoc)(riderDocRef, {
             currentRequestId: null
           });
@@ -3157,19 +3324,19 @@ class HomePage {
         console.error('Error clearing ride state:', error);
       }
 
-      _this54.EnterBookingStage();
+      _this59.EnterBookingStage();
 
-      yield _this54.clearPrevMarkers();
-      yield _this54.clearPolyline(_this54.newPoly);
-      _this54.newPoly = null;
-      yield _this54.map.newMap.enableCurrentLocation(true);
-      _this54.current_Request_Number = 0;
-      _this54.price = null;
-      yield _this54.map.newMap.setCamera({
+      yield _this59.clearPrevMarkers();
+      yield _this59.clearPolyline(_this59.newPoly);
+      _this59.newPoly = null;
+      yield _this59.map.newMap.enableCurrentLocation(true);
+      _this59.current_Request_Number = 0;
+      _this59.price = null;
+      yield _this59.map.newMap.setCamera({
         animate: true,
         animationDuration: 500,
         zoom: 15,
-        coordinate: _this54.LatLng,
+        coordinate: _this59.LatLng,
         bearing: 0
       });
     })();
@@ -3181,7 +3348,7 @@ class HomePage {
   }
 
   handleDriverToRider(driverLatLng, riderLatLng) {
-    var _this55 = this;
+    var _this60 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const markerSize = {
@@ -3195,26 +3362,26 @@ class HomePage {
 
       try {
         // Cancel any existing route update subscription first
-        if (_this55.routeUpdateSubscription) {
-          _this55.routeUpdateSubscription.unsubscribe();
+        if (_this60.routeUpdateSubscription) {
+          _this60.routeUpdateSubscription.unsubscribe();
 
-          _this55.routeUpdateSubscription = null;
+          _this60.routeUpdateSubscription = null;
         } // Check if map is initialized, if not initialize it
 
 
-        if (!_this55.map.newMap) {
+        if (!_this60.map.newMap) {
           console.log('Map not initialized, initializing now...');
-          yield _this55.initializeMap();
+          yield _this60.initializeMap();
         } // Thoroughly clean up previous visual elements
 
 
-        yield _this55.clearPrevMarkers();
-        yield _this55.clearAllPolylines(); // Use the unified height method and ensure proper positioning
+        yield _this60.clearPrevMarkers();
+        yield _this60.clearAllPolylines(); // Use the unified height method and ensure proper positioning
 
-        _this55.setMapContainerHeight(20); // Add driver marker at the starting position with adjusted z-index
+        _this60.setMapContainerHeight(20); // Add driver marker at the starting position with adjusted z-index
 
 
-        const driverMarker = yield _this55.map.newMap.addMarker({
+        const driverMarker = yield _this60.map.newMap.addMarker({
           coordinate: driverLatLng,
           iconUrl: 'assets/icon/car.png',
           title: 'Driver',
@@ -3223,18 +3390,18 @@ class HomePage {
           zIndex: 10 // Ensure marker appears above polylines
 
         });
-        _this55.driver_marker = driverMarker; // Add rider marker with higher z-index
+        _this60.driver_marker = driverMarker; // Add rider marker with higher z-index
 
-        const riderMarker = yield _this55.map.newMap.addMarker({
+        const riderMarker = yield _this60.map.newMap.addMarker({
           coordinate: riderLatLng,
-          iconUrl: _this55.database.user?.photoURL || 'assets/icon/person.png',
+          iconUrl: _this60.database.user?.photoURL || 'assets/icon/person.png',
           title: 'Rider',
           iconSize: markerSize,
           iconAnchor: iconAnchor,
           zIndex: 11 // Higher than driver marker
 
         });
-        _this55.rider_marker = riderMarker; // Function to update route, duration, and distance
+        _this60.rider_marker = riderMarker; // Function to update route, duration, and distance
 
         const updateRoute = /*#__PURE__*/function () {
           var _ref13 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
@@ -3244,16 +3411,16 @@ class HomePage {
               travelMode: google.maps.TravelMode.DRIVING
             };
 
-            _this55.geocode.directions.route(request, /*#__PURE__*/function () {
+            _this60.geocode.directions.route(request, /*#__PURE__*/function () {
               var _ref14 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (response, status) {
                 if (status === 'OK') {
                   const path = response.routes[0].overview_path.map(latlng => ({
                     lat: latlng.lat(),
                     lng: latlng.lng()
                   }));
-                  _this55.duration = response.routes[0].legs[0].duration.text;
-                  _this55.distance = response.routes[0].legs[0].distance.text;
-                  console.log(`Duration: ${_this55.duration}, Distance: ${_this55.distance}`);
+                  _this60.duration = response.routes[0].legs[0].duration.text;
+                  _this60.distance = response.routes[0].legs[0].distance.text;
+                  console.log(`Duration: ${_this60.duration}, Distance: ${_this60.distance}`);
                   const locs = [{
                     geoCode: {
                       latitude: driverLatLng.lat,
@@ -3266,42 +3433,43 @@ class HomePage {
                     }
                   }];
 
-                  const center = _this55.map.calculateCenter(locs);
+                  const center = _this60.map.calculateCenter(locs);
 
                   const bounds = new google.maps.LatLngBounds();
                   bounds.extend(new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng));
                   bounds.extend(new google.maps.LatLng(riderLatLng.lat, riderLatLng.lng));
-                  const availableHeight = _this55.mapRef.nativeElement.offsetHeight; // Prepare map dimensions for calculating zoom level
+                  const availableHeight = _this60.mapRef.nativeElement.offsetHeight; // Prepare map dimensions for calculating zoom level
 
                   const mapDim = {
                     height: availableHeight,
-                    width: _this55.mapRef.nativeElement.offsetWidth
+                    width: _this60.mapRef.nativeElement.offsetWidth
                   }; // Calculate zoom level
 
-                  const zoomLevel = _this55.map.getBoundsZoomLevel(bounds, mapDim); // Manually set zoom level if needed
+                  const zoomLevel = _this60.map.getBoundsZoomLevel(bounds, mapDim); // Manually set zoom level if needed
 
 
                   const adjustedZoomLevel = zoomLevel - 1; // Adjust as necessary
 
-                  yield _this55.map.setCameraToLocation({
+                  yield _this60.map.setCameraToLocation({
                     lat: center.latitude,
                     lng: center.longitude
-                  }, adjustedZoomLevel, _this55.map.calculateBearing(driverLatLng, riderLatLng)); // Clear existing polyline before drawing a new one
+                  }, adjustedZoomLevel, _this60.map.calculateBearing(driverLatLng, riderLatLng)); // Clear existing polyline before drawing a new one
 
-                  yield _this55.clearAllPolylines();
-                  yield _this55.addPolyline(driverLatLng, riderLatLng); // Clear any existing animated marker before starting a new animation
+                  yield _this60.clearAllPolylines(); // Draw full route polyline (use overview_path)
 
-                  if (_this55.animatedMarker) {
-                    yield _this55.map.newMap.removeMarker(_this55.animatedMarker);
-                    _this55.animatedMarker = null;
+                  yield _this60.addPolyline(driverLatLng, riderLatLng, path); // Clear any existing animated marker before starting a new animation
+
+                  if (_this60.animatedMarker) {
+                    yield _this60.map.newMap.removeMarker(_this60.animatedMarker);
+                    _this60.animatedMarker = null;
                   } // Animate the driver marker along the path to the rider
 
 
-                  yield _this55.animateMarker(_this55.driver_marker, path, 'assets/icon/car.png');
+                  yield _this60.animateMarker(_this60.driver_marker, path, 'assets/icon/car.png');
                 } else {
                   console.error('Direction ERROR:', response);
 
-                  _this55.overlay.showAlert('Direction ERROR', JSON.stringify(response));
+                  _this60.overlay.showAlert('Direction ERROR', JSON.stringify(response));
                 }
               });
 
@@ -3317,9 +3485,9 @@ class HomePage {
         }(); // Start updating the route periodically
 
 
-        const routeUpdate$ = (0,rxjs__WEBPACK_IMPORTED_MODULE_20__.interval)(_this55.UPDATE_INTERVAL).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.switchMap)(() => updateRoute())); // Subscribe to the interval observable to start updating
+        const routeUpdate$ = (0,rxjs__WEBPACK_IMPORTED_MODULE_20__.interval)(_this60.UPDATE_INTERVAL).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.switchMap)(() => updateRoute())); // Subscribe to the interval observable to start updating
 
-        _this55.routeUpdateSubscription = routeUpdate$.subscribe();
+        _this60.routeUpdateSubscription = routeUpdate$.subscribe();
       } catch (error) {
         console.error('Error handling driver to rider:', error);
       }
@@ -3328,13 +3496,13 @@ class HomePage {
 
 
   clearPolyline(polylineId) {
-    var _this56 = this;
+    var _this61 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (!polylineId || !_this56.map?.newMap) return;
+      if (!polylineId || !_this61.map?.newMap) return;
 
       try {
-        yield _this56.map.newMap.removePolylines(polylineId);
+        yield _this61.map.newMap.removePolylines(polylineId);
       } catch (error) {
         console.error('Error clearing polyline:', error);
       }
@@ -3342,7 +3510,7 @@ class HomePage {
   }
 
   handleRiderToDestination(driverLatLng, destinationLatLng) {
-    var _this57 = this;
+    var _this62 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const markerSize = {
@@ -3356,28 +3524,28 @@ class HomePage {
 
       try {
         // Cancel any existing route update subscription first
-        if (_this57.routeUpdateSubscription) {
-          _this57.routeUpdateSubscription.unsubscribe();
+        if (_this62.routeUpdateSubscription) {
+          _this62.routeUpdateSubscription.unsubscribe();
 
-          _this57.routeUpdateSubscription = null;
+          _this62.routeUpdateSubscription = null;
         } // Check if map is initialized, if not initialize it
 
 
-        if (!_this57.map.newMap) {
+        if (!_this62.map.newMap) {
           console.log('Map not initialized, initializing now...');
-          yield _this57.initializeMap();
+          yield _this62.initializeMap();
         } // Reset map position and apply proper height first
 
 
-        _this57.mapRef.nativeElement.style.top = '0';
+        _this62.mapRef.nativeElement.style.top = '0';
 
-        _this57.setMapHeightHandleDrivertoDestination(); // Thoroughly clean up previous visual elements
+        _this62.setMapHeightHandleDrivertoDestination(); // Thoroughly clean up previous visual elements
 
 
-        yield _this57.clearPrevMarkers();
-        yield _this57.clearAllPolylines(); // Update driver marker to driver's current position
+        yield _this62.clearPrevMarkers();
+        yield _this62.clearAllPolylines(); // Update driver marker to driver's current position
 
-        const driverMarker = yield _this57.map.newMap.addMarker({
+        const driverMarker = yield _this62.map.newMap.addMarker({
           coordinate: driverLatLng,
           iconUrl: 'assets/icon/car.png',
           title: 'Driver',
@@ -3390,9 +3558,9 @@ class HomePage {
           zIndex: 10 // Higher z-index to appear above polyline
 
         });
-        _this57.driver_marker = driverMarker; // Add destination marker
+        _this62.driver_marker = driverMarker; // Add destination marker
 
-        const destinationMarker = yield _this57.map.newMap.addMarker({
+        const destinationMarker = yield _this62.map.newMap.addMarker({
           coordinate: destinationLatLng,
           iconUrl: 'assets/icon/flag.png',
           title: 'Destination',
@@ -3405,7 +3573,7 @@ class HomePage {
           zIndex: 11 // Higher z-index than driver marker
 
         });
-        _this57.destinationMarker = destinationMarker; // Function to update route, duration, and distance
+        _this62.destinationMarker = destinationMarker; // Function to update route, duration, and distance
 
         const updateRoute = /*#__PURE__*/function () {
           var _ref15 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
@@ -3415,16 +3583,16 @@ class HomePage {
               travelMode: google.maps.TravelMode.DRIVING
             };
 
-            _this57.geocode.directions.route(request, /*#__PURE__*/function () {
+            _this62.geocode.directions.route(request, /*#__PURE__*/function () {
               var _ref16 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (response, status) {
                 if (status === 'OK') {
                   const path = response.routes[0].overview_path.map(latlng => ({
                     lat: latlng.lat(),
                     lng: latlng.lng()
                   }));
-                  _this57.duration = response.routes[0].legs[0].duration.text;
-                  _this57.distance = response.routes[0].legs[0].distance.text;
-                  console.log(`Duration: ${_this57.duration}, Distance: ${_this57.distance}`);
+                  _this62.duration = response.routes[0].legs[0].duration.text;
+                  _this62.distance = response.routes[0].legs[0].distance.text;
+                  console.log(`Duration: ${_this62.duration}, Distance: ${_this62.distance}`);
                   const locs = [{
                     geoCode: {
                       latitude: driverLatLng.lat,
@@ -3437,43 +3605,44 @@ class HomePage {
                     }
                   }];
 
-                  const center = _this57.map.calculateCenter(locs);
+                  const center = _this62.map.calculateCenter(locs);
 
                   const bounds = new google.maps.LatLngBounds();
                   bounds.extend(new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng));
                   bounds.extend(new google.maps.LatLng(destinationLatLng.lat, destinationLatLng.lng));
-                  const availableHeight = _this57.mapRef.nativeElement.offsetHeight; // Prepare map dimensions for calculating zoom level
+                  const availableHeight = _this62.mapRef.nativeElement.offsetHeight; // Prepare map dimensions for calculating zoom level
 
                   const mapDim = {
                     height: availableHeight,
-                    width: _this57.mapRef.nativeElement.offsetWidth
+                    width: _this62.mapRef.nativeElement.offsetWidth
                   }; // Calculate zoom level
 
-                  const zoomLevel = _this57.map.getBoundsZoomLevel(bounds, mapDim); // Manually set zoom level if needed
+                  const zoomLevel = _this62.map.getBoundsZoomLevel(bounds, mapDim); // Manually set zoom level if needed
 
 
                   const adjustedZoomLevel = zoomLevel - 1; // Adjust as necessary
                   // Set the camera to focus on the center point with appropriate zoom level
 
-                  yield _this57.map.setCameraToLocation({
+                  yield _this62.map.setCameraToLocation({
                     lat: center.latitude,
                     lng: center.longitude
-                  }, adjustedZoomLevel, _this57.map.calculateBearing(driverLatLng, destinationLatLng)); // Clear existing polyline before drawing a new one
+                  }, adjustedZoomLevel, _this62.map.calculateBearing(driverLatLng, destinationLatLng)); // Clear existing polyline before drawing a new one
 
-                  yield _this57.clearAllPolylines();
-                  yield _this57.addPolyline(driverLatLng, destinationLatLng); // Clear any existing animated marker before starting a new animation
+                  yield _this62.clearAllPolylines(); // Draw full route polyline (use overview_path)
 
-                  if (_this57.animatedMarker) {
-                    yield _this57.map.newMap.removeMarker(_this57.animatedMarker);
-                    _this57.animatedMarker = null;
+                  yield _this62.addPolyline(driverLatLng, destinationLatLng, path); // Clear any existing animated marker before starting a new animation
+
+                  if (_this62.animatedMarker) {
+                    yield _this62.map.newMap.removeMarker(_this62.animatedMarker);
+                    _this62.animatedMarker = null;
                   } // Animate the driver marker along the path to the destination
 
 
-                  yield _this57.animateMarker(_this57.driver_marker, path, 'assets/icon/car.png');
+                  yield _this62.animateMarker(_this62.driver_marker, path, 'assets/icon/car.png');
                 } else {
                   console.error('Direction ERROR:', response);
 
-                  _this57.overlay.showAlert('Direction ERROR', JSON.stringify(response));
+                  _this62.overlay.showAlert('Direction ERROR', JSON.stringify(response));
                 }
               });
 
@@ -3489,52 +3658,55 @@ class HomePage {
         }(); // Start updating the route periodically
 
 
-        const routeUpdate$ = (0,rxjs__WEBPACK_IMPORTED_MODULE_20__.interval)(_this57.UPDATE_INTERVAL).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.switchMap)(() => updateRoute())); // Subscribe to the interval observable to start updating
+        const routeUpdate$ = (0,rxjs__WEBPACK_IMPORTED_MODULE_20__.interval)(_this62.UPDATE_INTERVAL).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.switchMap)(() => updateRoute())); // Subscribe to the interval observable to start updating
 
-        _this57.routeUpdateSubscription = routeUpdate$.subscribe();
+        _this62.routeUpdateSubscription = routeUpdate$.subscribe();
       } catch (error) {
         console.error('Error handling rider to destination:', error);
       }
     })();
-  }
+  } // Add polyline using either a full route path or fallback to start/end
 
-  addPolyline(loc, des) {
-    var _this58 = this;
+
+  addPolyline(loc, des, routePath) {
+    var _this63 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         const polylineColor = "#007bff";
+        const pathPoints = Array.isArray(routePath) && routePath.length > 0 ? routePath : [{
+          lat: loc.lat,
+          lng: loc.lng
+        }, {
+          lat: des.lat,
+          lng: des.lng
+        }];
         const polylines = [{
-          path: [{
-            lat: loc.lat,
-            lng: loc.lng
-          }, {
-            lat: des.lat,
-            lng: des.lng
-          }],
+          path: pathPoints,
           strokeColor: polylineColor,
           strokeWeight: 8,
           geodesic: true
         }];
-        const addedPolylines = yield _this58.map.newMap.addPolylines(polylines);
+        const addedPolylines = yield _this63.map.newMap.addPolylines(polylines);
 
         if (Array.isArray(addedPolylines) && addedPolylines.length > 0) {
-          _this58.newPoly = addedPolylines; // Change to assign the entire array
+          _this63.newPoly = addedPolylines; // assign the returned ids
 
-          console.log('Polylines added:', _this58.newPoly);
-          return _this58.newPoly;
+          console.log('Polylines added:', _this63.newPoly);
+          return _this63.newPoly;
         } else {
           throw new Error('Failed to add polyline: Unexpected response format');
         }
       } catch (e) {
         console.error('Error Adding Polyline: ', e);
-        throw e; // Re-throw the error to be handled by the caller
+        throw e;
       }
     })();
-  }
+  } // create markers and optionally draw a full route if provided
 
-  createAndAddMarkers(loc, des) {
-    var _this59 = this;
+
+  createAndAddMarkers(loc, des, routePath) {
+    var _this64 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const markerSize = {
@@ -3547,10 +3719,10 @@ class HomePage {
       }; // Center bottom of the icon
 
       try {
-        _this59.map.newMap.disableTouch(); // Add start marker
+        _this64.map.newMap.disableTouch(); // Add start marker
 
 
-        _this59.marker1 = yield _this59.map.newMap.addMarker({
+        _this64.marker1 = yield _this64.map.newMap.addMarker({
           coordinate: loc,
           iconUrl: 'assets/icon/point.png',
           title: 'Start',
@@ -3562,7 +3734,7 @@ class HomePage {
           }
         }); // Add destination marker
 
-        _this59.marker2 = yield _this59.map.newMap.addMarker({
+        _this64.marker2 = yield _this64.map.newMap.addMarker({
           coordinate: des,
           iconUrl: 'assets/icon/flag.png',
           title: 'Destination',
@@ -3586,48 +3758,49 @@ class HomePage {
           }
         }];
 
-        const center = _this59.map.calculateCenter(locs); // Calculate the bounds
+        const center = _this64.map.calculateCenter(locs); // Calculate the bounds
 
 
         const bounds = new google.maps.LatLngBounds();
         bounds.extend(new google.maps.LatLng(loc.lat, loc.lng));
         bounds.extend(new google.maps.LatLng(des.lat, des.lng)); // Set map height before calculating zoom level
 
-        _this59.setMapHeight();
+        _this64.setMapHeight();
 
-        const availableHeight = _this59.mapRef.nativeElement.offsetHeight; // Prepare map dimensions for calculating zoom level
+        const availableHeight = _this64.mapRef.nativeElement.offsetHeight; // Prepare map dimensions for calculating zoom level
 
         const mapDim = {
           height: availableHeight,
-          width: _this59.mapRef.nativeElement.offsetWidth
+          width: _this64.mapRef.nativeElement.offsetWidth
         }; // Calculate zoom level
 
-        const zoomLevel = _this59.map.getBoundsZoomLevel(bounds, mapDim); // Manually set zoom level if needed
+        const zoomLevel = _this64.map.getBoundsZoomLevel(bounds, mapDim); // Manually set zoom level if needed
 
 
         const adjustedZoomLevel = zoomLevel - 1; // Adjust as necessary
         // Set the camera to focus on the center point with appropriate zoom level
 
-        yield _this59.map.setCameraToLocation({
+        yield _this64.map.setCameraToLocation({
           lat: center.latitude,
           lng: center.longitude
-        }, adjustedZoomLevel, _this59.map.calculateBearing(loc, des)); // Add polyline for the route
+        }, adjustedZoomLevel, _this64.map.calculateBearing(loc, des)); // Add polyline for the route. Prefer full routePath when provided.
 
         const polylineColor = "#007bff";
+        const pathPoints = Array.isArray(routePath) && routePath.length > 0 ? routePath : [{
+          lat: loc.lat,
+          lng: loc.lng
+        }, {
+          lat: des.lat,
+          lng: des.lng
+        }];
         const polylines = [{
-          path: [{
-            lat: loc.lat,
-            lng: loc.lng
-          }, {
-            lat: des.lat,
-            lng: des.lng
-          }],
+          path: pathPoints,
           strokeColor: polylineColor,
           strokeWeight: 8,
           geodesic: true
         }]; // Add polyline to the map
 
-        _this59.newPoly = yield _this59.map.newMap.addPolylines(polylines);
+        _this64.newPoly = yield _this64.map.newMap.addPolylines(polylines);
       } catch (error) {
         console.error('Error creating and adding markers:', error);
       }
@@ -3636,7 +3809,7 @@ class HomePage {
 
 
   animateMarker(marker, path, iconUrl) {
-    var _this60 = this;
+    var _this65 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const markerSize = {
@@ -3649,9 +3822,9 @@ class HomePage {
       }; // Center bottom of the icon
       // Remove any existing animated marker
 
-      if (_this60.animatedMarker) {
-        yield _this60.map.newMap.removeMarker(_this60.animatedMarker);
-        _this60.animatedMarker = null;
+      if (_this65.animatedMarker) {
+        yield _this65.map.newMap.removeMarker(_this65.animatedMarker);
+        _this65.animatedMarker = null;
       }
 
       let lastMarker = null;
@@ -3659,12 +3832,12 @@ class HomePage {
       for (let i = 0; i < path.length; i++) {
         // Remove previous animation step marker if it exists
         if (lastMarker) {
-          yield _this60.map.newMap.removeMarker(lastMarker);
+          yield _this65.map.newMap.removeMarker(lastMarker);
         } // Remove the original marker for the first frame of animation
 
 
         if (i === 0) {
-          yield _this60.map.newMap.removeMarker(marker);
+          yield _this65.map.newMap.removeMarker(marker);
         }
 
         const coordinate = path[i] instanceof google.maps.LatLng ? {
@@ -3674,7 +3847,7 @@ class HomePage {
           lat: path[i].lat,
           lng: path[i].lng
         };
-        lastMarker = yield _this60.map.newMap.addMarker({
+        lastMarker = yield _this65.map.newMap.addMarker({
           coordinate: coordinate,
           iconUrl: iconUrl,
           title: 'Moving Marker',
@@ -3691,26 +3864,26 @@ class HomePage {
       } // Store the last position of the animated marker
 
 
-      _this60.animatedMarker = lastMarker;
+      _this65.animatedMarker = lastMarker;
     })();
   }
 
   ShowDriverInfoPop() {
-    var _this61 = this;
+    var _this66 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const alert = yield _this61.alert.create({
+      const alert = yield _this66.alert.create({
         header: 'Driver Information',
         message: `
       <div style="text-align: center;">
-        <h2 style="font-size: 1.2em; margin-bottom: 0.5em;">Car Name: ${_this61.carname}</h2>
+        <h2 style="font-size: 1.2em; margin-bottom: 0.5em;">Car Name: ${_this66.carname}</h2>
         <div style="margin: 10px 0;">
-          <img src="${_this61.driverImage}" alt="Driver Image" style="width: 60px; height: 60px; border-radius: 50%;">
+          <img src="${_this66.driverImage}" alt="Driver Image" style="width: 60px; height: 60px; border-radius: 50%;">
         </div>
-        <p><strong>Duration Apart:</strong> ${_this61.driver_duration_apart} minutes</p>
-        <p><strong>Driver ID:</strong> ${_this61.driver_ID}</p>
-        <p><strong>Number of Seats:</strong> ${_this61.driver_number_of_seats}</p>
-        <p><strong>Driver Location:</strong> (${_this61.DriverLatLng.lat}, ${_this61.DriverLatLng.lng})</p>
+        <p><strong>Duration Apart:</strong> ${_this66.driver_duration_apart} minutes</p>
+        <p><strong>Driver ID:</strong> ${_this66.driver_ID}</p>
+        <p><strong>Number of Seats:</strong> ${_this66.driver_number_of_seats}</p>
+        <p><strong>Driver Location:</strong> (${_this66.DriverLatLng.lat}, ${_this66.DriverLatLng.lng})</p>
       </div>
     `,
         buttons: ['OK']
@@ -3825,66 +3998,66 @@ class HomePage {
   }
 
   processBookAgainData(state) {
-    var _this62 = this;
+    var _this67 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         console.log('Setting up rebooking with data:', state); // Set pickup location
 
         if (state.pickup && state.pickup.address) {
-          _this62.locationAddress = state.pickup.address;
+          _this67.locationAddress = state.pickup.address;
 
           if (state.pickup.lat && state.pickup.lng) {
-            _this62.LatLng = {
+            _this67.LatLng = {
               lat: state.pickup.lat,
               lng: state.pickup.lng
             }; // Add location marker
 
-            yield _this62.addLocationMarker(_this62.LatLng);
+            yield _this67.addLocationMarker(_this67.LatLng);
           } else {
             // If no coordinates, geocode the address
-            const coords = yield _this62.geocodeService.geocodeAddress(state.pickup.address);
+            const coords = yield _this67.geocodeService.geocodeAddress(state.pickup.address);
 
             if (coords) {
-              _this62.LatLng = coords;
-              yield _this62.addLocationMarker(coords);
+              _this67.LatLng = coords;
+              yield _this67.addLocationMarker(coords);
             }
           }
         } // Set destination
 
 
         if (state.destination && state.destination.address) {
-          _this62.destinationAddress = state.destination.address;
+          _this67.destinationAddress = state.destination.address;
 
           if (state.destination.lat && state.destination.lng) {
-            _this62.D_LatLng = {
+            _this67.D_LatLng = {
               lat: state.destination.lat,
               lng: state.destination.lng
             }; // Add destination marker
 
-            yield _this62.addDestinationMarker(_this62.D_LatLng);
+            yield _this67.addDestinationMarker(_this67.D_LatLng);
           } else {
             // If no coordinates, geocode the address
-            const coords = yield _this62.geocodeService.geocodeAddress(state.destination.address);
+            const coords = yield _this67.geocodeService.geocodeAddress(state.destination.address);
 
             if (coords) {
-              _this62.D_LatLng = coords;
-              yield _this62.addDestinationMarker(coords);
+              _this67.D_LatLng = coords;
+              yield _this67.addDestinationMarker(coords);
             }
           }
         } // If both locations are set, calculate route
 
 
-        if (_this62.LatLng && _this62.D_LatLng) {
-          yield _this62.drawRoute();
-          yield _this62.calculatePrice();
+        if (_this67.LatLng && _this67.D_LatLng) {
+          yield _this67.drawRoute();
+          yield _this67.calculatePrice();
 
-          _this62.EnterConfirmStage();
+          _this67.EnterConfirmStage();
         }
       } catch (error) {
         console.error('Error processing book again data:', error); // Show error toast
 
-        const toast = yield _this62.toastCtrl.create({
+        const toast = yield _this67.toastCtrl.create({
           message: 'Could not load previous ride data. Please try again.',
           duration: 3000,
           position: 'bottom',
@@ -3923,7 +4096,7 @@ HomePage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵd
   },
   decls: 29,
   vars: 20,
-  consts: [[1, "ion-no-border", 2, "position", "relative", "z-index", "1000", 3, "translucent"], ["class", "ion-padding", 4, "ngIf"], ["lines", "none", "color", "light", "class", "main-buttons ion-no-padding", "class", "top_bar", 3, "click", 4, "ngIf"], ["vertical", "top", "horizontal", "start", "style", "top: 35px;", 4, "ngIf"], ["vertical", "top", "horizontal", "end", "style", "top: 35px;", 3, "click", 4, "ngIf"], ["vertical", "top", "horizontal", "start", "style", "top: 35px;", 3, "click", 4, "ngIf"], ["class", "ion-text-center", 4, "ngIf"], ["scroll-y", "false", 3, "fullscreen"], ["map", ""], ["vertical", "bottom", "horizontal", "end", "style", "bottom: 130px;", 4, "ngIf"], ["class", "centerPin", "vertical", "center", "horizontal", "center", "style", "z-index: 1000;", 4, "ngIf"], ["bottomBar", ""], ["class", "bottomItems shadow-top", "lines", "full", 4, "ngIf"], ["lines", "full", 1, "bottomItems", "shadow-top", 3, "hidden"], [1, "ion-margin-horizontal", "ion-margin-bottom"], ["shape", "round", "size", "large", "type", "submit", "expand", "block", 3, "click"], ["slot", "end", "name", "arrow-forward"], ["class", "bottomItems shadow-top", "lines", "none", 4, "ngIf"], [1, "ion-padding"], ["slot", "start"], ["shape", "round", 3, "click"], ["slot", "icon-only", "name", "arrow-back", "color", "tertiary"], ["slot", "end"], ["fill", "outline", "color", "primary", "lines", "none", 1, "duration"], ["slot", "icon-only", "name", "flag", "color", "primary"], ["color", "primary", 4, "ngIf"], ["color", "primary"], ["lines", "none", "color", "light", 1, "top_bar", 3, "click"], ["slot", "start", "color", "primary", "name", "pencil"], ["vertical", "top", "horizontal", "start", 2, "top", "35px"], ["color", "light"], ["vertical", "top", "horizontal", "end", 2, "top", "35px", 3, "click"], ["color", "primary", "name", "chatbubble-ellipses"], ["vertical", "top", "horizontal", "start", 2, "top", "35px", 3, "click"], ["name", "arrow-back", "color", "primary"], [1, "ion-text-center"], ["vertical", "bottom", "horizontal", "end", 2, "bottom", "130px"], ["color", "light", 3, "click"], ["name", "locate"], ["vertical", "center", "horizontal", "center", 1, "centerPin", 2, "z-index", "1000"], ["src", "../../assets/icon/pin.png"], ["lines", "full", 1, "bottomItems", "shadow-top"], ["shape", "round", "size", "large", "type", "submit", "expand", "block", 1, "main-button", 3, "disabled", "click"], ["slot", "start", "name", "search", "color", "primary"], ["lines", "none", 1, "bottomItems", "shadow-top"], [2, "margin", "0 auto"], ["src", "../../assets/imgs/No connection-pana.svg"], ["shape", "round", "size", "large", "type", "submit", "color", "primary", "expand", "block", 1, "main-button", 3, "click"], ["slot", "start", "name", "arrow-back"], [1, "ride-confirmation-card"], ["class", "ride-details", 4, "ngIf"], ["class", "ride-details skeleton", 4, "ngIf"], [1, "payment-selector"], ["lines", "none"], ["name", "wallet-outline", "slot", "start", "color", "primary"], ["interface", "popover", 3, "value", "ionChange"], ["value", "cash"], ["name", "cash-outline"], [3, "value", 4, "ngFor", "ngForOf"], [1, "book-button-container"], ["shape", "round", "color", "primary", "size", "large", "expand", "block", 1, "book-ride-btn", 3, "click"], ["slot", "start", "name", "checkmark-sharp", 4, "ngIf"], ["color", "light", "type", "indeterminate", 4, "ngIf"], [4, "ngIf"], [1, "ride-details"], [1, "vehicle-info", 3, "click"], ["src", "../../assets/icon/hatchback.png"], [1, "vehicle-details"], ["name", "information-circle", "color", "primary"], [1, "vehicle-stats"], ["name", "time", "color", "primary"], ["name", "person", "color", "primary"], [1, "price-tag"], [1, "original-price"], [1, "ride-details", "skeleton"], [1, "vehicle-info"], [3, "animated"], [2, "width", "130px", 3, "animated"], [2, "width", "60px", 3, "animated"], [3, "value"], ["name", "card-outline"], ["slot", "start", "name", "checkmark-sharp"], ["color", "light", "type", "indeterminate"], [3, "src"], ["fill", "outline", "shape", "round", "color", "danger", "size", "small", "type", "submit", "expand", "block", 1, "main-button", 3, "click"], ["slot", "start", "slot", "icon-only", "name", "close-sharp", "color", "danger"], ["color", "primary", "type", "indeterminate", 1, "ion-padding"], [1, "card"], ["lines", "none", 1, "driver-card-item"], ["slot", "end", 1, "driver-avatar-container"], [1, "driver-rating"], ["color", "warning", "name", "star"], ["slot", "end", 1, "price-container"], [1, "driver-actions-accordion"], ["value", "first"], ["slot", "header", 1, "accordion-header"], ["slot", "content", 1, "accordion-content"], ["shape", "round", "size", "large", "expand", "block", 1, "main-button", 3, "click"], ["color", "primary", "slot", "start", "name", "person"], ["color", "primary", "slot", "start", "name", "chatbubbles"], ["color", "primary", "slot", "start", "name", "close"], ["color", "primary", "name", "cash"], ["color", "primary", "name", "card"], ["color", "secondary", "name", "star"]],
+  consts: [[1, "ion-no-border", 2, "position", "relative", "z-index", "1000", 3, "translucent"], ["class", "ion-padding", 4, "ngIf"], ["lines", "none", "color", "light", "class", "main-buttons ion-no-padding", "class", "top_bar", 3, "click", 4, "ngIf"], ["vertical", "top", "horizontal", "start", "style", "top: 35px;", 4, "ngIf"], ["vertical", "top", "horizontal", "end", "style", "top: 35px;", 3, "click", 4, "ngIf"], ["vertical", "top", "horizontal", "start", "style", "top: 35px;", 3, "click", 4, "ngIf"], ["class", "ion-text-center", 4, "ngIf"], ["scroll-y", "false", 3, "fullscreen"], ["map", ""], ["vertical", "bottom", "horizontal", "end", "style", "bottom: 130px;", 4, "ngIf"], ["class", "centerPin", "vertical", "center", "horizontal", "center", "style", "z-index: 1000;", 4, "ngIf"], ["bottomBar", ""], ["class", "bottomItems shadow-top", "lines", "full", 4, "ngIf"], ["lines", "full", 1, "bottomItems", "shadow-top", 3, "hidden"], [1, "ion-margin-horizontal", "ion-margin-bottom"], ["shape", "round", "size", "large", "type", "submit", "expand", "block", 3, "click"], ["slot", "end", "name", "arrow-forward"], ["class", "bottomItems shadow-top", "lines", "none", 4, "ngIf"], [1, "ion-padding"], ["slot", "start"], ["shape", "round", 3, "click"], ["slot", "icon-only", "name", "arrow-back", "color", "tertiary"], ["slot", "end"], ["fill", "outline", "color", "primary", "lines", "none", 1, "duration"], ["slot", "icon-only", "name", "flag", "color", "primary"], ["color", "primary", 4, "ngIf"], ["color", "primary"], ["lines", "none", "color", "light", 1, "top_bar", 3, "click"], ["slot", "start", "color", "primary", "name", "pencil"], ["vertical", "top", "horizontal", "start", 2, "top", "35px"], ["color", "light"], ["vertical", "top", "horizontal", "end", 2, "top", "35px", 3, "click"], ["color", "primary", "name", "chatbubble-ellipses"], ["vertical", "top", "horizontal", "start", 2, "top", "35px", 3, "click"], ["name", "arrow-back", "color", "primary"], [1, "ion-text-center"], ["vertical", "bottom", "horizontal", "end", 2, "bottom", "130px"], ["color", "light", 3, "click"], ["name", "locate"], ["vertical", "center", "horizontal", "center", 1, "centerPin", 2, "z-index", "1000"], ["src", "../../assets/icon/pin.png"], ["lines", "full", 1, "bottomItems", "shadow-top"], [1, "preset-row", "ion-padding-horizontal"], ["outline", "true", 3, "click", 4, "ngFor", "ngForOf"], ["fill", "clear", "size", "small", 3, "click"], ["slot", "icon-only", "name", "add-circle"], ["shape", "round", "size", "large", "type", "submit", "expand", "block", 1, "main-button", 3, "disabled", "click"], ["slot", "start", "name", "search", "color", "primary"], ["outline", "true", 3, "click"], ["name", "close-circle", "slot", "end", 3, "click"], ["lines", "none", 1, "bottomItems", "shadow-top"], [2, "margin", "0 auto"], ["src", "../../assets/imgs/No connection-pana.svg"], ["shape", "round", "size", "large", "type", "submit", "color", "primary", "expand", "block", 1, "main-button", 3, "click"], ["slot", "start", "name", "arrow-back"], [1, "ride-confirmation-card"], ["class", "ride-details", 4, "ngIf"], ["class", "ride-details skeleton", 4, "ngIf"], [1, "payment-selector"], ["lines", "none"], ["name", "wallet-outline", "slot", "start", "color", "primary"], ["interface", "popover", 3, "value", "ionChange"], ["value", "cash"], ["name", "cash-outline"], [3, "value", 4, "ngFor", "ngForOf"], [1, "book-button-container"], ["shape", "round", "color", "primary", "size", "large", "expand", "block", 1, "book-ride-btn", 3, "click"], ["slot", "start", "name", "checkmark-sharp", 4, "ngIf"], ["color", "light", "type", "indeterminate", 4, "ngIf"], [4, "ngIf"], [1, "ride-details"], [1, "vehicle-info", 3, "click"], ["src", "../../assets/icon/hatchback.png"], [1, "vehicle-details"], ["name", "information-circle", "color", "primary"], [1, "vehicle-stats"], ["name", "time", "color", "primary"], ["name", "person", "color", "primary"], [1, "price-tag"], [1, "original-price"], [1, "ride-details", "skeleton"], [1, "vehicle-info"], [3, "animated"], [2, "width", "130px", 3, "animated"], [2, "width", "60px", 3, "animated"], [3, "value"], ["name", "card-outline"], ["slot", "start", "name", "checkmark-sharp"], ["color", "light", "type", "indeterminate"], [3, "src"], ["fill", "outline", "shape", "round", "color", "danger", "size", "small", "type", "submit", "expand", "block", 1, "main-button", 3, "click"], ["slot", "start", "slot", "icon-only", "name", "close-sharp", "color", "danger"], ["color", "primary", "type", "indeterminate", 1, "ion-padding"], [1, "card"], ["lines", "none", 1, "driver-card-item"], ["slot", "end", 1, "driver-avatar-container"], [1, "driver-rating"], ["color", "warning", "name", "star"], ["slot", "end", 1, "price-container"], [1, "driver-actions-accordion"], ["value", "first"], ["slot", "header", 1, "accordion-header"], ["slot", "content", 1, "accordion-content"], ["shape", "round", "size", "large", "expand", "block", 1, "main-button", 3, "click"], ["color", "primary", "slot", "start", "name", "person"], ["color", "primary", "slot", "start", "name", "chatbubbles"], ["color", "primary", "slot", "start", "name", "close"], ["color", "primary", "name", "cash"], ["color", "primary", "name", "card"], ["color", "secondary", "name", "star"]],
   template: function HomePage_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](0, "ion-header", 0);
@@ -3941,7 +4114,7 @@ HomePage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵd
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementEnd"]();
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](12, HomePage_ion_fab_12_Template, 3, 0, "ion-fab", 10);
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](13, "ion-footer", 0)(14, "div", null, 11)(16, "ion-row");
-      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](17, HomePage_ion_list_17_Template, 6, 2, "ion-list", 12);
+      _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtemplate"](17, HomePage_ion_list_17_Template, 10, 3, "ion-list", 12);
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵelementStart"](18, "ion-list", 13)(19, "ion-item-group", 14)(20, "ion-button", 15);
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵlistener"]("click", function HomePage_Template_ion_button_click_20_listener() {
         return ctx.getDistanceAndDirections();
@@ -4000,7 +4173,7 @@ HomePage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵd
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngIf", ctx.drivingToDestinationStage);
     }
   },
-  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_24__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_24__.NgIf, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonAccordion, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonAccordionGroup, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonAvatar, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonFab, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonFabButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonFooter, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonImg, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonItemGroup, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonList, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonListHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonMenuButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonProgressBar, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonRow, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonSelect, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonSelectOption, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonSkeletonText, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonText, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.SelectValueAccessor],
+  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_24__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_24__.NgIf, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonAccordion, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonAccordionGroup, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonAvatar, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonChip, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonFab, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonFabButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonFooter, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonImg, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonItemGroup, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonList, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonListHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonMenuButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonProgressBar, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonRow, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonSelect, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonSelectOption, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonSkeletonText, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonText, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.SelectValueAccessor],
   styles: ["capacitor-google-maps[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: 100%;\n  height: 100vh;\n  border-radius: 15px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n\n@keyframes slide-top {\n  0% {\n    transform: translateY(100%);\n  }\n  100% {\n    transform: translateY(0%);\n  }\n}\n\n.slide-top[_ngcontent-%COMP%] {\n  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;\n}\n\n.centerPin[_ngcontent-%COMP%] {\n  animation-name: slide-top;\n  animation-duration: 0.8s;\n}\n\n.bottomItems[_ngcontent-%COMP%] {\n  animation-name: slide-top;\n  animation-duration: 0.5s;\n}\n\nion-skeleton-text[_ngcontent-%COMP%] {\n  --background: rgba(0, 98, 255, 0.625);\n}\n\nion-header[_ngcontent-%COMP%]   ion-fab[_ngcontent-%COMP%] {\n  margin-top: 20px;\n}\n\nion-header[_ngcontent-%COMP%]   ion-row[_ngcontent-%COMP%] {\n  padding-top: 0vh;\n  background: transparent;\n  display: block;\n}\n\nion-header[_ngcontent-%COMP%]   ion-row[_ngcontent-%COMP%]   ion-list[_ngcontent-%COMP%] {\n  border-radius: 0px 0px 20px 20px;\n  padding-bottom: 0vh;\n}\n\nion-header[_ngcontent-%COMP%]   ion-row[_ngcontent-%COMP%]   ion-list[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  width: 100%;\n  --inner-padding-bottom: 0;\n  --inner-padding-end: 0;\n  --inner-padding-start: 0;\n  --inner-padding-top: 0;\n}\n\nion-content[_ngcontent-%COMP%] {\n  --padding-start: 0;\n  --padding-end: 0;\n  --padding-top: 0;\n  --padding-bottom: 0;\n  position: relative;\n  --background: transparent;\n  margin-top: 20px;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-row[_ngcontent-%COMP%] {\n  padding-top: 5vh;\n  background: transparent;\n  display: block;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-row[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%] {\n  margin-right: 2.5vh;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-row[_ngcontent-%COMP%]   ion-list[_ngcontent-%COMP%] {\n  border-radius: 20px 20px 0 0;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-row[_ngcontent-%COMP%]   ion-list[_ngcontent-%COMP%]   ion-list-header[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%] {\n  font-weight: bold;\n  font-size: 1.8rem;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-fab[_ngcontent-%COMP%] {\n  margin-top: -40px;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-list[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%] {\n  font-size: 1.1em;\n  --background: transparent !important;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-list[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --inner-padding-bottom: 1px;\n  --inner-padding-end: 0;\n  --inner-padding-start: 0;\n  --inner-padding-top: 0;\n  --background: transparent !important;\n}\n\n.centerElem[_ngcontent-%COMP%] {\n  justify-content: center;\n  align-items: center;\n}\n\n.price[_ngcontent-%COMP%] {\n  margin-left: auto;\n  flex: 0.5;\n}\n\n.shadow-top[_ngcontent-%COMP%] {\n  box-shadow: 0px -1.5px 1.5px rgba(196, 196, 196, 0.414);\n}\n\n.top_bar[_ngcontent-%COMP%] {\n  box-shadow: 0px 1.5px 1.5px rgba(196, 196, 196, 0.414);\n}\n\n.card[_ngcontent-%COMP%] {\n  box-shadow: 0px -1.5px 1.5px rgba(196, 196, 196, 0.414);\n}\n\n.main-button[_ngcontent-%COMP%] {\n  color: var(--ion-color-dark);\n  --background: var(--ion-color-light-shade);\n}\n\n.preview[_ngcontent-%COMP%] {\n  margin-top: 50px;\n  display: flex;\n  justify-content: center;\n}\n\n.fallback[_ngcontent-%COMP%] {\n  width: 128px;\n  height: 128px;\n  border-radius: 50%;\n  background: #bfbfbf;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-weight: 500;\n}\n\n.map[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 1024px;\n  padding-bottom: 100%;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%] {\n  min-height: 150px;\n  height: auto;\n  max-height: 80vh;\n  overflow-y: auto;\n  transition: height 0.3s ease;\n  padding: 16px;\n  margin-bottom: env(safe-area-inset-bottom, 0px);\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border-radius: 24px 24px 0 0;\n}\n\n.bottomItems.shadow-top[ngIf=trackingStage][_ngcontent-%COMP%], .bottomItems.shadow-top[ngIf=drivingToDestinationStage][_ngcontent-%COMP%] {\n  height: auto;\n  min-height: 200px;\n}\n\n.bottomItems.shadow-top[ngIf=searchingStage][_ngcontent-%COMP%] {\n  height: auto;\n  min-height: 180px;\n}\n\n.bottomItems.shadow-top[ngIf=confirmStage][_ngcontent-%COMP%] {\n  height: auto;\n  min-height: 250px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%] {\n  margin: 0;\n  padding: 12px 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --padding-start: 0;\n  --inner-padding-end: 0;\n  border-radius: 16px;\n  margin-bottom: 12px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%] {\n  width: 48px;\n  height: 48px;\n  margin-right: 12px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 600;\n  margin-bottom: 4px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: var(--ion-color-medium);\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   p[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   .price[_ngcontent-%COMP%] {\n  text-align: right;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   .price[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 20px;\n  font-weight: 700;\n  color: var(--ion-color-primary);\n  margin: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .payment[_ngcontent-%COMP%]   .price[_ngcontent-%COMP%]   p[_ngcontent-%COMP%]   del[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: var(--ion-color-medium);\n}\n\n.bottomItems[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%] {\n  margin-top: 16px;\n  border-radius: 16px;\n  background: var(--ion-color-light);\n  overflow: hidden;\n}\n\n.bottomItems[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --padding-start: 16px;\n  --padding-end: 16px;\n  --background: transparent;\n}\n\n.bottomItems[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-select[_ngcontent-%COMP%] {\n  width: 100%;\n  max-width: 100%;\n  --padding-start: 0;\n}\n\n.bottomItems[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  margin: 16px;\n  --border-radius: 12px;\n  --padding-top: 16px;\n  --padding-bottom: 16px;\n}\n\n.bottomItems[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n\n.bottomItems[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-button[disabled][_ngcontent-%COMP%] {\n  opacity: 0.7;\n}\n\nion-progress-bar[_ngcontent-%COMP%] {\n  border-radius: 4px;\n  height: 4px;\n  margin: 8px 0;\n}\n\nion-progress-bar[type=indeterminate][_ngcontent-%COMP%] {\n  --progress-background: var(--ion-color-primary);\n}\n\nion-skeleton-text[_ngcontent-%COMP%] {\n  --border-radius: 8px;\n  --background: rgba(var(--ion-color-primary-rgb), 0.1);\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   .ion-margin-horizontal[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   .ion-margin-horizontal[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  align-self: flex-end;\n  --padding-start: 12px;\n  --padding-end: 12px;\n  --border-radius: 20px;\n  height: 40px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   .ion-margin-horizontal[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 18px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   ion-list-header[_ngcontent-%COMP%] {\n  padding: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   ion-list-header[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --padding-start: 0;\n  --inner-padding-end: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   ion-list-header[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%] {\n  width: 56px;\n  height: 56px;\n  border: 2px solid var(--ion-color-primary);\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   ion-list-header[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%] {\n  margin-left: 12px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   ion-list-header[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 18px;\n  font-weight: 600;\n  margin-bottom: 4px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]:has(ion-progress-bar[type=indeterminate])   ion-list-header[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: var(--ion-color-primary);\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  margin-bottom: 8px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:last-child {\n  margin-bottom: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%] {\n  width: 52px;\n  height: 52px;\n  border: 2px solid var(--ion-color-primary);\n  position: relative;\n  overflow: visible;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%]::after {\n  content: \"\";\n  position: absolute;\n  bottom: -2px;\n  right: -2px;\n  width: 14px;\n  height: 14px;\n  background: var(--ion-color-success);\n  border-radius: 50%;\n  border: 2px solid white;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item.price[_ngcontent-%COMP%] {\n  justify-content: center;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item.price[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 24px;\n  font-weight: 700;\n  color: var(--ion-color-primary);\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-label   p[_ngcontent-%COMP%]:first-child) {\n  --background: rgba(var(--ion-color-light-rgb), 0.5);\n  border-radius: 12px;\n  margin: 8px 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-label   p[_ngcontent-%COMP%]:first-child)   ion-label[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: var(--ion-color-medium);\n  margin-bottom: 4px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-label   p[_ngcontent-%COMP%]:first-child)   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 600;\n  letter-spacing: 1px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-icon[name=cash]), .bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-icon[name=card]) {\n  --background: rgba(var(--ion-color-light-rgb), 0.5);\n  border-radius: 12px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-icon[name=cash])   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%], .bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-icon[name=card])   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-icon[name=cash])   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%], .bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]:has(ion-icon[name=card])   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 20px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list-header.ion-margin-bottom[_ngcontent-%COMP%] {\n  padding: 12px 16px;\n  background: rgba(var(--ion-color-primary-rgb), 0.1);\n  border-radius: 16px;\n  margin-bottom: 16px !important;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list-header.ion-margin-bottom[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  width: 100%;\n  margin: 0;\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--ion-color-primary);\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%] {\n  margin-top: 16px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%]   ion-accordion[_ngcontent-%COMP%] {\n  --border-radius: 12px;\n  overflow: hidden;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%]   ion-accordion[_ngcontent-%COMP%]   ion-item[slot=header][_ngcontent-%COMP%] {\n  --background: rgba(var(--ion-color-light-rgb), 0.5);\n  --border-radius: 12px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%]   ion-accordion[_ngcontent-%COMP%]   ion-item[slot=header][_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 500;\n  color: var(--ion-color-primary);\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%]   ion-accordion[_ngcontent-%COMP%]   div[slot=content][_ngcontent-%COMP%] {\n  padding: 16px;\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%]   ion-accordion[_ngcontent-%COMP%]   div[slot=content][_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  margin: 0;\n  --border-width: 1px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%]   ion-accordion[_ngcontent-%COMP%]   div[slot=content][_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%]:last-child {\n  --background: rgba(var(--ion-color-danger-rgb), 0.1);\n  --color: var(--ion-color-danger);\n  --border-color: var(--ion-color-danger);\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%]   ion-accordion[_ngcontent-%COMP%]   div[slot=content][_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%]:last-child   ion-icon[_ngcontent-%COMP%] {\n  color: var(--ion-color-danger) !important;\n}\n\n@keyframes pulse {\n  0% {\n    box-shadow: 0 0 0 0 rgba(var(--ion-color-primary-rgb), 0.4);\n  }\n  70% {\n    box-shadow: 0 0 0 10px rgba(var(--ion-color-primary-rgb), 0);\n  }\n  100% {\n    box-shadow: 0 0 0 0 rgba(var(--ion-color-primary-rgb), 0);\n  }\n}\n\n.bottomItems[_ngcontent-%COMP%]   ion-list[ngIf=searchingStage][_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%], .bottomItems[_ngcontent-%COMP%]   ion-list[ngIf=trackingStage][_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%], .bottomItems[_ngcontent-%COMP%]   ion-list[ngIf=drivingToDestinationStage][_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%] {\n  animation: pulse 2s infinite;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%] {\n  max-height: calc(40vh - 20px);\n  overflow-y: auto;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%] {\n  margin-top: 12px;\n  border-radius: 16px;\n  background: var(--ion-color-light);\n  overflow: hidden;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --min-height: 48px;\n  margin-bottom: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item.price[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 18px;\n  margin-top: 0;\n  margin-bottom: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --min-height: 42px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%] {\n  margin-top: 4px;\n  margin-bottom: 4px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 15px;\n  margin-top: 0;\n  margin-bottom: 2px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  font-size: 12px;\n  margin-top: 0;\n  margin-bottom: 0;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   .card[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%] {\n  width: 40px;\n  height: 40px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list-header[_ngcontent-%COMP%] {\n  padding: 8px;\n  min-height: unset;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list-header[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 16px;\n  margin-top: 4px;\n  margin-bottom: 4px;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list.bottomItems.shadow-top[ngIf=trackingStage][_ngcontent-%COMP%]   .ion-margin-bottom[_ngcontent-%COMP%], .bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list.bottomItems.shadow-top[ngIf=drivingToDestinationStage][_ngcontent-%COMP%]   .ion-margin-bottom[_ngcontent-%COMP%] {\n  margin-bottom: 8px !important;\n}\n\n.bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list.bottomItems.shadow-top[ngIf=trackingStage][_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%], .bottomItems.shadow-top[_ngcontent-%COMP%]   ion-list.bottomItems.shadow-top[ngIf=drivingToDestinationStage][_ngcontent-%COMP%]   ion-accordion-group[_ngcontent-%COMP%] {\n  margin-top: 8px;\n}\n\nion-accordion[_ngcontent-%COMP%]   div[slot=content][_ngcontent-%COMP%] {\n  padding: 8px !important;\n}\n\nion-accordion[_ngcontent-%COMP%]   div[slot=content][_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  --padding-top: 8px;\n  --padding-bottom: 8px;\n  margin-bottom: 4px;\n  height: auto;\n}\n\n.driver-card-item[_ngcontent-%COMP%] {\n  --padding-start: 16px;\n  --padding-end: 16px;\n  --inner-padding-end: 0;\n  margin-bottom: 8px;\n}\n\n.driver-avatar-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  min-width: 60px;\n}\n\n.driver-avatar-container[_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%] {\n  width: 50px;\n  height: 50px;\n  margin-bottom: 4px;\n}\n\n.driver-avatar-container[_ngcontent-%COMP%]   .driver-rating[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  font-weight: bold;\n}\n\n.driver-avatar-container[_ngcontent-%COMP%]   .driver-rating[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-right: 2px;\n}\n\n.price-container[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: flex-end;\n  min-width: 70px;\n}\n\n.price-container[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 20px;\n  font-weight: bold;\n  margin: 0;\n}\n\n.driver-actions-accordion[_ngcontent-%COMP%] {\n  margin-top: 8px;\n  border-top: 1px solid var(--ion-color-light-shade);\n}\n\n.driver-actions-accordion[_ngcontent-%COMP%]   .accordion-header[_ngcontent-%COMP%] {\n  --background: var(--ion-color-light);\n}\n\n.driver-actions-accordion[_ngcontent-%COMP%]   .accordion-content[_ngcontent-%COMP%] {\n  padding: 8px 16px 16px;\n}\n\n.driver-actions-accordion[_ngcontent-%COMP%]   .accordion-content[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  margin-top: 10px;\n}\n\n.card[_ngcontent-%COMP%] {\n  background: white;\n  border-radius: 8px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n  margin: 0 16px 16px;\n}\n\nion-item[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --padding-start: 0;\n  --inner-padding-end: 0;\n}\n\n.bottomItems[_ngcontent-%COMP%] {\n  max-height: 60vh;\n  overflow-y: auto;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%] {\n  background: white;\n  border-radius: 16px 16px 0 0;\n  padding: 16px;\n  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .ride-details[_ngcontent-%COMP%] {\n  margin-bottom: 16px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .ride-details.skeleton[_ngcontent-%COMP%] {\n  opacity: 0.7;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  padding: 12px;\n  background: #f8f9fa;\n  border-radius: 12px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]:active {\n  background: #eef0f2;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   ion-avatar[_ngcontent-%COMP%] {\n  width: 48px;\n  height: 48px;\n  margin-right: 12px;\n  flex-shrink: 0;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .vehicle-details[_ngcontent-%COMP%] {\n  flex: 1;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .vehicle-details[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-weight: 600;\n  margin: 0 0 4px;\n  font-size: 16px;\n  display: flex;\n  align-items: center;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .vehicle-details[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-left: 6px;\n  font-size: 18px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .vehicle-details[_ngcontent-%COMP%]   .vehicle-stats[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 12px;\n  margin: 0;\n  font-size: 14px;\n  color: var(--ion-color-medium);\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .vehicle-details[_ngcontent-%COMP%]   .vehicle-stats[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .vehicle-details[_ngcontent-%COMP%]   .vehicle-stats[_ngcontent-%COMP%]   span[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-right: 4px;\n  font-size: 16px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .price-tag[_ngcontent-%COMP%] {\n  text-align: right;\n  margin-left: 8px;\n  flex-shrink: 0;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .price-tag[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  font-size: 20px;\n  font-weight: 700;\n  margin: 0 0 2px;\n  color: var(--ion-color-primary);\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .price-tag[_ngcontent-%COMP%]   .original-price[_ngcontent-%COMP%] {\n  font-size: 14px;\n  margin: 0;\n  color: var(--ion-color-medium);\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   .price-tag[_ngcontent-%COMP%]   .original-price[_ngcontent-%COMP%]   del[_ngcontent-%COMP%] {\n  text-decoration-color: var(--ion-color-danger);\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .payment-selector[_ngcontent-%COMP%] {\n  margin: 16px 0;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .payment-selector[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%] {\n  --background: #f8f9fa;\n  --padding-start: 12px;\n  --padding-end: 8px;\n  --min-height: 54px;\n  border-radius: 12px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .payment-selector[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 20px;\n  margin-right: 10px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .payment-selector[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%] {\n  font-weight: 500;\n  font-size: 15px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .payment-selector[_ngcontent-%COMP%]   ion-item[_ngcontent-%COMP%]   ion-select[_ngcontent-%COMP%] {\n  min-width: 130px;\n  color: var(--ion-color-primary);\n  font-weight: 500;\n  --padding-end: 12px;\n  --placeholder-opacity: 1;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .book-button-container[_ngcontent-%COMP%] {\n  margin-top: 16px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .book-button-container[_ngcontent-%COMP%]   .book-ride-btn[_ngcontent-%COMP%] {\n  --border-radius: 12px;\n  --padding-top: 16px;\n  --padding-bottom: 16px;\n  margin: 0;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .book-button-container[_ngcontent-%COMP%]   .book-ride-btn[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .book-button-container[_ngcontent-%COMP%]   .book-ride-btn[_ngcontent-%COMP%]   ion-progress-bar[_ngcontent-%COMP%] {\n  width: 60%;\n  margin: 0 auto;\n}\n\n.ride-confirmation-card[_ngcontent-%COMP%]   .book-button-container[_ngcontent-%COMP%]   .book-ride-btn[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%] {\n  font-weight: 600;\n  font-size: 16px;\n}\n\nion-footer[_ngcontent-%COMP%]   .bottomItems.shadow-top[ngIf=confirmStage][_ngcontent-%COMP%] {\n  padding: 0;\n  background: transparent;\n  max-height: unset;\n}\n\nion-footer[_ngcontent-%COMP%]   .bottomItems.shadow-top[ngIf=confirmStage][_ngcontent-%COMP%]   .ride-confirmation-card[_ngcontent-%COMP%] {\n  animation: slide-top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;\n}\n\n@keyframes pulse-bg {\n  0% {\n    opacity: 0.6;\n  }\n  50% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0.6;\n  }\n}\n\n.ride-details.skeleton[_ngcontent-%COMP%]   .vehicle-info[_ngcontent-%COMP%]   ion-skeleton-text[_ngcontent-%COMP%] {\n  animation: pulse-bg 1.5s infinite;\n  --border-radius: 8px;\n  --background: rgba(var(--ion-color-primary-rgb), 0.12);\n}\n\n[_ngcontent-%COMP%]:root   ion-select-popover[_ngcontent-%COMP%] {\n  --width: 240px;\n}\n\n[_ngcontent-%COMP%]:root   ion-select-popover[_ngcontent-%COMP%]   .select-interface-option[_ngcontent-%COMP%] {\n  --padding-start: 16px;\n  --padding-end: 16px;\n}\n\n[_ngcontent-%COMP%]:root   ion-select-popover[_ngcontent-%COMP%]   .select-interface-option[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-right: 12px;\n  font-size: 18px;\n}\n\n.map-container[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  height: calc(100% - var(--bottom-bar-height, 0px));\n  top: var(--header-height, 0px);\n  left: 0;\n  z-index: 10;\n  transition: height 0.3s ease;\n}\n\n.map-container.with-tracking[_ngcontent-%COMP%] {\n  height: calc(100% - 210px);\n  top: 56px;\n}\n\n.map-container.with-booking[_ngcontent-%COMP%] {\n  height: calc(100% - 100px);\n  top: 0;\n}\n\n.map-container.with-confirm[_ngcontent-%COMP%] {\n  height: calc(100% - 260px);\n  top: 120px;\n}\n\n.map-container.with-searching[_ngcontent-%COMP%] {\n  height: calc(100% - 180px);\n  top: 56px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhvbWUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UscUJBQUE7RUFDQSxXQUFBO0VBQ0EsYUFBQTtFQUNBLG1CQUFBO0VBQ0Esd0NBQUE7QUFDRjs7QUFFQTtFQUNFO0lBQ0UsMkJBQUE7RUFDRjtFQUNBO0lBQ0UseUJBQUE7RUFDRjtBQUNGOztBQUVBO0VBQ0MsbUVBQUE7QUFBRDs7QUFHQTtFQUNFLHlCQUFBO0VBQ0Esd0JBQUE7QUFBRjs7QUFHQTtFQUNFLHlCQUFBO0VBQ0Esd0JBQUE7QUFBRjs7QUFHQTtFQUNFLHFDQUFBO0FBQUY7O0FBS0U7RUFDRSxnQkFBQTtBQUZKOztBQUlFO0VBQ0UsZ0JBQUE7RUFDQSx1QkFBQTtFQUNBLGNBQUE7QUFGSjs7QUFHSTtFQUNJLGdDQUFBO0VBQ0EsbUJBQUE7QUFEUjs7QUFFUTtFQUNFLFdBQUE7RUFDQSx5QkFBQTtFQUNBLHNCQUFBO0VBQ0Esd0JBQUE7RUFDQSxzQkFBQTtBQUFWOztBQU9BO0VBQ0Usa0JBQUE7RUFDQSxnQkFBQTtFQUNBLGdCQUFBO0VBQ0EsbUJBQUE7RUFDQSxrQkFBQTtFQUNBLHlCQUFBO0VBQ0EsZ0JBQUE7QUFKRjs7QUFRRTtFQUNFLGdCQUFBO0VBQ0EsdUJBQUE7RUFDQSxjQUFBO0FBTEo7O0FBTUk7RUFDSSxtQkFBQTtBQUpSOztBQU1JO0VBQ0ksNEJBQUE7QUFKUjs7QUFPWTtFQUNJLGlCQUFBO0VBQ0EsaUJBQUE7QUFMaEI7O0FBVUU7RUFDRSxpQkFBQTtBQVJKOztBQVdLO0VBQ0MsZ0JBQUE7RUFFQyxvQ0FBQTtBQVZQOztBQVdPO0VBQ0MsMkJBQUE7RUFDQSxzQkFBQTtFQUNBLHdCQUFBO0VBQ0Esc0JBQUE7RUFDQSxvQ0FBQTtBQVRSOztBQW9CQTtFQUVFLHVCQUFBO0VBQ0EsbUJBQUE7QUFsQkY7O0FBcUJBO0VBRUUsaUJBQUE7RUFDQSxTQUFBO0FBbkJGOztBQXNCQztFQUVHLHVEQUFBO0FBcEJKOztBQXVCRTtFQUNFLHNEQUFBO0FBcEJKOztBQXVCRTtFQUNFLHVEQUFBO0FBcEJKOztBQXVCQTtFQUNFLDRCQUFBO0VBQ0EsMENBQUE7QUFwQkY7O0FBd0JBO0VBQ0UsZ0JBQUE7RUFDQSxhQUFBO0VBQ0EsdUJBQUE7QUFyQkY7O0FBd0JBO0VBQ0UsWUFBQTtFQUNBLGFBQUE7RUFDQSxrQkFBQTtFQUNBLG1CQUFBO0VBRUEsYUFBQTtFQUNBLHVCQUFBO0VBQ0EsbUJBQUE7RUFDQSxnQkFBQTtBQXRCRjs7QUF5QkE7RUFDRSxXQUFBO0VBQ0EsY0FBQTtFQUNBLG9CQUFBO0FBdEJGOztBQTJCRTtFQUVFLGlCQUFBO0VBQ0EsWUFBQTtFQUNBLGdCQUFBO0VBQ0EsZ0JBQUE7RUFDQSw0QkFBQTtFQUdBLGFBQUE7RUFDQSwrQ0FBQTtFQW1CQSxxQ0FBQTtFQUNBLG1DQUFBO1VBQUEsMkJBQUE7RUFDQSw0QkFBQTtBQTdDSjs7QUEyQkk7RUFFRSxZQUFBO0VBQ0EsaUJBQUE7QUExQk47O0FBNkJJO0VBQ0UsWUFBQTtFQUNBLGlCQUFBO0FBM0JOOztBQThCSTtFQUNFLFlBQUE7RUFDQSxpQkFBQTtBQTVCTjs7QUFtQ0k7RUFDRSxTQUFBO0VBQ0EsZUFBQTtBQWpDTjs7QUFtQ007RUFDRSxrQkFBQTtFQUNBLHNCQUFBO0VBQ0EsbUJBQUE7RUFDQSxtQkFBQTtBQWpDUjs7QUFtQ1E7RUFDRSxnQkFBQTtBQWpDVjs7QUFvQ1E7RUFDRSxXQUFBO0VBQ0EsWUFBQTtFQUNBLGtCQUFBO0FBbENWOztBQXNDVTtFQUNFLGVBQUE7RUFDQSxnQkFBQTtFQUNBLGtCQUFBO0VBQ0EsYUFBQTtFQUNBLG1CQUFBO0VBQ0EsUUFBQTtBQXBDWjs7QUFzQ1k7RUFDRSxlQUFBO0FBcENkOztBQXdDVTtFQUNFLGVBQUE7RUFDQSw4QkFBQTtFQUNBLGFBQUE7RUFDQSxtQkFBQTtFQUNBLFFBQUE7QUF0Q1o7O0FBd0NZO0VBQ0UsZUFBQTtBQXRDZDs7QUE0Q007RUFDRSxpQkFBQTtBQTFDUjs7QUE0Q1E7RUFDRSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSwrQkFBQTtFQUNBLFNBQUE7QUExQ1Y7O0FBNkNRO0VBQ0UsZUFBQTtFQUNBLDhCQUFBO0FBM0NWOztBQWlERTtFQUNFLGdCQUFBO0VBQ0EsbUJBQUE7RUFDQSxrQ0FBQTtFQUNBLGdCQUFBO0FBL0NKOztBQWlESTtFQUNFLHFCQUFBO0VBQ0EsbUJBQUE7RUFDQSx5QkFBQTtBQS9DTjs7QUFpRE07RUFDRSxXQUFBO0VBQ0EsZUFBQTtFQUNBLGtCQUFBO0FBL0NSOztBQW1ESTtFQUNFLFlBQUE7RUFDQSxxQkFBQTtFQUNBLG1CQUFBO0VBQ0Esc0JBQUE7QUFqRE47O0FBbURNO0VBQ0UsaUJBQUE7QUFqRFI7O0FBb0RNO0VBQ0UsWUFBQTtBQWxEUjs7QUF5REE7RUFDRSxrQkFBQTtFQUNBLFdBQUE7RUFDQSxhQUFBO0FBdERGOztBQXdERTtFQUNFLCtDQUFBO0FBdERKOztBQTJEQTtFQUNFLG9CQUFBO0VBQ0EscURBQUE7QUF4REY7O0FBa0VNO0VBQ0UsYUFBQTtFQUNBLHNCQUFBO0VBQ0EsU0FBQTtBQS9EUjs7QUFpRVE7RUFDRSxvQkFBQTtFQUNBLHFCQUFBO0VBQ0EsbUJBQUE7RUFDQSxxQkFBQTtFQUNBLFlBQUE7QUEvRFY7O0FBaUVVO0VBQ0UsZUFBQTtBQS9EWjs7QUFvRU07RUFDRSxVQUFBO0FBbEVSOztBQW9FUTtFQUNFLGtCQUFBO0VBQ0Esc0JBQUE7QUFsRVY7O0FBb0VVO0VBQ0UsV0FBQTtFQUNBLFlBQUE7RUFDQSwwQ0FBQTtBQWxFWjs7QUFxRVU7RUFDRSxpQkFBQTtBQW5FWjs7QUFxRVk7RUFDRSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxrQkFBQTtBQW5FZDs7QUFzRVk7RUFDRSxlQUFBO0VBQ0EsK0JBQUE7QUFwRWQ7O0FBZ0ZNO0VBRUUsa0JBQUE7QUEvRVI7O0FBaUZRO0VBQ0UsZ0JBQUE7QUEvRVY7O0FBa0ZRO0VBQ0UsV0FBQTtFQUNBLFlBQUE7RUFDQSwwQ0FBQTtFQUNBLGtCQUFBO0VBQ0EsaUJBQUE7QUFoRlY7O0FBa0ZVO0VBQ0UsV0FBQTtFQUNBLGtCQUFBO0VBQ0EsWUFBQTtFQUNBLFdBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtFQUNBLG9DQUFBO0VBQ0Esa0JBQUE7RUFDQSx1QkFBQTtBQWhGWjs7QUFvRlE7RUFDRSx1QkFBQTtBQWxGVjs7QUFxRlk7RUFDRSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSwrQkFBQTtBQW5GZDs7QUF5RlE7RUFDRSxtREFBQTtFQUNBLG1CQUFBO0VBQ0EsYUFBQTtBQXZGVjs7QUEwRlk7RUFDRSxlQUFBO0VBQ0EsOEJBQUE7RUFDQSxrQkFBQTtBQXhGZDs7QUEyRlk7RUFDRSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxtQkFBQTtBQXpGZDs7QUErRlE7RUFFRSxtREFBQTtFQUNBLG1CQUFBO0FBOUZWOztBQWdHVTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLFFBQUE7QUE5Rlo7O0FBZ0dZO0VBQ0UsZUFBQTtBQTlGZDs7QUFzR0k7RUFDRSxrQkFBQTtFQUNBLG1EQUFBO0VBQ0EsbUJBQUE7RUFDQSw4QkFBQTtBQXBHTjs7QUFzR007RUFDRSxXQUFBO0VBQ0EsU0FBQTtFQUNBLGVBQUE7RUFDQSxnQkFBQTtFQUNBLCtCQUFBO0FBcEdSOztBQXlHSTtFQUNFLGdCQUFBO0FBdkdOOztBQXlHTTtFQUNFLHFCQUFBO0VBQ0EsZ0JBQUE7QUF2R1I7O0FBeUdRO0VBQ0UsbURBQUE7RUFDQSxxQkFBQTtBQXZHVjs7QUF5R1U7RUFDRSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSwrQkFBQTtBQXZHWjs7QUEyR1E7RUFDRSxhQUFBO0VBQ0EsYUFBQTtFQUNBLHNCQUFBO0VBQ0EsU0FBQTtBQXpHVjs7QUEyR1U7RUFDRSxTQUFBO0VBQ0EsbUJBQUE7QUF6R1o7O0FBMkdZO0VBQ0Usb0RBQUE7RUFDQSxnQ0FBQTtFQUNBLHVDQUFBO0FBekdkOztBQTJHYztFQUNFLHlDQUFBO0FBekdoQjs7QUFvSEE7RUFDRTtJQUNFLDJEQUFBO0VBakhGO0VBbUhBO0lBQ0UsNERBQUE7RUFqSEY7RUFtSEE7SUFDRSx5REFBQTtFQWpIRjtBQUNGOztBQW9IQTs7O0VBR0UsNEJBQUE7QUFsSEY7O0FBdUhFO0VBRUUsNkJBQUE7RUFDQSxnQkFBQTtBQXJISjs7QUF3SEk7RUFDRSxnQkFBQTtFQUNBLG1CQUFBO0VBQ0Esa0NBQUE7RUFDQSxnQkFBQTtBQXRITjs7QUF5SE07RUFDRSxrQkFBQTtFQUNBLGdCQUFBO0FBdkhSOztBQTBIUTtFQUNFLGVBQUE7RUFDQSxhQUFBO0VBQ0EsZ0JBQUE7QUF4SFY7O0FBNEhRO0VBQ0Usa0JBQUE7QUExSFY7O0FBNEhVO0VBQ0UsZUFBQTtFQUNBLGtCQUFBO0FBMUhaOztBQTRIWTtFQUNFLGVBQUE7RUFDQSxhQUFBO0VBQ0Esa0JBQUE7QUExSGQ7O0FBNkhZO0VBQ0UsZUFBQTtFQUNBLGFBQUE7RUFDQSxnQkFBQTtBQTNIZDs7QUFpSVE7RUFDRSxXQUFBO0VBQ0EsWUFBQTtBQS9IVjs7QUFxSUk7RUFDRSxZQUFBO0VBQ0EsaUJBQUE7QUFuSU47O0FBcUlNO0VBQ0UsZUFBQTtFQUNBLGVBQUE7RUFDQSxrQkFBQTtBQW5JUjs7QUF3SUk7O0VBRUUsNkJBQUE7QUF0SU47O0FBeUlJOztFQUVFLGVBQUE7QUF2SU47O0FBNklBO0VBQ0UsdUJBQUE7QUExSUY7O0FBNElFO0VBQ0Usa0JBQUE7RUFDQSxxQkFBQTtFQUNBLGtCQUFBO0VBQ0EsWUFBQTtBQTFJSjs7QUErSUE7RUFDRSxxQkFBQTtFQUNBLG1CQUFBO0VBQ0Esc0JBQUE7RUFDQSxrQkFBQTtBQTVJRjs7QUFnSkE7RUFDRSxhQUFBO0VBQ0Esc0JBQUE7RUFDQSxtQkFBQTtFQUNBLGVBQUE7QUE3SUY7O0FBK0lFO0VBQ0UsV0FBQTtFQUNBLFlBQUE7RUFDQSxrQkFBQTtBQTdJSjs7QUFnSkU7RUFDRSxhQUFBO0VBQ0EsbUJBQUE7RUFDQSxpQkFBQTtBQTlJSjs7QUFnSkk7RUFDRSxpQkFBQTtBQTlJTjs7QUFvSkE7RUFDRSxhQUFBO0VBQ0EseUJBQUE7RUFDQSxlQUFBO0FBakpGOztBQW1KRTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtFQUNBLFNBQUE7QUFqSko7O0FBc0pBO0VBQ0UsZUFBQTtFQUNBLGtEQUFBO0FBbkpGOztBQXFKRTtFQUNFLG9DQUFBO0FBbkpKOztBQXNKRTtFQUNFLHNCQUFBO0FBcEpKOztBQXNKSTtFQUNFLGdCQUFBO0FBcEpOOztBQTBKQTtFQUNFLGlCQUFBO0VBQ0Esa0JBQUE7RUFDQSx3Q0FBQTtFQUNBLGdCQUFBO0VBQ0EsbUJBQUE7QUF2SkY7O0FBMkpBO0VBQ0Usa0JBQUE7RUFDQSxzQkFBQTtBQXhKRjs7QUE0SkE7RUFDRSxnQkFBQTtFQUNBLGdCQUFBO0FBekpGOztBQTZKQTtFQUNFLGlCQUFBO0VBQ0EsNEJBQUE7RUFDQSxhQUFBO0VBQ0EsMENBQUE7QUExSkY7O0FBNEpFO0VBQ0UsbUJBQUE7QUExSko7O0FBNEpJO0VBQ0UsWUFBQTtBQTFKTjs7QUE4SkU7RUFDRSxhQUFBO0VBQ0EsbUJBQUE7RUFDQSxhQUFBO0VBQ0EsbUJBQUE7RUFDQSxtQkFBQTtFQUNBLGVBQUE7RUFDQSx5QkFBQTtBQTVKSjs7QUE4Skk7RUFDRSxtQkFBQTtBQTVKTjs7QUErSkk7RUFDRSxXQUFBO0VBQ0EsWUFBQTtFQUNBLGtCQUFBO0VBQ0EsY0FBQTtBQTdKTjs7QUFnS0k7RUFDRSxPQUFBO0FBOUpOOztBQWdLTTtFQUNFLGdCQUFBO0VBQ0EsZUFBQTtFQUNBLGVBQUE7RUFDQSxhQUFBO0VBQ0EsbUJBQUE7QUE5SlI7O0FBZ0tRO0VBQ0UsZ0JBQUE7RUFDQSxlQUFBO0FBOUpWOztBQWtLTTtFQUNFLGFBQUE7RUFDQSxTQUFBO0VBQ0EsU0FBQTtFQUNBLGVBQUE7RUFDQSw4QkFBQTtBQWhLUjs7QUFrS1E7RUFDRSxhQUFBO0VBQ0EsbUJBQUE7QUFoS1Y7O0FBa0tVO0VBQ0UsaUJBQUE7RUFDQSxlQUFBO0FBaEtaOztBQXNLSTtFQUNFLGlCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxjQUFBO0FBcEtOOztBQXNLTTtFQUNFLGVBQUE7RUFDQSxnQkFBQTtFQUNBLGVBQUE7RUFDQSwrQkFBQTtBQXBLUjs7QUF1S007RUFDRSxlQUFBO0VBQ0EsU0FBQTtFQUNBLDhCQUFBO0FBcktSOztBQXVLUTtFQUNFLDhDQUFBO0FBcktWOztBQTJLRTtFQUNFLGNBQUE7QUF6S0o7O0FBMktJO0VBQ0UscUJBQUE7RUFDQSxxQkFBQTtFQUNBLGtCQUFBO0VBQ0Esa0JBQUE7RUFDQSxtQkFBQTtBQXpLTjs7QUEyS007RUFDRSxlQUFBO0VBQ0Esa0JBQUE7QUF6S1I7O0FBNEtNO0VBQ0UsZ0JBQUE7RUFDQSxlQUFBO0FBMUtSOztBQTZLTTtFQUNFLGdCQUFBO0VBQ0EsK0JBQUE7RUFDQSxnQkFBQTtFQUNBLG1CQUFBO0VBQ0Esd0JBQUE7QUEzS1I7O0FBZ0xFO0VBQ0UsZ0JBQUE7QUE5S0o7O0FBZ0xJO0VBQ0UscUJBQUE7RUFDQSxtQkFBQTtFQUNBLHNCQUFBO0VBQ0EsU0FBQTtBQTlLTjs7QUFnTE07RUFDRSxpQkFBQTtBQTlLUjs7QUFpTE07RUFDRSxVQUFBO0VBQ0EsY0FBQTtBQS9LUjs7QUFrTE07RUFDRSxnQkFBQTtFQUNBLGVBQUE7QUFoTFI7O0FBdUxBO0VBQ0UsVUFBQTtFQUNBLHVCQUFBO0VBQ0EsaUJBQUE7QUFwTEY7O0FBc0xFO0VBQ0UsbUVBQUE7QUFwTEo7O0FBeUxBO0VBQ0U7SUFDRSxZQUFBO0VBdExGO0VBd0xBO0lBQ0UsVUFBQTtFQXRMRjtFQXdMQTtJQUNFLFlBQUE7RUF0TEY7QUFDRjs7QUEyTEk7RUFDRSxpQ0FBQTtFQUNBLG9CQUFBO0VBQ0Esc0RBQUE7QUF6TE47O0FBaU1FO0VBQ0UsY0FBQTtBQTlMSjs7QUFnTUk7RUFDRSxxQkFBQTtFQUNBLG1CQUFBO0FBOUxOOztBQWdNTTtFQUNFLGtCQUFBO0VBQ0EsZUFBQTtBQTlMUjs7QUF1TUE7RUFDRSxrQkFBQTtFQUNBLFdBQUE7RUFDQSxrREFBQTtFQUNBLDhCQUFBO0VBQ0EsT0FBQTtFQUNBLFdBQUE7RUFDQSw0QkFBQTtBQXBNRjs7QUF1TUU7RUFDRSwwQkFBQTtFQUNBLFNBQUE7QUFyTUo7O0FBd01FO0VBQ0UsMEJBQUE7RUFDQSxNQUFBO0FBdE1KOztBQXlNRTtFQUNFLDBCQUFBO0VBQ0EsVUFBQTtBQXZNSjs7QUEwTUU7RUFDRSwwQkFBQTtFQUNBLFNBQUE7QUF4TUoiLCJmaWxlIjoiaG9tZS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJjYXBhY2l0b3ItZ29vZ2xlLW1hcHMge1xyXG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcclxuICB3aWR0aDogMTAwJTtcclxuICBoZWlnaHQ6IDEwMHZoO1xyXG4gIGJvcmRlci1yYWRpdXM6IDE1cHg7XHJcbiAgYm94LXNoYWRvdzogMCA0cHggOHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcclxufVxyXG5cclxuQGtleWZyYW1lcyBzbGlkZS10b3Age1xyXG4gIDAlIHtcclxuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWSgxMDAlKTtcclxuICB9XHJcbiAgMTAwJSB7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMCUpO1xyXG4gIH1cclxufVxyXG5cclxuLnNsaWRlLXRvcCB7XHJcblx0YW5pbWF0aW9uOiBzbGlkZS10b3AgMC41cyBjdWJpYy1iZXppZXIoMC4yNTAsIDAuNDYwLCAwLjQ1MCwgMC45NDApIGJvdGg7XHJcbn1cclxuXHJcbi5jZW50ZXJQaW57XHJcbiAgYW5pbWF0aW9uLW5hbWU6IHNsaWRlLXRvcDtcclxuICBhbmltYXRpb24tZHVyYXRpb246IDAuOHM7XHJcbn1cclxuXHJcbi5ib3R0b21JdGVtc3tcclxuICBhbmltYXRpb24tbmFtZTogc2xpZGUtdG9wO1xyXG4gIGFuaW1hdGlvbi1kdXJhdGlvbjogMC41cztcclxufVxyXG5cclxuaW9uLXNrZWxldG9uLXRleHQge1xyXG4gIC0tYmFja2dyb3VuZDogcmdiYSgwLCA5OCwgMjU1LCAwLjYyNSk7XHJcbn1cclxuXHJcbmlvbi1oZWFkZXJ7XHJcbiAgIFxyXG4gIGlvbi1mYWJ7XHJcbiAgICBtYXJnaW4tdG9wOiAyMHB4O1xyXG4gIH1cclxuICBpb24tcm93IHtcclxuICAgIHBhZGRpbmctdG9wOiAwdmg7XHJcbiAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDtcclxuICAgIGRpc3BsYXk6IGJsb2NrO1xyXG4gICAgaW9uLWxpc3Qge1xyXG4gICAgICAgIGJvcmRlci1yYWRpdXM6IDBweCAwcHggMjBweCAyMHB4O1xyXG4gICAgICAgIHBhZGRpbmctYm90dG9tOiAwdmg7XHJcbiAgICAgICAgaW9uLWl0ZW17XHJcbiAgICAgICAgICB3aWR0aDogMTAwJTtcclxuICAgICAgICAgIC0taW5uZXItcGFkZGluZy1ib3R0b206IDA7XHJcbiAgICAgICAgICAtLWlubmVyLXBhZGRpbmctZW5kOiAwO1xyXG4gICAgICAgICAgLS1pbm5lci1wYWRkaW5nLXN0YXJ0OiAwO1xyXG4gICAgICAgICAgLS1pbm5lci1wYWRkaW5nLXRvcDogMDtcclxuICAgICAgICB9XHJcbiAgICB9XHJcbn1cclxuICBcclxufVxyXG5cclxuaW9uLWNvbnRlbnQge1xyXG4gIC0tcGFkZGluZy1zdGFydDogMDtcclxuICAtLXBhZGRpbmctZW5kOiAwO1xyXG4gIC0tcGFkZGluZy10b3A6IDA7XHJcbiAgLS1wYWRkaW5nLWJvdHRvbTogMDtcclxuICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbiAgLS1iYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDtcclxuICBtYXJnaW4tdG9wOiAyMHB4O1xyXG59XHJcblxyXG5pb24tZm9vdGVye1xyXG4gIGlvbi1yb3cge1xyXG4gICAgcGFkZGluZy10b3A6IDV2aDtcclxuICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xyXG4gICAgZGlzcGxheTogYmxvY2s7XHJcbiAgICBpb24tZmFiLWJ1dHRvbiB7XHJcbiAgICAgICAgbWFyZ2luLXJpZ2h0OiAyLjV2aDtcclxuICAgIH1cclxuICAgIGlvbi1saXN0IHtcclxuICAgICAgICBib3JkZXItcmFkaXVzOiAyMHB4IDIwcHggMCAwO1xyXG4gICAgICAgIC8vIHBhZGRpbmctYm90dG9tOiA2dmg7XHJcbiAgICAgICAgaW9uLWxpc3QtaGVhZGVyIHtcclxuICAgICAgICAgICAgaW9uLWxhYmVsIHtcclxuICAgICAgICAgICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gICAgICAgICAgICAgICAgZm9udC1zaXplOiAxLjhyZW07XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICB9XHJcbiAgICB9XHJcbn1cclxuICBpb24tZmFie1xyXG4gICAgbWFyZ2luLXRvcDogLTQwcHg7XHJcbiAgfVxyXG4gICBpb24tbGlzdHtcclxuICAgICAucGF5bWVudHtcclxuICAgICAgZm9udC1zaXplOiAxLjFlbTtcclxuICAgICAgLy8gIG1hcmdpbi10b3A6IDVweDtcclxuICAgICAgIC0tYmFja2dyb3VuZDogdHJhbnNwYXJlbnQgIWltcG9ydGFudDtcclxuICAgICAgIGlvbi1pdGVte1xyXG4gICAgICAgIC0taW5uZXItcGFkZGluZy1ib3R0b206IDFweDtcclxuICAgICAgICAtLWlubmVyLXBhZGRpbmctZW5kOiAwO1xyXG4gICAgICAgIC0taW5uZXItcGFkZGluZy1zdGFydDogMDtcclxuICAgICAgICAtLWlubmVyLXBhZGRpbmctdG9wOiAwO1xyXG4gICAgICAgIC0tYmFja2dyb3VuZDogdHJhbnNwYXJlbnQgIWltcG9ydGFudDtcclxuICAgICBcclxuICAgICAgIH1cclxuICAgICAgIFxyXG4gICAgICBcclxuICAgICAgIFxyXG4gICAgIH1cclxuXHJcbiAgfVxyXG59XHJcblxyXG4uY2VudGVyRWxlbVxyXG57XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxufVxyXG5cclxuLnByaWNlXHJcbiB7XHJcbiAgbWFyZ2luLWxlZnQ6IGF1dG87XHJcbiAgZmxleDogMC41O1xyXG4gfVxyXG4gXHJcbiAuc2hhZG93LXRvcFxyXG4gIHtcclxuICAgIGJveC1zaGFkb3c6IDBweCAtMS41cHggMS41cHggcmdiYSgxOTYsIDE5NiwgMTk2LCAwLjQxNCk7XHJcbiAgfVxyXG5cclxuICAudG9wX2JhcntcclxuICAgIGJveC1zaGFkb3c6IDBweCAxLjVweCAxLjVweCByZ2JhKDE5NiwgMTk2LCAxOTYsIDAuNDE0KTtcclxuICB9XHJcblxyXG4gIC5jYXJke1xyXG4gICAgYm94LXNoYWRvdzogMHB4IC0xLjVweCAxLjVweCByZ2JhKDE5NiwgMTk2LCAxOTYsIDAuNDE0KTtcclxuICB9XHJcblxyXG4ubWFpbi1idXR0b257XHJcbiAgY29sb3I6IHZhcigtLWlvbi1jb2xvci1kYXJrKTsgXHJcbiAgLS1iYWNrZ3JvdW5kOiB2YXIoLS1pb24tY29sb3ItbGlnaHQtc2hhZGUpO1xyXG4gIC8vIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbn1cclxuXHJcbi5wcmV2aWV3IHtcclxuICBtYXJnaW4tdG9wOiA1MHB4O1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5mYWxsYmFjayB7XHJcbiAgd2lkdGg6IDEyOHB4O1xyXG4gIGhlaWdodDogMTI4cHg7XHJcbiAgYm9yZGVyLXJhZGl1czogNTAlO1xyXG4gIGJhY2tncm91bmQ6ICNiZmJmYmY7XHJcblxyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICBmb250LXdlaWdodDogNTAwO1xyXG59XHJcblxyXG4ubWFwIHtcclxuICB3aWR0aDogMTAwJTtcclxuICBoZWlnaHQ6IDEwMjRweDtcclxuICBwYWRkaW5nLWJvdHRvbTogMTAwJVxyXG59XHJcblxyXG4vLyBNb2Rlcm4gQ2FyZCBTdHlsaW5nIGZvciBTZWxlY3Rpb24gQmFyXHJcbi5ib3R0b21JdGVtcyB7XHJcbiAgJi5zaGFkb3ctdG9wIHtcclxuICAgIC8vIFJlbW92ZSBmaXhlZCBtYXgtaGVpZ2h0XHJcbiAgICBtaW4taGVpZ2h0OiAxNTBweDsgLy8gTWluaW11bSBoZWlnaHQgdG8gZW5zdXJlIHZpc2liaWxpdHlcclxuICAgIGhlaWdodDogYXV0bzsgLy8gTGV0IGl0IGdyb3cgYmFzZWQgb24gY29udGVudFxyXG4gICAgbWF4LWhlaWdodDogODB2aDsgLy8gTWF4aW11bSBoZWlnaHQgYXMgcGVyY2VudGFnZSBvZiB2aWV3cG9ydCBoZWlnaHRcclxuICAgIG92ZXJmbG93LXk6IGF1dG87IC8vIEtlZXAgc2Nyb2xsaW5nIGlmIGNvbnRlbnQgaXMgdG9vIGxvbmdcclxuICAgIHRyYW5zaXRpb246IGhlaWdodCAwLjNzIGVhc2U7IC8vIFNtb290aCBoZWlnaHQgdHJhbnNpdGlvbnNcclxuICAgIFxyXG4gICAgLy8gRW5zdXJlIHByb3BlciBwYWRkaW5nIGFuZCBzcGFjaW5nXHJcbiAgICBwYWRkaW5nOiAxNnB4O1xyXG4gICAgbWFyZ2luLWJvdHRvbTogZW52KHNhZmUtYXJlYS1pbnNldC1ib3R0b20sIDBweCk7IC8vIEFjY291bnQgZm9yIG5vdGNoZXMvaG9tZSBpbmRpY2F0b3JzXHJcbiAgICBcclxuICAgIC8vIFdoZW4gaW4gZGlmZmVyZW50IHN0YWdlcywgYWRqdXN0IGhlaWdodCBhY2NvcmRpbmdseVxyXG4gICAgJltuZ0lmPVwidHJhY2tpbmdTdGFnZVwiXSxcclxuICAgICZbbmdJZj1cImRyaXZpbmdUb0Rlc3RpbmF0aW9uU3RhZ2VcIl0ge1xyXG4gICAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICAgIG1pbi1oZWlnaHQ6IDIwMHB4OyAvLyBTbGlnaHRseSB0YWxsZXIgZm9yIHRoZXNlIHN0YWdlc1xyXG4gICAgfVxyXG4gICAgXHJcbiAgICAmW25nSWY9XCJzZWFyY2hpbmdTdGFnZVwiXSB7XHJcbiAgICAgIGhlaWdodDogYXV0bztcclxuICAgICAgbWluLWhlaWdodDogMTgwcHg7XHJcbiAgICB9XHJcbiAgICBcclxuICAgICZbbmdJZj1cImNvbmZpcm1TdGFnZVwiXSB7XHJcbiAgICAgIGhlaWdodDogYXV0bztcclxuICAgICAgbWluLWhlaWdodDogMjUwcHg7XHJcbiAgICB9XHJcbiAgICBcclxuICAgIGJhY2tncm91bmQ6IHJnYmEoMjU1LCAyNTUsIDI1NSwgMC45NSk7XHJcbiAgICBiYWNrZHJvcC1maWx0ZXI6IGJsdXIoMTBweCk7XHJcbiAgICBib3JkZXItcmFkaXVzOiAyNHB4IDI0cHggMCAwO1xyXG4gICAgXHJcbiAgICAucGF5bWVudCB7XHJcbiAgICAgIG1hcmdpbjogMDtcclxuICAgICAgcGFkZGluZzogMTJweCAwO1xyXG4gICAgICBcclxuICAgICAgaW9uLWl0ZW0ge1xyXG4gICAgICAgIC0tcGFkZGluZy1zdGFydDogMDtcclxuICAgICAgICAtLWlubmVyLXBhZGRpbmctZW5kOiAwO1xyXG4gICAgICAgIGJvcmRlci1yYWRpdXM6IDE2cHg7XHJcbiAgICAgICAgbWFyZ2luLWJvdHRvbTogMTJweDtcclxuICAgICAgICBcclxuICAgICAgICAmOmxhc3QtY2hpbGQge1xyXG4gICAgICAgICAgbWFyZ2luLWJvdHRvbTogMDtcclxuICAgICAgICB9XHJcbiAgICAgICAgXHJcbiAgICAgICAgaW9uLWF2YXRhciB7XHJcbiAgICAgICAgICB3aWR0aDogNDhweDtcclxuICAgICAgICAgIGhlaWdodDogNDhweDtcclxuICAgICAgICAgIG1hcmdpbi1yaWdodDogMTJweDtcclxuICAgICAgICB9XHJcbiAgICAgICAgXHJcbiAgICAgICAgaW9uLWxhYmVsIHtcclxuICAgICAgICAgIGgxIHtcclxuICAgICAgICAgICAgZm9udC1zaXplOiAxNnB4O1xyXG4gICAgICAgICAgICBmb250LXdlaWdodDogNjAwO1xyXG4gICAgICAgICAgICBtYXJnaW4tYm90dG9tOiA0cHg7XHJcbiAgICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgICAgICAgICAgIGdhcDogOHB4O1xyXG4gICAgICAgICAgICBcclxuICAgICAgICAgICAgaW9uLWljb24ge1xyXG4gICAgICAgICAgICAgIGZvbnQtc2l6ZTogMThweDtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgICAgXHJcbiAgICAgICAgICBwIHtcclxuICAgICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xyXG4gICAgICAgICAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgICAgICAgICAgIGdhcDogOHB4O1xyXG4gICAgICAgICAgICBcclxuICAgICAgICAgICAgaW9uLWljb24ge1xyXG4gICAgICAgICAgICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG4gICAgICBcclxuICAgICAgLnByaWNlIHtcclxuICAgICAgICB0ZXh0LWFsaWduOiByaWdodDtcclxuICAgICAgICBcclxuICAgICAgICBoMSB7XHJcbiAgICAgICAgICBmb250LXNpemU6IDIwcHg7XHJcbiAgICAgICAgICBmb250LXdlaWdodDogNzAwO1xyXG4gICAgICAgICAgY29sb3I6IHZhcigtLWlvbi1jb2xvci1wcmltYXJ5KTtcclxuICAgICAgICAgIG1hcmdpbjogMDtcclxuICAgICAgICB9XHJcbiAgICAgICAgXHJcbiAgICAgICAgcCBkZWwge1xyXG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xyXG4gICAgICAgICAgY29sb3I6IHZhcigtLWlvbi1jb2xvci1tZWRpdW0pO1xyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG4gICAgfVxyXG4gIH1cclxuICBcclxuICAuY2FyZCB7XHJcbiAgICBtYXJnaW4tdG9wOiAxNnB4O1xyXG4gICAgYm9yZGVyLXJhZGl1czogMTZweDtcclxuICAgIGJhY2tncm91bmQ6IHZhcigtLWlvbi1jb2xvci1saWdodCk7XHJcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgXHJcbiAgICBpb24taXRlbSB7XHJcbiAgICAgIC0tcGFkZGluZy1zdGFydDogMTZweDtcclxuICAgICAgLS1wYWRkaW5nLWVuZDogMTZweDtcclxuICAgICAgLS1iYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDtcclxuICAgICAgXHJcbiAgICAgIGlvbi1zZWxlY3Qge1xyXG4gICAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICAgIG1heC13aWR0aDogMTAwJTtcclxuICAgICAgICAtLXBhZGRpbmctc3RhcnQ6IDA7XHJcbiAgICAgIH1cclxuICAgIH1cclxuICAgIFxyXG4gICAgaW9uLWJ1dHRvbiB7XHJcbiAgICAgIG1hcmdpbjogMTZweDtcclxuICAgICAgLS1ib3JkZXItcmFkaXVzOiAxMnB4O1xyXG4gICAgICAtLXBhZGRpbmctdG9wOiAxNnB4O1xyXG4gICAgICAtLXBhZGRpbmctYm90dG9tOiAxNnB4O1xyXG4gICAgICBcclxuICAgICAgaW9uLWljb24ge1xyXG4gICAgICAgIG1hcmdpbi1yaWdodDogOHB4O1xyXG4gICAgICB9XHJcbiAgICAgIFxyXG4gICAgICAmW2Rpc2FibGVkXSB7XHJcbiAgICAgICAgb3BhY2l0eTogMC43O1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4vLyBNb2Rlcm4gUHJvZ3Jlc3MgQmFyXHJcbmlvbi1wcm9ncmVzcy1iYXIge1xyXG4gIGJvcmRlci1yYWRpdXM6IDRweDtcclxuICBoZWlnaHQ6IDRweDtcclxuICBtYXJnaW46IDhweCAwO1xyXG4gIFxyXG4gICZbdHlwZT1cImluZGV0ZXJtaW5hdGVcIl0ge1xyXG4gICAgLS1wcm9ncmVzcy1iYWNrZ3JvdW5kOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgfVxyXG59XHJcblxyXG4vLyBTa2VsZXRvbiBMb2FkaW5nIEFuaW1hdGlvblxyXG5pb24tc2tlbGV0b24tdGV4dCB7XHJcbiAgLS1ib3JkZXItcmFkaXVzOiA4cHg7XHJcbiAgLS1iYWNrZ3JvdW5kOiByZ2JhKHZhcigtLWlvbi1jb2xvci1wcmltYXJ5LXJnYiksIDAuMSk7XHJcbn1cclxuXHJcbi8vIFNoYXJlZCBzdHlsZXMgZm9yIGFsbCB0cmFja2luZyBiYXJzXHJcbi5ib3R0b21JdGVtcyB7XHJcbiAgJi5zaGFkb3ctdG9wIHtcclxuICAgIC8vIC4uLiBleGlzdGluZyBzdHlsZXMgLi4uXHJcbiAgICBcclxuICAgIC8vIENvbm5lY3RpbmcgdG8gZHJpdmVyIGJhciAoc2VhcmNoaW5nU3RhZ2UpXHJcbiAgICAmOmhhcyhpb24tcHJvZ3Jlc3MtYmFyW3R5cGU9XCJpbmRldGVybWluYXRlXCJdKSB7XHJcbiAgICAgIC5pb24tbWFyZ2luLWhvcml6b250YWwge1xyXG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgICAgICBnYXA6IDEycHg7XHJcbiAgICAgICAgXHJcbiAgICAgICAgaW9uLWJ1dHRvbiB7XHJcbiAgICAgICAgICBhbGlnbi1zZWxmOiBmbGV4LWVuZDtcclxuICAgICAgICAgIC0tcGFkZGluZy1zdGFydDogMTJweDtcclxuICAgICAgICAgIC0tcGFkZGluZy1lbmQ6IDEycHg7XHJcbiAgICAgICAgICAtLWJvcmRlci1yYWRpdXM6IDIwcHg7XHJcbiAgICAgICAgICBoZWlnaHQ6IDQwcHg7XHJcbiAgICAgICAgICBcclxuICAgICAgICAgIGlvbi1pY29uIHtcclxuICAgICAgICAgICAgZm9udC1zaXplOiAxOHB4O1xyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG4gICAgICBcclxuICAgICAgaW9uLWxpc3QtaGVhZGVyIHtcclxuICAgICAgICBwYWRkaW5nOiAwO1xyXG4gICAgICAgIFxyXG4gICAgICAgIGlvbi1pdGVtIHtcclxuICAgICAgICAgIC0tcGFkZGluZy1zdGFydDogMDtcclxuICAgICAgICAgIC0taW5uZXItcGFkZGluZy1lbmQ6IDA7XHJcbiAgICAgICAgICBcclxuICAgICAgICAgIGlvbi1hdmF0YXIge1xyXG4gICAgICAgICAgICB3aWR0aDogNTZweDtcclxuICAgICAgICAgICAgaGVpZ2h0OiA1NnB4O1xyXG4gICAgICAgICAgICBib3JkZXI6IDJweCBzb2xpZCB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgICBcclxuICAgICAgICAgIGlvbi1sYWJlbCB7XHJcbiAgICAgICAgICAgIG1hcmdpbi1sZWZ0OiAxMnB4O1xyXG4gICAgICAgICAgICBcclxuICAgICAgICAgICAgaDEge1xyXG4gICAgICAgICAgICAgIGZvbnQtc2l6ZTogMThweDtcclxuICAgICAgICAgICAgICBmb250LXdlaWdodDogNjAwO1xyXG4gICAgICAgICAgICAgIG1hcmdpbi1ib3R0b206IDRweDtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICBcclxuICAgICAgICAgICAgcCB7XHJcbiAgICAgICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xyXG4gICAgICAgICAgICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICAgIH1cclxuICAgICAgICB9XHJcbiAgICAgIH1cclxuICAgIH1cclxuICAgIFxyXG4gICAgLy8gRHJpdmVyIHRyYWNraW5nIHN0eWxlcyAodHJhY2tpbmdTdGFnZSAmIGRyaXZpbmdUb0Rlc3RpbmF0aW9uU3RhZ2UpXHJcbiAgICAuY2FyZCB7XHJcbiAgICAgIC8vIC4uLiBleGlzdGluZyBzdHlsZXMgLi4uXHJcbiAgICAgIFxyXG4gICAgICAvLyBFbmhhbmNlZCBkcml2ZXIgaW5mbyBsYXlvdXRcclxuICAgICAgaW9uLWl0ZW0ge1xyXG4gICAgICAgIC8vIC4uLiBleGlzdGluZyBzdHlsZXMgLi4uXHJcbiAgICAgICAgbWFyZ2luLWJvdHRvbTogOHB4O1xyXG4gICAgICAgIFxyXG4gICAgICAgICY6bGFzdC1jaGlsZCB7XHJcbiAgICAgICAgICBtYXJnaW4tYm90dG9tOiAwO1xyXG4gICAgICAgIH1cclxuICAgICAgICBcclxuICAgICAgICBpb24tYXZhdGFyIHtcclxuICAgICAgICAgIHdpZHRoOiA1MnB4O1xyXG4gICAgICAgICAgaGVpZ2h0OiA1MnB4O1xyXG4gICAgICAgICAgYm9yZGVyOiAycHggc29saWQgdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpO1xyXG4gICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG4gICAgICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XHJcbiAgICAgICAgICBcclxuICAgICAgICAgICY6OmFmdGVyIHtcclxuICAgICAgICAgICAgY29udGVudDogJyc7XHJcbiAgICAgICAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgICAgICAgICAgYm90dG9tOiAtMnB4O1xyXG4gICAgICAgICAgICByaWdodDogLTJweDtcclxuICAgICAgICAgICAgd2lkdGg6IDE0cHg7XHJcbiAgICAgICAgICAgIGhlaWdodDogMTRweDtcclxuICAgICAgICAgICAgYmFja2dyb3VuZDogdmFyKC0taW9uLWNvbG9yLXN1Y2Nlc3MpO1xyXG4gICAgICAgICAgICBib3JkZXItcmFkaXVzOiA1MCU7XHJcbiAgICAgICAgICAgIGJvcmRlcjogMnB4IHNvbGlkIHdoaXRlO1xyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgICBcclxuICAgICAgICAmLnByaWNlIHtcclxuICAgICAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgICAgICAgXHJcbiAgICAgICAgICBpb24tbGFiZWwge1xyXG4gICAgICAgICAgICBoMSB7XHJcbiAgICAgICAgICAgICAgZm9udC1zaXplOiAyNHB4O1xyXG4gICAgICAgICAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7XHJcbiAgICAgICAgICAgICAgY29sb3I6IHZhcigtLWlvbi1jb2xvci1wcmltYXJ5KTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgICBcclxuICAgICAgICAvLyBEcml2ZXIgY2FyIGluZm9cclxuICAgICAgICAmOmhhcyhpb24tbGFiZWwgcDpmaXJzdC1jaGlsZCkge1xyXG4gICAgICAgICAgLS1iYWNrZ3JvdW5kOiByZ2JhKHZhcigtLWlvbi1jb2xvci1saWdodC1yZ2IpLCAwLjUpO1xyXG4gICAgICAgICAgYm9yZGVyLXJhZGl1czogMTJweDtcclxuICAgICAgICAgIG1hcmdpbjogOHB4IDA7XHJcbiAgICAgICAgICBcclxuICAgICAgICAgIGlvbi1sYWJlbCB7XHJcbiAgICAgICAgICAgIHAge1xyXG4gICAgICAgICAgICAgIGZvbnQtc2l6ZTogMTNweDtcclxuICAgICAgICAgICAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICAgICAgICAgICAgbWFyZ2luLWJvdHRvbTogNHB4O1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICAgIFxyXG4gICAgICAgICAgICBoMSB7XHJcbiAgICAgICAgICAgICAgZm9udC1zaXplOiAxNnB4O1xyXG4gICAgICAgICAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7XHJcbiAgICAgICAgICAgICAgbGV0dGVyLXNwYWNpbmc6IDFweDtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgICBcclxuICAgICAgICAvLyBQYXltZW50IG1ldGhvZCBpdGVtXHJcbiAgICAgICAgJjpoYXMoaW9uLWljb25bbmFtZT1cImNhc2hcIl0pLCBcclxuICAgICAgICAmOmhhcyhpb24taWNvbltuYW1lPVwiY2FyZFwiXSkge1xyXG4gICAgICAgICAgLS1iYWNrZ3JvdW5kOiByZ2JhKHZhcigtLWlvbi1jb2xvci1saWdodC1yZ2IpLCAwLjUpO1xyXG4gICAgICAgICAgYm9yZGVyLXJhZGl1czogMTJweDtcclxuICAgICAgICAgIFxyXG4gICAgICAgICAgaW9uLWxhYmVsIGgxIHtcclxuICAgICAgICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgICAgICAgICAgZ2FwOiA4cHg7XHJcbiAgICAgICAgICAgIFxyXG4gICAgICAgICAgICBpb24taWNvbiB7XHJcbiAgICAgICAgICAgICAgZm9udC1zaXplOiAyMHB4O1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgICBcclxuICAgIC8vIEFycml2YWwgdGltZSBoZWFkZXJcclxuICAgIGlvbi1saXN0LWhlYWRlci5pb24tbWFyZ2luLWJvdHRvbSB7XHJcbiAgICAgIHBhZGRpbmc6IDEycHggMTZweDtcclxuICAgICAgYmFja2dyb3VuZDogcmdiYSh2YXIoLS1pb24tY29sb3ItcHJpbWFyeS1yZ2IpLCAwLjEpO1xyXG4gICAgICBib3JkZXItcmFkaXVzOiAxNnB4O1xyXG4gICAgICBtYXJnaW4tYm90dG9tOiAxNnB4ICFpbXBvcnRhbnQ7XHJcbiAgICAgIFxyXG4gICAgICBoMSB7XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgICAgbWFyZ2luOiAwO1xyXG4gICAgICAgIGZvbnQtc2l6ZTogMThweDtcclxuICAgICAgICBmb250LXdlaWdodDogNjAwO1xyXG4gICAgICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgIH1cclxuICAgIH1cclxuICAgIFxyXG4gICAgLy8gQWNjb3JkaW9uIGdyb3VwIHN0eWxpbmdcclxuICAgIGlvbi1hY2NvcmRpb24tZ3JvdXAge1xyXG4gICAgICBtYXJnaW4tdG9wOiAxNnB4O1xyXG4gICAgICBcclxuICAgICAgaW9uLWFjY29yZGlvbiB7XHJcbiAgICAgICAgLS1ib3JkZXItcmFkaXVzOiAxMnB4O1xyXG4gICAgICAgIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgICAgICAgXHJcbiAgICAgICAgaW9uLWl0ZW1bc2xvdD1cImhlYWRlclwiXSB7XHJcbiAgICAgICAgICAtLWJhY2tncm91bmQ6IHJnYmEodmFyKC0taW9uLWNvbG9yLWxpZ2h0LXJnYiksIDAuNSk7XHJcbiAgICAgICAgICAtLWJvcmRlci1yYWRpdXM6IDEycHg7XHJcbiAgICAgICAgICBcclxuICAgICAgICAgIGlvbi1sYWJlbCBoMSB7XHJcbiAgICAgICAgICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgICAgICAgICAgZm9udC13ZWlnaHQ6IDUwMDtcclxuICAgICAgICAgICAgY29sb3I6IHZhcigtLWlvbi1jb2xvci1wcmltYXJ5KTtcclxuICAgICAgICAgIH1cclxuICAgICAgICB9XHJcbiAgICAgICAgXHJcbiAgICAgICAgZGl2W3Nsb3Q9XCJjb250ZW50XCJdIHtcclxuICAgICAgICAgIHBhZGRpbmc6IDE2cHg7XHJcbiAgICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgICAgICAgIGdhcDogMTJweDtcclxuICAgICAgICAgIFxyXG4gICAgICAgICAgaW9uLWJ1dHRvbiB7XHJcbiAgICAgICAgICAgIG1hcmdpbjogMDtcclxuICAgICAgICAgICAgLS1ib3JkZXItd2lkdGg6IDFweDtcclxuICAgICAgICAgICAgXHJcbiAgICAgICAgICAgICY6bGFzdC1jaGlsZCB7XHJcbiAgICAgICAgICAgICAgLS1iYWNrZ3JvdW5kOiByZ2JhKHZhcigtLWlvbi1jb2xvci1kYW5nZXItcmdiKSwgMC4xKTtcclxuICAgICAgICAgICAgICAtLWNvbG9yOiB2YXIoLS1pb24tY29sb3ItZGFuZ2VyKTtcclxuICAgICAgICAgICAgICAtLWJvcmRlci1jb2xvcjogdmFyKC0taW9uLWNvbG9yLWRhbmdlcik7XHJcbiAgICAgICAgICAgICAgXHJcbiAgICAgICAgICAgICAgaW9uLWljb24ge1xyXG4gICAgICAgICAgICAgICAgY29sb3I6IHZhcigtLWlvbi1jb2xvci1kYW5nZXIpICFpbXBvcnRhbnQ7XHJcbiAgICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4vLyBBbmltYXRpb24gZm9yIGRyaXZlciBhdmF0YXJcclxuQGtleWZyYW1lcyBwdWxzZSB7XHJcbiAgMCUge1xyXG4gICAgYm94LXNoYWRvdzogMCAwIDAgMCByZ2JhKHZhcigtLWlvbi1jb2xvci1wcmltYXJ5LXJnYiksIDAuNCk7XHJcbiAgfVxyXG4gIDcwJSB7XHJcbiAgICBib3gtc2hhZG93OiAwIDAgMCAxMHB4IHJnYmEodmFyKC0taW9uLWNvbG9yLXByaW1hcnktcmdiKSwgMCk7XHJcbiAgfVxyXG4gIDEwMCUge1xyXG4gICAgYm94LXNoYWRvdzogMCAwIDAgMCByZ2JhKHZhcigtLWlvbi1jb2xvci1wcmltYXJ5LXJnYiksIDApO1xyXG4gIH1cclxufVxyXG5cclxuLmJvdHRvbUl0ZW1zIGlvbi1saXN0W25nSWY9XCJzZWFyY2hpbmdTdGFnZVwiXSBpb24tYXZhdGFyLFxyXG4uYm90dG9tSXRlbXMgaW9uLWxpc3RbbmdJZj1cInRyYWNraW5nU3RhZ2VcIl0gaW9uLWF2YXRhcixcclxuLmJvdHRvbUl0ZW1zIGlvbi1saXN0W25nSWY9XCJkcml2aW5nVG9EZXN0aW5hdGlvblN0YWdlXCJdIGlvbi1hdmF0YXIge1xyXG4gIGFuaW1hdGlvbjogcHVsc2UgMnMgaW5maW5pdGU7XHJcbn1cclxuXHJcbi8vIENvbnNpc3RlbnQgaGVpZ2h0IGZvciBhbGwgYm90dG9tIGJhcnNcclxuLmJvdHRvbUl0ZW1zIHtcclxuICAmLnNoYWRvdy10b3Age1xyXG4gICAgLy8gQ29tbW9uIHNldHRpbmdzIGZvciBhbGwgYm90dG9tIGJhcnNcclxuICAgIG1heC1oZWlnaHQ6IGNhbGMoNDB2aCAtIDIwcHgpO1xyXG4gICAgb3ZlcmZsb3cteTogYXV0bztcclxuICAgIFxyXG4gICAgLy8gQ29uc2lzdGVudCBjYXJkIHN0eWxpbmcgYWNyb3NzIGFsbCBib3R0b20gYmFyc1xyXG4gICAgLmNhcmQge1xyXG4gICAgICBtYXJnaW4tdG9wOiAxMnB4O1xyXG4gICAgICBib3JkZXItcmFkaXVzOiAxNnB4O1xyXG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1pb24tY29sb3ItbGlnaHQpO1xyXG4gICAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgICBcclxuICAgICAgLy8gTW9yZSBjb21wYWN0IGl0ZW0gc3BhY2luZyBmb3IgdHJhY2tpbmcvZGVzdGluYXRpb24gc3RhZ2VzXHJcbiAgICAgIGlvbi1pdGVtIHtcclxuICAgICAgICAtLW1pbi1oZWlnaHQ6IDQ4cHg7IC8vIFJlZHVjZSBkZWZhdWx0IGl0ZW0gaGVpZ2h0XHJcbiAgICAgICAgbWFyZ2luLWJvdHRvbTogMDsgLy8gUmVtb3ZlIG1hcmdpbiBiZXR3ZWVuIGl0ZW1zXHJcbiAgICAgICAgXHJcbiAgICAgICAgLy8gUmVkdWNlIHBhZGRpbmcgaW5zaWRlIGl0ZW1zXHJcbiAgICAgICAgJi5wcmljZSBpb24tbGFiZWwgaDEge1xyXG4gICAgICAgICAgZm9udC1zaXplOiAxOHB4OyAvLyBTbGlnaHRseSBzbWFsbGVyIHByaWNlIGZvbnRcclxuICAgICAgICAgIG1hcmdpbi10b3A6IDA7XHJcbiAgICAgICAgICBtYXJnaW4tYm90dG9tOiAwO1xyXG4gICAgICAgIH1cclxuICAgICAgICBcclxuICAgICAgICAvLyBNYWtlIG5lc3RlZCBpdGVtcyBtb3JlIGNvbXBhY3RcclxuICAgICAgICBpb24taXRlbSB7XHJcbiAgICAgICAgICAtLW1pbi1oZWlnaHQ6IDQycHg7XHJcbiAgICAgICAgICBcclxuICAgICAgICAgIGlvbi1sYWJlbCB7XHJcbiAgICAgICAgICAgIG1hcmdpbi10b3A6IDRweDtcclxuICAgICAgICAgICAgbWFyZ2luLWJvdHRvbTogNHB4O1xyXG4gICAgICAgICAgICBcclxuICAgICAgICAgICAgaDEge1xyXG4gICAgICAgICAgICAgIGZvbnQtc2l6ZTogMTVweDtcclxuICAgICAgICAgICAgICBtYXJnaW4tdG9wOiAwO1xyXG4gICAgICAgICAgICAgIG1hcmdpbi1ib3R0b206IDJweDtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICBcclxuICAgICAgICAgICAgcCB7XHJcbiAgICAgICAgICAgICAgZm9udC1zaXplOiAxMnB4O1xyXG4gICAgICAgICAgICAgIG1hcmdpbi10b3A6IDA7XHJcbiAgICAgICAgICAgICAgbWFyZ2luLWJvdHRvbTogMDtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgIH1cclxuICAgICAgICBcclxuICAgICAgICAvLyBNYWtlIGF2YXRhcnMgc21hbGxlciBhbmQgY29uc2lzdGVudFxyXG4gICAgICAgIGlvbi1hdmF0YXIge1xyXG4gICAgICAgICAgd2lkdGg6IDQwcHg7XHJcbiAgICAgICAgICBoZWlnaHQ6IDQwcHg7XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgICBcclxuICAgIC8vIE1vcmUgY29tcGFjdCBoZWFkZXJcclxuICAgIGlvbi1saXN0LWhlYWRlciB7XHJcbiAgICAgIHBhZGRpbmc6IDhweDtcclxuICAgICAgbWluLWhlaWdodDogdW5zZXQ7XHJcbiAgICAgIFxyXG4gICAgICBpb24tbGFiZWwgaDEge1xyXG4gICAgICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgICAgICBtYXJnaW4tdG9wOiA0cHg7XHJcbiAgICAgICAgbWFyZ2luLWJvdHRvbTogNHB4O1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgICBcclxuICAgIC8vIFNwZWNpZmljYWxseSBmb3IgdHJhY2tpbmcgc3RhZ2VzLCBtYWtlIHRoZW0gbW9yZSBjb21wYWN0XHJcbiAgICBpb24tbGlzdC5ib3R0b21JdGVtcy5zaGFkb3ctdG9wW25nSWY9XCJ0cmFja2luZ1N0YWdlXCJdIC5pb24tbWFyZ2luLWJvdHRvbSxcclxuICAgIGlvbi1saXN0LmJvdHRvbUl0ZW1zLnNoYWRvdy10b3BbbmdJZj1cImRyaXZpbmdUb0Rlc3RpbmF0aW9uU3RhZ2VcIl0gLmlvbi1tYXJnaW4tYm90dG9tIHtcclxuICAgICAgbWFyZ2luLWJvdHRvbTogOHB4ICFpbXBvcnRhbnQ7XHJcbiAgICB9XHJcblxyXG4gICAgaW9uLWxpc3QuYm90dG9tSXRlbXMuc2hhZG93LXRvcFtuZ0lmPVwidHJhY2tpbmdTdGFnZVwiXSBpb24tYWNjb3JkaW9uLWdyb3VwLFxyXG4gICAgaW9uLWxpc3QuYm90dG9tSXRlbXMuc2hhZG93LXRvcFtuZ0lmPVwiZHJpdmluZ1RvRGVzdGluYXRpb25TdGFnZVwiXSBpb24tYWNjb3JkaW9uLWdyb3VwIHtcclxuICAgICAgbWFyZ2luLXRvcDogOHB4O1xyXG4gICAgfVxyXG4gIH1cclxufVxyXG5cclxuLy8gTWFrZSBhY2NvcmRpb24gbW9yZSBjb21wYWN0IGZvciBhY3Rpb24gYnV0dG9uc1xyXG5pb24tYWNjb3JkaW9uIGRpdltzbG90PVwiY29udGVudFwiXSB7XHJcbiAgcGFkZGluZzogOHB4ICFpbXBvcnRhbnQ7XHJcbiAgXHJcbiAgaW9uLWJ1dHRvbiB7XHJcbiAgICAtLXBhZGRpbmctdG9wOiA4cHg7XHJcbiAgICAtLXBhZGRpbmctYm90dG9tOiA4cHg7XHJcbiAgICBtYXJnaW4tYm90dG9tOiA0cHg7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgfVxyXG59XHJcblxyXG4vLyBCZXR0ZXIgbGF5b3V0IGZvciBkcml2ZXIgY2FyZFxyXG4uZHJpdmVyLWNhcmQtaXRlbSB7XHJcbiAgLS1wYWRkaW5nLXN0YXJ0OiAxNnB4O1xyXG4gIC0tcGFkZGluZy1lbmQ6IDE2cHg7XHJcbiAgLS1pbm5lci1wYWRkaW5nLWVuZDogMDtcclxuICBtYXJnaW4tYm90dG9tOiA4cHg7XHJcbn1cclxuXHJcbi8vIENvbnRhaW5lciBmb3IgZHJpdmVyIGF2YXRhciBhbmQgcmF0aW5nXHJcbi5kcml2ZXItYXZhdGFyLWNvbnRhaW5lciB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgbWluLXdpZHRoOiA2MHB4O1xyXG4gIFxyXG4gIGlvbi1hdmF0YXIge1xyXG4gICAgd2lkdGg6IDUwcHg7XHJcbiAgICBoZWlnaHQ6IDUwcHg7XHJcbiAgICBtYXJnaW4tYm90dG9tOiA0cHg7XHJcbiAgfVxyXG4gIFxyXG4gIC5kcml2ZXItcmF0aW5nIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBcclxuICAgIGlvbi1pY29uIHtcclxuICAgICAgbWFyZ2luLXJpZ2h0OiAycHg7XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4vLyBQcmljZSBjb250YWluZXIgc3R5bGluZ1xyXG4ucHJpY2UtY29udGFpbmVyIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGp1c3RpZnktY29udGVudDogZmxleC1lbmQ7XHJcbiAgbWluLXdpZHRoOiA3MHB4O1xyXG4gIFxyXG4gIGgxIHtcclxuICAgIGZvbnQtc2l6ZTogMjBweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gICAgbWFyZ2luOiAwO1xyXG4gIH1cclxufVxyXG5cclxuLy8gQmV0dGVyIGFjY29yZGlvbiBzdHlsaW5nXHJcbi5kcml2ZXItYWN0aW9ucy1hY2NvcmRpb24ge1xyXG4gIG1hcmdpbi10b3A6IDhweDtcclxuICBib3JkZXItdG9wOiAxcHggc29saWQgdmFyKC0taW9uLWNvbG9yLWxpZ2h0LXNoYWRlKTtcclxuICBcclxuICAuYWNjb3JkaW9uLWhlYWRlciB7XHJcbiAgICAtLWJhY2tncm91bmQ6IHZhcigtLWlvbi1jb2xvci1saWdodCk7XHJcbiAgfVxyXG4gIFxyXG4gIC5hY2NvcmRpb24tY29udGVudCB7XHJcbiAgICBwYWRkaW5nOiA4cHggMTZweCAxNnB4O1xyXG4gICAgXHJcbiAgICBpb24tYnV0dG9uIHtcclxuICAgICAgbWFyZ2luLXRvcDogMTBweDtcclxuICAgIH1cclxuICB9XHJcbn1cclxuXHJcbi8vIEdlbmVyYWwgY2FyZCBzdHlsZXNcclxuLmNhcmQge1xyXG4gIGJhY2tncm91bmQ6IHdoaXRlO1xyXG4gIGJvcmRlci1yYWRpdXM6IDhweDtcclxuICBib3gtc2hhZG93OiAwIDJweCA4cHggcmdiYSgwLCAwLCAwLCAwLjEpO1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgbWFyZ2luOiAwIDE2cHggMTZweDtcclxufVxyXG5cclxuLy8gRml4IG5lc3RlZCBpdGVtcyBpc3N1ZVxyXG5pb24taXRlbSBpb24taXRlbSB7XHJcbiAgLS1wYWRkaW5nLXN0YXJ0OiAwO1xyXG4gIC0taW5uZXItcGFkZGluZy1lbmQ6IDA7XHJcbn1cclxuXHJcbi8vIE1ha2Ugc3VyZSBib3R0b20gaXRlbXMgYXJlIHRhbGwgZW5vdWdoIHRvIGJlIHNjcm9sbGFibGUvdmlzaWJsZVxyXG4uYm90dG9tSXRlbXMge1xyXG4gIG1heC1oZWlnaHQ6IDYwdmg7XHJcbiAgb3ZlcmZsb3cteTogYXV0bztcclxufVxyXG5cclxuLy8gTW9kZXJuIHJpZGUgY29uZmlybWF0aW9uIGNhcmQgc3R5bGVzXHJcbi5yaWRlLWNvbmZpcm1hdGlvbi1jYXJkIHtcclxuICBiYWNrZ3JvdW5kOiB3aGl0ZTtcclxuICBib3JkZXItcmFkaXVzOiAxNnB4IDE2cHggMCAwO1xyXG4gIHBhZGRpbmc6IDE2cHg7XHJcbiAgYm94LXNoYWRvdzogMCAtNHB4IDEycHggcmdiYSgwLCAwLCAwLCAwLjEpO1xyXG4gIFxyXG4gIC5yaWRlLWRldGFpbHMge1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMTZweDtcclxuICAgIFxyXG4gICAgJi5za2VsZXRvbiB7XHJcbiAgICAgIG9wYWNpdHk6IDAuNztcclxuICAgIH1cclxuICB9XHJcbiAgXHJcbiAgLnZlaGljbGUtaW5mbyB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIHBhZGRpbmc6IDEycHg7XHJcbiAgICBiYWNrZ3JvdW5kOiAjZjhmOWZhO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMTJweDtcclxuICAgIGN1cnNvcjogcG9pbnRlcjtcclxuICAgIHRyYW5zaXRpb246IGFsbCAwLjJzIGVhc2U7XHJcbiAgICBcclxuICAgICY6YWN0aXZlIHtcclxuICAgICAgYmFja2dyb3VuZDogI2VlZjBmMjtcclxuICAgIH1cclxuICAgIFxyXG4gICAgaW9uLWF2YXRhciB7XHJcbiAgICAgIHdpZHRoOiA0OHB4O1xyXG4gICAgICBoZWlnaHQ6IDQ4cHg7XHJcbiAgICAgIG1hcmdpbi1yaWdodDogMTJweDtcclxuICAgICAgZmxleC1zaHJpbms6IDA7XHJcbiAgICB9XHJcbiAgICBcclxuICAgIC52ZWhpY2xlLWRldGFpbHMge1xyXG4gICAgICBmbGV4OiAxO1xyXG4gICAgICBcclxuICAgICAgaDIge1xyXG4gICAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7XHJcbiAgICAgICAgbWFyZ2luOiAwIDAgNHB4O1xyXG4gICAgICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgICAgICAgXHJcbiAgICAgICAgaW9uLWljb24ge1xyXG4gICAgICAgICAgbWFyZ2luLWxlZnQ6IDZweDtcclxuICAgICAgICAgIGZvbnQtc2l6ZTogMThweDtcclxuICAgICAgICB9XHJcbiAgICAgIH1cclxuICAgICAgXHJcbiAgICAgIC52ZWhpY2xlLXN0YXRzIHtcclxuICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgIGdhcDogMTJweDtcclxuICAgICAgICBtYXJnaW46IDA7XHJcbiAgICAgICAgZm9udC1zaXplOiAxNHB4O1xyXG4gICAgICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItbWVkaXVtKTtcclxuICAgICAgICBcclxuICAgICAgICBzcGFuIHtcclxuICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAgICAgICAgXHJcbiAgICAgICAgICBpb24taWNvbiB7XHJcbiAgICAgICAgICAgIG1hcmdpbi1yaWdodDogNHB4O1xyXG4gICAgICAgICAgICBmb250LXNpemU6IDE2cHg7XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgICBcclxuICAgIC5wcmljZS10YWcge1xyXG4gICAgICB0ZXh0LWFsaWduOiByaWdodDtcclxuICAgICAgbWFyZ2luLWxlZnQ6IDhweDtcclxuICAgICAgZmxleC1zaHJpbms6IDA7XHJcbiAgICAgIFxyXG4gICAgICBoMiB7XHJcbiAgICAgICAgZm9udC1zaXplOiAyMHB4O1xyXG4gICAgICAgIGZvbnQtd2VpZ2h0OiA3MDA7XHJcbiAgICAgICAgbWFyZ2luOiAwIDAgMnB4O1xyXG4gICAgICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgIH1cclxuICAgICAgXHJcbiAgICAgIC5vcmlnaW5hbC1wcmljZSB7XHJcbiAgICAgICAgZm9udC1zaXplOiAxNHB4O1xyXG4gICAgICAgIG1hcmdpbjogMDtcclxuICAgICAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICAgICAgXHJcbiAgICAgICAgZGVsIHtcclxuICAgICAgICAgIHRleHQtZGVjb3JhdGlvbi1jb2xvcjogdmFyKC0taW9uLWNvbG9yLWRhbmdlcik7XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG4gIFxyXG4gIC5wYXltZW50LXNlbGVjdG9yIHtcclxuICAgIG1hcmdpbjogMTZweCAwO1xyXG4gICAgXHJcbiAgICBpb24taXRlbSB7XHJcbiAgICAgIC0tYmFja2dyb3VuZDogI2Y4ZjlmYTtcclxuICAgICAgLS1wYWRkaW5nLXN0YXJ0OiAxMnB4O1xyXG4gICAgICAtLXBhZGRpbmctZW5kOiA4cHg7XHJcbiAgICAgIC0tbWluLWhlaWdodDogNTRweDtcclxuICAgICAgYm9yZGVyLXJhZGl1czogMTJweDtcclxuICAgICAgXHJcbiAgICAgIGlvbi1pY29uIHtcclxuICAgICAgICBmb250LXNpemU6IDIwcHg7XHJcbiAgICAgICAgbWFyZ2luLXJpZ2h0OiAxMHB4O1xyXG4gICAgICB9XHJcbiAgICAgIFxyXG4gICAgICBpb24tbGFiZWwge1xyXG4gICAgICAgIGZvbnQtd2VpZ2h0OiA1MDA7XHJcbiAgICAgICAgZm9udC1zaXplOiAxNXB4O1xyXG4gICAgICB9XHJcbiAgICAgIFxyXG4gICAgICBpb24tc2VsZWN0IHtcclxuICAgICAgICBtaW4td2lkdGg6IDEzMHB4O1xyXG4gICAgICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItcHJpbWFyeSk7XHJcbiAgICAgICAgZm9udC13ZWlnaHQ6IDUwMDtcclxuICAgICAgICAtLXBhZGRpbmctZW5kOiAxMnB4O1xyXG4gICAgICAgIC0tcGxhY2Vob2xkZXItb3BhY2l0eTogMTtcclxuICAgICAgfVxyXG4gICAgfVxyXG4gIH1cclxuICBcclxuICAuYm9vay1idXR0b24tY29udGFpbmVyIHtcclxuICAgIG1hcmdpbi10b3A6IDE2cHg7XHJcbiAgICBcclxuICAgIC5ib29rLXJpZGUtYnRuIHtcclxuICAgICAgLS1ib3JkZXItcmFkaXVzOiAxMnB4O1xyXG4gICAgICAtLXBhZGRpbmctdG9wOiAxNnB4O1xyXG4gICAgICAtLXBhZGRpbmctYm90dG9tOiAxNnB4O1xyXG4gICAgICBtYXJnaW46IDA7XHJcbiAgICAgIFxyXG4gICAgICBpb24taWNvbiB7XHJcbiAgICAgICAgbWFyZ2luLXJpZ2h0OiA4cHg7XHJcbiAgICAgIH1cclxuICAgICAgXHJcbiAgICAgIGlvbi1wcm9ncmVzcy1iYXIge1xyXG4gICAgICAgIHdpZHRoOiA2MCU7XHJcbiAgICAgICAgbWFyZ2luOiAwIGF1dG87XHJcbiAgICAgIH1cclxuICAgICAgXHJcbiAgICAgIGlvbi1sYWJlbCB7XHJcbiAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgICAgICBmb250LXNpemU6IDE2cHg7XHJcbiAgICAgIH1cclxuICAgIH1cclxuICB9XHJcbn1cclxuXHJcbi8vIFVwZGF0ZXMgdG8gbWFrZSBzdXJlIHRoZSBjYXJkIHN0aWNrcyBwcm9wZXJseSBhdCB0aGUgYm90dG9tXHJcbmlvbi1mb290ZXIgLmJvdHRvbUl0ZW1zLnNoYWRvdy10b3BbbmdJZj1cImNvbmZpcm1TdGFnZVwiXSB7XHJcbiAgcGFkZGluZzogMDtcclxuICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDtcclxuICBtYXgtaGVpZ2h0OiB1bnNldDtcclxuICBcclxuICAucmlkZS1jb25maXJtYXRpb24tY2FyZCB7XHJcbiAgICBhbmltYXRpb246IHNsaWRlLXRvcCAwLjRzIGN1YmljLWJlemllcigwLjI1MCwgMC40NjAsIDAuNDUwLCAwLjk0MCkgYm90aDtcclxuICB9XHJcbn1cclxuXHJcbi8vIEltcHJvdmUgYW5pbWF0aW9uIGZvciBza2VsZXRvbiBsb2FkaW5nIGFwcGVhcmFuY2VcclxuQGtleWZyYW1lcyBwdWxzZS1iZyB7XHJcbiAgMCUge1xyXG4gICAgb3BhY2l0eTogMC42O1xyXG4gIH1cclxuICA1MCUge1xyXG4gICAgb3BhY2l0eTogMTtcclxuICB9XHJcbiAgMTAwJSB7XHJcbiAgICBvcGFjaXR5OiAwLjY7XHJcbiAgfVxyXG59XHJcblxyXG4ucmlkZS1kZXRhaWxzLnNrZWxldG9uIHtcclxuICAudmVoaWNsZS1pbmZvIHtcclxuICAgIGlvbi1za2VsZXRvbi10ZXh0IHtcclxuICAgICAgYW5pbWF0aW9uOiBwdWxzZS1iZyAxLjVzIGluZmluaXRlO1xyXG4gICAgICAtLWJvcmRlci1yYWRpdXM6IDhweDtcclxuICAgICAgLS1iYWNrZ3JvdW5kOiByZ2JhKHZhcigtLWlvbi1jb2xvci1wcmltYXJ5LXJnYiksIDAuMTIpO1xyXG4gICAgfVxyXG4gIH1cclxufVxyXG5cclxuLy8gSW1wcm92ZSBzZWxlY3QgcG9wb3ZlciBhcHBlYXJhbmNlXHJcbi8vIE5vdGU6IFRoaXMgcmVxdWlyZXMgOnJvb3Qgc3R5bGluZyBmb3IgZ2xvYmFsIGltcGFjdCBvbiBpb24tc2VsZWN0c1xyXG46cm9vdCB7XHJcbiAgaW9uLXNlbGVjdC1wb3BvdmVyIHtcclxuICAgIC0td2lkdGg6IDI0MHB4O1xyXG4gICAgXHJcbiAgICAuc2VsZWN0LWludGVyZmFjZS1vcHRpb24ge1xyXG4gICAgICAtLXBhZGRpbmctc3RhcnQ6IDE2cHg7XHJcbiAgICAgIC0tcGFkZGluZy1lbmQ6IDE2cHg7XHJcbiAgICAgIFxyXG4gICAgICBpb24taWNvbiB7XHJcbiAgICAgICAgbWFyZ2luLXJpZ2h0OiAxMnB4O1xyXG4gICAgICAgIGZvbnQtc2l6ZTogMThweDtcclxuICAgICAgfVxyXG4gICAgfVxyXG4gIH1cclxufVxyXG5cclxuLy8gRGFyayBtb2RlIGRpc2FibGVkIC0gYXBwIHVzZXMgbGlnaHQgbW9kZSBvbmx5XHJcblxyXG4vLyBGaXggbWFwIHNpemluZyBhbmQgcG9zaXRpb25pbmdcclxuLm1hcC1jb250YWluZXIge1xyXG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICB3aWR0aDogMTAwJTtcclxuICBoZWlnaHQ6IGNhbGMoMTAwJSAtIHZhcigtLWJvdHRvbS1iYXItaGVpZ2h0LCAwcHgpKTtcclxuICB0b3A6IHZhcigtLWhlYWRlci1oZWlnaHQsIDBweCk7XHJcbiAgbGVmdDogMDtcclxuICB6LWluZGV4OiAxMDtcclxuICB0cmFuc2l0aW9uOiBoZWlnaHQgMC4zcyBlYXNlO1xyXG4gIFxyXG4gIC8vIEFkanVzdCBtYXAgaGVpZ2h0IGJhc2VkIG9uIGFjdGl2ZSBVSSBzdGFnZXNcclxuICAmLndpdGgtdHJhY2tpbmcge1xyXG4gICAgaGVpZ2h0OiBjYWxjKDEwMCUgLSAyMTBweCk7XHJcbiAgICB0b3A6IDU2cHg7IC8vIEFkanVzdCBmb3IgaGVhZGVyIGhlaWdodFxyXG4gIH1cclxuICBcclxuICAmLndpdGgtYm9va2luZyB7XHJcbiAgICBoZWlnaHQ6IGNhbGMoMTAwJSAtIDEwMHB4KTtcclxuICAgIHRvcDogMDtcclxuICB9XHJcbiAgXHJcbiAgJi53aXRoLWNvbmZpcm0ge1xyXG4gICAgaGVpZ2h0OiBjYWxjKDEwMCUgLSAyNjBweCk7XHJcbiAgICB0b3A6IDEyMHB4OyAvLyBBZGp1c3QgZm9yIGhlYWRlciBoZWlnaHRcclxuICB9XHJcbiAgXHJcbiAgJi53aXRoLXNlYXJjaGluZyB7XHJcbiAgICBoZWlnaHQ6IGNhbGMoMTAwJSAtIDE4MHB4KTtcclxuICAgIHRvcDogNTZweDsgLy8gQWRqdXN0IGZvciBoZWFkZXIgaGVpZ2h0XHJcbiAgfVxyXG59XHJcblxyXG5cclxuIl19 */"]
 });
 

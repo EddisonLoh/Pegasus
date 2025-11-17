@@ -1978,21 +1978,87 @@ class AuthService {
       try {
         // Ensure reCAPTCHA is initialized
         if (!_this.appVerifier || !_this.isRecaptchaInitialized) {
-          _this.recaptcha(); // Wait a bit for initialization
+          console.log('🔄 reCAPTCHA not initialized, initializing now...');
+
+          _this.recaptcha(); // Wait for initialization
 
 
-          yield new Promise(resolve => setTimeout(resolve, 500));
+          yield new Promise(resolve => setTimeout(resolve, 1000));
         }
 
         if (!_this.appVerifier) {
-          throw new Error('reCAPTCHA not initialized');
+          const error = new Error('reCAPTCHA not initialized');
+          error.code = 'auth/captcha-check-failed';
+          console.error('❌ reCAPTCHA initialization failed');
+          throw error;
         }
 
+        console.log('📱 Attempting to sign in with phone number:', phoneNumber);
+        console.log('🔐 reCAPTCHA initialized:', _this.isRecaptchaInitialized);
+        console.log('🌐 Platform:', navigator.userAgent);
         const confirmationResult = yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.signInWithPhoneNumber)(_this.auth, phoneNumber, _this.appVerifier);
         _this.confirmationResult = confirmationResult;
+        console.log('✅ Phone authentication successful');
         return confirmationResult;
       } catch (e) {
-        console.error('Sign in with phone number error:', e); // Reset reCAPTCHA on error
+        // Comprehensive error logging
+        console.error('═══════════════════════════════════════');
+        console.error('❌ FIREBASE AUTHENTICATION ERROR');
+        console.error('═══════════════════════════════════════');
+        console.error('📱 Phone Number:', phoneNumber);
+        console.error('🔴 Error Code:', e.code || 'NO_CODE');
+        console.error('💬 Error Message:', e.message || 'NO_MESSAGE');
+        console.error('📋 Full Error Object:', JSON.stringify(e, Object.getOwnPropertyNames(e), 2));
+        console.error('🌐 User Agent:', navigator.userAgent);
+        console.error('🔐 reCAPTCHA Status:', _this.isRecaptchaInitialized);
+        console.error('⏰ Timestamp:', new Date().toISOString()); // Detailed error analysis
+
+        if (e.code === 'auth/invalid-app-credential') {
+          console.error('');
+          console.error('🔴 CRITICAL: Invalid App Credential Error');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.error('This error means Firebase cannot verify your app.');
+          console.error('');
+          console.error('✅ SOLUTIONS FOR ANDROID:');
+          console.error('1. Add SHA-1 fingerprint to Firebase Console');
+          console.error('2. Add SHA-256 fingerprint to Firebase Console');
+          console.error('3. Download new google-services.json');
+          console.error('4. Replace old google-services.json');
+          console.error('5. Rebuild app: ionic capacitor sync android');
+          console.error('');
+          console.error('📋 TO GET SHA FINGERPRINTS:');
+          console.error('cd android && .\\gradlew signingReport');
+          console.error('');
+          console.error('🔗 Firebase Console:');
+          console.error('https://console.firebase.google.com/project/pegasus-2be94/settings/general');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        } else if (e.code === 'auth/quota-exceeded' || e.code === 'auth/too-many-requests') {
+          console.error('');
+          console.error('⚠️ Quota/Rate Limit Error');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.error('Possible causes:');
+          console.error('1. SMS quota exceeded (check Firebase Console)');
+          console.error('2. Too many requests from this device');
+          console.error('3. Billing not enabled on Firebase project');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        } else if (e.code === 'auth/captcha-check-failed') {
+          console.error('');
+          console.error('🤖 reCAPTCHA Verification Failed');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.error('Possible causes:');
+          console.error('1. reCAPTCHA container not found in DOM');
+          console.error('2. Network connectivity issues');
+          console.error('3. Invalid Firebase configuration');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        } else if (e.code === 'auth/network-request-failed') {
+          console.error('');
+          console.error('🌐 Network Request Failed');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.error('Check internet connectivity');
+          console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        }
+
+        console.error('═══════════════════════════════════════'); // Reset reCAPTCHA on error
 
         _this.isRecaptchaInitialized = false;
         throw e;
@@ -2552,7 +2618,7 @@ class AvatarService {
         } // Round to 2 decimal places
 
 
-        return Math.round(estimatedPrice * 100) / 100;
+        return Math.round(estimatedPrice * 1) / 100;
       } catch (error) {
         console.error('Error calculating price estimate:', error);
         throw error;
@@ -3447,7 +3513,9 @@ __webpack_require__.r(__webpack_exports__);
 class PaymentService {
     constructor(http) {
         this.http = http;
-        this.serverUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.serverUrl;
+        // Normalize serverUrl by removing any trailing slashes so concatenation
+        // like `${this.serverUrl}/setup-intent` won't produce a double slash.
+        this.serverUrl = String(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.serverUrl || '').replace(/\/\/+$|\/+$/g, '');
     }
     createSetupIntent(email) {
         return this.http.post(`${this.serverUrl}/setup-intent`, { email });
@@ -3899,7 +3967,7 @@ const environment = {
         restApiKey: 'YTM3ODgyMzQtNjg1ZC00YTQwLWJmNjItNTA4M2VkMmY3MDdl',
         android_channel_id: ''
     },
-    serverUrl: "https://payment-server-wheat.vercel.app/",
+    serverUrl: "https://payment-service-pi.vercel.app/",
     CountryJson: [
         {
             "name": "Afghanistan",

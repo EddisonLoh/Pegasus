@@ -120,30 +120,35 @@ function PaymentPage_ion_card_17_ion_item_7_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵgetCurrentView"]();
 
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "ion-item")(1, "ion-label");
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "ion-item");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](1, "ion-icon", 22);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](2, "ion-label")(3, "h2");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpipe"](5, "uppercase");
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](3, "ion-radio", 22);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](4, "ion-button", 23);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function PaymentPage_ion_card_17_ion_item_7_Template_ion_button_click_4_listener() {
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](6, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](8, "ion-radio", 23);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](9, "ion-button", 24);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵlistener"]("click", function PaymentPage_ion_card_17_ion_item_7_Template_ion_button_click_9_listener() {
       const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵrestoreView"](_r6);
       const method_r4 = restoredCtx.$implicit;
       const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"](2);
       return _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵresetView"](ctx_r5.deletePaymentMethod(method_r4.cardId));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtext"](5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpipe"](6, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelement"](10, "ion-icon", 25);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()();
   }
 
   if (rf & 2) {
     const method_r4 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate"](method_r4.last4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate"](method_r4.brand ? _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpipeBind1"](5, 3, method_r4.brand) : "Card");
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate1"]("**** **** **** ", method_r4.last4, "");
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("value", method_r4.cardId);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵpipeBind1"](6, 3, "PAYMENT.DELETE"), " ");
   }
 }
 
@@ -165,7 +170,7 @@ function PaymentPage_ion_card_17_Template(rf, ctx) {
       const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵnextContext"]();
       return _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵresetView"](ctx_r9.setActiveCard($event));
     });
-    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](7, PaymentPage_ion_card_17_ion_item_7_Template, 7, 5, "ion-item", 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵtemplate"](7, PaymentPage_ion_card_17_ion_item_7_Template, 11, 5, "ion-item", 21);
     _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementEnd"]()()();
   }
 
@@ -220,7 +225,7 @@ class PaymentPage {
 
   initializeStripeCard() {
     if (this.cardElement && this.cardElement.nativeElement) {
-      this.stripe = Stripe('pk_test_0t85o0Llo0MbBfC9imSzznam');
+      this.stripe = Stripe('pk_test_51SShK5PRgzt7CIyewdombVyUyoBjYRQGrw8uBfWOF58l49mTcKZzWoeeyeBrjcsLT8NzCDKKjbwZQfDnNnpFzoxn00ivj0cGEe');
       this.elements = this.stripe.elements();
 
       if (!this.card) {
@@ -309,15 +314,19 @@ class PaymentPage {
         _this4.showLoading();
 
         try {
-          let paymentResult;
-          paymentResult = yield _this4.processStripePayment(formValues);
-          console.log('Payment successful:', paymentResult);
-          yield _this4.showAlert('Success', 'Payment successful!');
-          yield _this4.avatarService.updateFirestoreAfterPayment(paymentResult);
+          const cardData = yield _this4.processStripePayment(formValues);
+          console.log('Card added successfully:', cardData);
+          yield _this4.showAlert('Success', 'Card added successfully!'); // Refresh the saved payment methods list to show the new card
+
+          yield _this4.fetchSavedPaymentMethods(); // Clear the card input after successful addition
+
+          if (_this4.card) {
+            _this4.card.clear();
+          }
         } catch (error) {
-          console.error('Error during payment:', error);
+          console.error('Error adding card:', error);
           const errorMessage = error.error ? error.error.error : 'An unexpected error occurred.';
-          yield _this4.showAlert('Error', `Payment failed: ${errorMessage}`);
+          yield _this4.showAlert('Error', `Failed to add card: ${errorMessage}`);
         } finally {
           _this4.hideLoading();
 
@@ -337,8 +346,23 @@ class PaymentPage {
 
       try {
         const setupIntentResponse = yield _this5.paymentService.createSetupIntent(formValues.email).toPromise();
-        const clientSecret = setupIntentResponse.client_secret;
-        console.log('Setup Intent created:', setupIntentResponse);
+        console.log('Setup Intent raw response:', setupIntentResponse);
+        const resp = setupIntentResponse;
+        const clientSecret = resp && (resp.client_secret || resp.clientSecret || resp.clientSecretValue || resp.secret);
+        console.log('Resolved clientSecret:', clientSecret); // Validate clientSecret looks like a client secret (contains the secret part)
+
+        if (!clientSecret) {
+          console.error('No client_secret returned from server. Response:', setupIntentResponse);
+          throw new Error('No client_secret returned from server for SetupIntent.');
+        } // A client secret normally contains "_secret_"; if we only received an ID like 'seti_...'
+        // that's likely the server returned the SetupIntent id instead of the client_secret.
+
+
+        if (String(clientSecret).startsWith('seti_') && !String(clientSecret).includes('_secret_')) {
+          console.error('Client secret looks like a SetupIntent ID (missing secret). Did the server return the ID instead of the client_secret?),', clientSecret);
+          throw new Error('Invalid client_secret returned from server (looks like an ID). Ensure server returns the full client_secret.');
+        }
+
         const {
           setupIntent,
           error
@@ -352,6 +376,7 @@ class PaymentPage {
         });
 
         if (error) {
+          console.error('Stripe confirmCardSetup returned error object:', error);
           const errorElement = document.getElementById('card-errors');
 
           if (errorElement) {
@@ -371,15 +396,27 @@ class PaymentPage {
         console.log('Payment method retrieved:', paymentMethod);
         const cardDetails = paymentMethod.card;
         const last4 = cardDetails.last4;
+        const brand = cardDetails.brand; // Get card brand (visa, mastercard, etc.)
+
         console.log('Checking if card exists with email:', formValues.email, ' and last4:', last4);
         const cardExists = yield _this5.avatarService.checkCardExistsStripe(formValues.email, last4);
 
-        if (!cardExists) {
-          yield _this5.avatarService.addCardStripe(formValues.email, paymentMethodId, last4);
-          yield _this5.fetchSavedPaymentMethods();
-        }
+        if (cardExists) {
+          throw new Error('This card is already saved to your account.');
+        } // Save card to Firestore using the correct method
 
-        return _this5.paymentService.savePaymentMethod(formValues.email, paymentMethodId).toPromise();
+
+        const cardData = {
+          cardId: paymentMethodId,
+          email: formValues.email,
+          last4: last4,
+          brand: brand || 'unknown'
+        };
+        yield _this5.avatarService.saveCard(cardData);
+        console.log('Card saved to Firestore:', cardData); // Also save to backend if needed
+
+        yield _this5.paymentService.savePaymentMethod(formValues.email, paymentMethodId).toPromise();
+        return cardData;
       } catch (error) {
         console.error('Error in processStripePayment:', error);
         throw error;
@@ -458,7 +495,7 @@ PaymentPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵ�
   },
   decls: 26,
   vars: 14,
-  consts: [[1, "ion-no-border", 3, "translucent"], ["slot", "start"], ["color", "primary"], [1, "ion-text-center", "ion-padding"], [1, "ion-no-border", "no-shadow"], [1, "no-shadow"], [1, "payment-details", 3, "ngClass"], [3, "formGroup", "ngSubmit"], [4, "ngIf"], ["color", "success", "shape", "round", "expand", "block", "size", "large", "type", "submit", 3, "disabled"], ["class", "no-shadow", 4, "ngIf"], ["vertical", "bottom", "horizontal", "end", "slot", "fixed"], ["name", "globe"], ["side", "top"], [3, "click"], ["src", "https://cdn.kcak11.com/CountryFlags/countries/us.svg", 2, "width", "24px", "height", "24px"], ["src", "https://cdn.kcak11.com/CountryFlags/countries/sa.svg", 2, "width", "24px", "height", "24px"], [1, "stripe-element"], ["cardElement", ""], ["id", "card-errors", "role", "alert"], [3, "ngModel", "ngModelChange", "ionChange"], [4, "ngFor", "ngForOf"], ["slot", "start", 3, "value"], ["slot", "end", "color", "danger", 3, "click"]],
+  consts: [[1, "ion-no-border", 3, "translucent"], ["slot", "start"], ["color", "primary"], [1, "ion-text-center", "ion-padding"], [1, "ion-no-border", "no-shadow"], [1, "no-shadow"], [1, "payment-details", 3, "ngClass"], [3, "formGroup", "ngSubmit"], [4, "ngIf"], ["color", "success", "shape", "round", "expand", "block", "size", "large", "type", "submit", 3, "disabled"], ["class", "no-shadow", 4, "ngIf"], ["vertical", "bottom", "horizontal", "end", "slot", "fixed"], ["name", "globe"], ["side", "top"], [3, "click"], ["src", "https://cdn.kcak11.com/CountryFlags/countries/us.svg", 2, "width", "24px", "height", "24px"], ["src", "https://cdn.kcak11.com/CountryFlags/countries/sa.svg", 2, "width", "24px", "height", "24px"], [1, "stripe-element"], ["cardElement", ""], ["id", "card-errors", "role", "alert"], [3, "ngModel", "ngModelChange", "ionChange"], [4, "ngFor", "ngForOf"], ["name", "card-outline", "slot", "start", "color", "primary"], ["slot", "end", 3, "value"], ["slot", "end", "fill", "clear", "color", "danger", 3, "click"], ["name", "trash-outline"]],
   template: function PaymentPage_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵelementStart"](0, "ion-header", 0)(1, "ion-toolbar")(2, "ion-buttons", 1)(3, "ion-button", 2);
@@ -513,7 +550,7 @@ PaymentPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵ�
       _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵproperty"]("ngIf", ctx.savedPaymentMethods.length > 0);
     }
   },
-  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_7__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_7__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_7__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgModel, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormGroupDirective, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonBackButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCardContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCardHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCardTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonFab, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonFabButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonFabList, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonImg, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonRadio, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonRadioGroup, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.RadioValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.SelectValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonBackButtonDelegate, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__.TranslatePipe],
+  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_7__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_7__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_7__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.NgModel, _angular_forms__WEBPACK_IMPORTED_MODULE_4__.FormGroupDirective, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonBackButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCardContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCardHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCardTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonFab, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonFabButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonFabList, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonImg, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonRadio, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonRadioGroup, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.RadioValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.SelectValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonBackButtonDelegate, _angular_common__WEBPACK_IMPORTED_MODULE_7__.UpperCasePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__.TranslatePipe],
   styles: ["@keyframes slide-top {\n  0% {\n    transform: translateY(100%);\n  }\n  100% {\n    transform: translateY(0%);\n  }\n}\n.slide-top[_ngcontent-%COMP%] {\n  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;\n}\nion-item[_ngcontent-%COMP%] {\n  animation-name: slide-top;\n  animation-duration: 0.5s;\n}\n.payment-details[_ngcontent-%COMP%] {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.5s ease-in-out;\n}\n.payment-details.slide-down[_ngcontent-%COMP%] {\n  max-height: 500px; \n}\n.stripe-element[_ngcontent-%COMP%] {\n  padding: 15px;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n  margin-bottom: 10px;\n}\n.payment-methods[_ngcontent-%COMP%]   ion-button.selected[_ngcontent-%COMP%] {\n  background-color: var(--ion-color-primary) !important;\n  color: #fff;\n}\n.no-shadow[_ngcontent-%COMP%] {\n  box-shadow: none !important;\n}\n.provider-logo[_ngcontent-%COMP%] {\n  height: 24px;\n  margin-right: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBheW1lbnQucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7SUFDRSwyQkFBQTtFQUNGO0VBQ0E7SUFDRSx5QkFBQTtFQUNGO0FBQ0Y7QUFFQTtFQUNFLG1FQUFBO0FBQUY7QUFHQTtFQUNFLHlCQUFBO0VBQ0Esd0JBQUE7QUFBRjtBQUVBO0VBQ0UsYUFBQTtFQUNBLGdCQUFBO0VBQ0EsdUNBQUE7QUFDRjtBQUVBO0VBQ0UsaUJBQUEsRUFBQSx3Q0FBQTtBQUNGO0FBRUE7RUFDRSxhQUFBO0VBQ0Esc0JBQUE7RUFDQSxrQkFBQTtFQUNBLG1CQUFBO0FBQ0Y7QUFFQTtFQUNFLHFEQUFBO0VBQ0EsV0FBQTtBQUNGO0FBRUE7RUFDRSwyQkFBQTtBQUNGO0FBRUE7RUFDRSxZQUFBO0VBQ0Esa0JBQUE7QUFDRiIsImZpbGUiOiJwYXltZW50LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBrZXlmcmFtZXMgc2xpZGUtdG9wIHtcclxuICAwJSB7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMTAwJSk7XHJcbiAgfVxyXG4gIDEwMCUge1xyXG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDAlKTtcclxuICB9XHJcbn1cclxuXHJcbi5zbGlkZS10b3Age1xyXG4gIGFuaW1hdGlvbjogc2xpZGUtdG9wIDAuNXMgY3ViaWMtYmV6aWVyKDAuMjUwLCAwLjQ2MCwgMC40NTAsIDAuOTQwKSBib3RoO1xyXG59XHJcblxyXG5pb24taXRlbSB7XHJcbiAgYW5pbWF0aW9uLW5hbWU6IHNsaWRlLXRvcDtcclxuICBhbmltYXRpb24tZHVyYXRpb246IDAuNXM7XHJcbn1cclxuLnBheW1lbnQtZGV0YWlscyB7XHJcbiAgbWF4LWhlaWdodDogMDtcclxuICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gIHRyYW5zaXRpb246IG1heC1oZWlnaHQgMC41cyBlYXNlLWluLW91dDtcclxufVxyXG5cclxuLnBheW1lbnQtZGV0YWlscy5zbGlkZS1kb3duIHtcclxuICBtYXgtaGVpZ2h0OiA1MDBweDsgLyogQWRqdXN0IGFzIG5lZWRlZCB0byBmaXQgdGhlIGNvbnRlbnQgKi9cclxufVxyXG5cclxuLnN0cmlwZS1lbGVtZW50IHtcclxuICBwYWRkaW5nOiAxNXB4O1xyXG4gIGJvcmRlcjogMXB4IHNvbGlkICNjY2M7XHJcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xyXG4gIG1hcmdpbi1ib3R0b206IDEwcHg7XHJcbn1cclxuXHJcbi5wYXltZW50LW1ldGhvZHMgaW9uLWJ1dHRvbi5zZWxlY3RlZCB7XHJcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpICFpbXBvcnRhbnQ7XHJcbiAgY29sb3I6ICNmZmY7XHJcbn1cclxuXHJcbi5uby1zaGFkb3cge1xyXG4gIGJveC1zaGFkb3c6IG5vbmUgIWltcG9ydGFudDtcclxufVxyXG5cclxuLnByb3ZpZGVyLWxvZ28ge1xyXG4gIGhlaWdodDogMjRweDtcclxuICBtYXJnaW4tcmlnaHQ6IDEwcHg7XHJcbn1cclxuXHJcbiJdfQ== */"]
 });
 

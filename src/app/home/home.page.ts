@@ -37,6 +37,7 @@ declare var google;
 export class HomePage implements AfterViewInit {
   [x: string]: any;
   profile = null;
+  presets: Array<any> = [];
   @ViewChild('map',  { static: true }) mapRef: ElementRef<HTMLElement>;
   @ViewChild('topBar', { static: true }) topBar: ElementRef<HTMLElement>;
   @ViewChild('bottomBar', { static: true }) bottomBar: ElementRef<HTMLElement>;
@@ -194,6 +195,8 @@ export class HomePage implements AfterViewInit {
       await this.initializeApp();
       await this.initializeNetworkMonitoring();
       await this.fetchSavedPaymentMethods();
+  // load user preset places (localStorage-backed)
+  await this.loadPresets();
       this.EnterBookingStage();
       await this.initializeGeolocation();
       await this.initializeMap();
@@ -204,6 +207,81 @@ export class HomePage implements AfterViewInit {
       console.error('Error in ngAfterViewInit:', e);
       this.overlay.hideLoader();
       this.overlay.showAlert('Error', 'An error occurred during initialization. Please try again.');
+    }
+  }
+
+  // Preset places management (localStorage)
+  async loadPresets() {
+    try {
+      const raw = localStorage.getItem('presetPlaces');
+      if (raw) {
+        this.presets = JSON.parse(raw);
+      } else {
+        // default presets
+        this.presets = [
+          { name: 'Queensbay Mall, Penang', address: 'Queensbay Mall, Bayan Lepas, Penang', lat: 5.2939, lng: 100.2719 },
+          { name: 'George Town Ferry Terminal', address: 'Weld Quay, George Town, Penang', lat: 5.4141, lng: 100.3294 }
+        ];
+        localStorage.setItem('presetPlaces', JSON.stringify(this.presets));
+      }
+    } catch (e) {
+      console.error('Failed to load presets', e);
+      this.presets = [];
+    }
+  }
+
+  async savePresets() {
+    try {
+      localStorage.setItem('presetPlaces', JSON.stringify(this.presets));
+    } catch (e) {
+      console.error('Failed to save presets', e);
+    }
+  }
+
+  // Add current destination as preset
+  async addCurrentAsPreset() {
+    try {
+      if (!this.destinationAddress || !this.D_LatLng || !this.D_LatLng.lat) {
+        const alert = await this.alert.create({
+          header: 'Add preset',
+          message: 'Please choose a destination on the map first (pin or search).',
+          buttons: ['OK']
+        });
+        await alert.present();
+        return;
+      }
+
+      const name = this.destinationAddress || 'New Place';
+      this.presets.unshift({ name, address: name, lat: this.D_LatLng.lat, lng: this.D_LatLng.lng });
+      // keep only latest 10
+      if (this.presets.length > 10) this.presets.length = 10;
+      await this.savePresets();
+    } catch (e) {
+      console.error('Error adding preset', e);
+    }
+  }
+
+  // Delete preset by index
+  async deletePreset(i: number) {
+    this.presets.splice(i, 1);
+    await this.savePresets();
+  }
+
+  // Select a preset: set destination and trigger directions
+  async selectPreset(preset: any) {
+    try {
+      this.destinationAddress = preset.name || preset.address || '';
+      if (preset.lat && preset.lng) {
+        this.D_LatLng = { lat: preset.lat, lng: preset.lng };
+        // trigger distance/directions calculation
+        await this.getDistanceAndDirections();
+      } else {
+        // fallback: if no coords, open autocomplete modal with address prefilled
+        // set data for modal then open it
+        await this.showAutocompleteModal();
+      }
+    } catch (e) {
+      console.error('Failed to select preset', e);
     }
   }
 

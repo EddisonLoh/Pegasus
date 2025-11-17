@@ -531,106 +531,228 @@ class DetailsPage {
         };
       }());
     })();
-  }
+  } // Try to re-authenticate the user using available methods.
+  // Returns true if re-authentication succeeded, false otherwise.
 
-  updateProfile() {
+
+  reauthenticateUser() {
     var _this7 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        if (!_this7.form.valid) {
-          _this7.form.markAllAsTouched();
+        const user = _this7.authy.currentUser;
+        if (!user) return false; // Prefer phone-based re-authentication if phoneNumber exists
+
+        if (user.phoneNumber) {
+          try {
+            yield _this7.reauthenticateWithPhoneNumber();
+            return true;
+          } catch (e) {
+            console.error('Phone re-authentication failed', e); // continue to password fallback
+          }
+        } // If user has an email, prompt for password to re-authenticate
+
+
+        if (user.email) {
+          return yield new Promise( /*#__PURE__*/function () {
+            var _ref5 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve) {
+              const alert = yield _this7.alertController.create({
+                header: 'Re-authenticate',
+                inputs: [{
+                  name: 'password',
+                  type: 'password',
+                  placeholder: 'Enter your password'
+                }],
+                buttons: [{
+                  text: 'Cancel',
+                  role: 'cancel',
+                  handler: () => resolve(false)
+                }, {
+                  text: 'Verify',
+                  handler: function () {
+                    var _ref6 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (data) {
+                      try {
+                        const credential = _angular_fire_auth__WEBPACK_IMPORTED_MODULE_8__.EmailAuthProvider.credential(user.email, data.password);
+                        yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.reauthenticateWithCredential)(user, credential);
+                        resolve(true);
+                      } catch (err) {
+                        console.error('Password re-authentication failed', err);
+
+                        _this7.overlay.showAlert(yield _this7.translate.get('ERROR').toPromise(), err.message || (yield _this7.translate.get('GENERIC_ERROR').toPromise()));
+
+                        resolve(false);
+                      }
+                    });
+
+                    return function handler(_x7) {
+                      return _ref6.apply(this, arguments);
+                    };
+                  }()
+                }]
+              });
+              yield alert.present();
+            });
+
+            return function (_x6) {
+              return _ref5.apply(this, arguments);
+            };
+          }());
+        }
+
+        return false;
+      } catch (e) {
+        console.error('reauthenticateUser error', e);
+        return false;
+      }
+    })();
+  }
+
+  updateProfile() {
+    var _this8 = this;
+
+    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      try {
+        if (!_this8.form.valid) {
+          _this8.form.markAllAsTouched();
 
           return;
         }
 
-        _this7.approve2 = true;
-        const user = _this7.authy.currentUser;
+        _this8.approve2 = true;
+        const user = _this8.authy.currentUser;
 
         if (user) {
           console.log('User authenticated', user); // First update display name and photo
 
           console.log('Updating profile...');
           yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.updateProfile)(user, {
-            displayName: `${_this7.form.value.fullname} ${_this7.form.value.lastname}`,
-            photoURL: _this7.imageUrl
+            displayName: `${_this8.form.value.fullname} ${_this8.form.value.lastname}`,
+            photoURL: _this8.imageUrl
           }); // Check if email is provided before attempting to update it
 
-          if (_this7.form.value.email && user.email !== _this7.form.value.email) {
+          if (_this8.form.value.email && user.email !== _this8.form.value.email) {
             // Show confirmation dialog for email change
-            const alert = yield _this7.alertController.create({
-              header: yield _this7.translate.get('EMAIL_CHANGE').toPromise(),
-              message: yield _this7.translate.get('EMAIL_CHANGE_VERIFY').toPromise(),
+            const alert = yield _this8.alertController.create({
+              header: yield _this8.translate.get('EMAIL_CHANGE').toPromise(),
+              message: yield _this8.translate.get('EMAIL_CHANGE_VERIFY').toPromise(),
               buttons: [{
-                text: yield _this7.translate.get('CANCEL').toPromise(),
+                text: yield _this8.translate.get('CANCEL').toPromise(),
                 role: 'cancel'
               }, {
-                text: yield _this7.translate.get('CONTINUE').toPromise(),
+                text: yield _this8.translate.get('CONTINUE').toPromise(),
                 handler: function () {
-                  var _ref5 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+                  var _ref7 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
                     try {
-                      yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.updateEmail)(user, _this7.form.value.email); // Send verification email
+                      yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.updateEmail)(user, _this8.form.value.email); // Send verification email
 
                       yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.sendEmailVerification)(user); // Show success message
 
-                      yield _this7.alertController.create({
-                        header: yield _this7.translate.get('EMAIL_VERIFICATION_SENT').toPromise(),
-                        message: yield _this7.translate.get('CHECK_EMAIL').toPromise(),
+                      yield _this8.alertController.create({
+                        header: yield _this8.translate.get('EMAIL_VERIFICATION_SENT').toPromise(),
+                        message: yield _this8.translate.get('CHECK_EMAIL').toPromise(),
                         buttons: ['OK']
                       }).then(alert => alert.present());
                     } catch (error) {
-                      if (error.code === 'auth/requires-recent-login') {
-                        yield _this7.reauthenticateWithPhoneNumber();
+                      if (error && error.code === 'auth/requires-recent-login') {
+                        const reauthOk = yield _this8.reauthenticateUser();
+
+                        if (reauthOk) {
+                          try {
+                            const freshUser = _this8.authy.currentUser;
+
+                            if (freshUser) {
+                              yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.updateEmail)(freshUser, _this8.form.value.email);
+                              yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.sendEmailVerification)(freshUser);
+                              yield _this8.alertController.create({
+                                header: yield _this8.translate.get('EMAIL_VERIFICATION_SENT').toPromise(),
+                                message: yield _this8.translate.get('CHECK_EMAIL').toPromise(),
+                                buttons: ['OK']
+                              }).then(a => a.present());
+                            }
+                          } catch (err2) {
+                            console.error('Failed to update email after reauthentication', err2);
+
+                            _this8.overlay.showAlert(yield _this8.translate.get('ERROR').toPromise(), err2.message || (yield _this8.translate.get('GENERIC_ERROR').toPromise()));
+
+                            return;
+                          }
+                        } else {
+                          // Re-authentication failed or was cancelled by the user.
+                          _this8.overlay.showAlert(yield _this8.translate.get('ERROR').toPromise(), yield _this8.translate.get('PLEASE_WAIT').toPromise());
+
+                          return;
+                        }
                       } else {
-                        throw error;
+                        _this8.overlay.showAlert(yield _this8.translate.get('ERROR').toPromise(), error?.message || (yield _this8.translate.get('GENERIC_ERROR').toPromise()));
+
+                        return;
                       }
+                    } // Only create/update avatar and navigate after email handling completes
+
+
+                    try {
+                      yield _this8.avatar.createUser(`${_this8.form.value.fullname} ${_this8.form.value.lastname}`, _this8.form.value.email, _this8.imageUrl, user.phoneNumber, user.uid);
+                      _this8.approve2 = false;
+
+                      _this8.router.navigateByUrl('home');
+
+                      console.log('Profile updated');
+                    } catch (createErr) {
+                      console.error('Error creating/updating avatar after email change', createErr);
+
+                      _this8.overlay.showAlert(yield _this8.translate.get('ERROR').toPromise(), createErr?.message || (yield _this8.translate.get('GENERIC_ERROR').toPromise()));
+
+                      _this8.approve2 = false;
                     }
                   });
 
                   return function handler() {
-                    return _ref5.apply(this, arguments);
+                    return _ref7.apply(this, arguments);
                   };
                 }()
               }]
             });
-            yield alert.present();
-          }
+            yield alert.present(); // Stop further execution here; avatar.createUser will be handled in the alert handler.
 
-          yield _this7.avatar.createUser(`${_this7.form.value.fullname} ${_this7.form.value.lastname}`, _this7.form.value.email, _this7.imageUrl, user.phoneNumber, user.uid);
-          _this7.approve2 = false;
+            return;
+          } // No email change required — proceed to create/update avatar and navigate
 
-          _this7.router.navigateByUrl('home');
+
+          yield _this8.avatar.createUser(`${_this8.form.value.fullname} ${_this8.form.value.lastname}`, _this8.form.value.email, _this8.imageUrl, user.phoneNumber, user.uid);
+          _this8.approve2 = false;
+
+          _this8.router.navigateByUrl('home');
 
           console.log('Profile updated');
         }
       } catch (e) {
         console.error('An error occurred during profile update', e);
-        _this7.approve2 = false;
+        _this8.approve2 = false;
 
         if (e.code === 'auth/email-already-in-use') {
-          _this7.overlay.showAlert(yield _this7.translate.get('ERROR').toPromise(), yield _this7.translate.get('EMAIL_IN_USE').toPromise());
+          _this8.overlay.showAlert(yield _this8.translate.get('ERROR').toPromise(), yield _this8.translate.get('EMAIL_IN_USE').toPromise());
         } else if (e.code === 'auth/requires-recent-login') {
-          _this7.reauthenticateWithPhoneNumber();
+          _this8.reauthenticateWithPhoneNumber();
         } else {
-          _this7.overlay.showAlert(yield _this7.translate.get('ERROR').toPromise(), e.message || (yield _this7.translate.get('GENERIC_ERROR').toPromise()));
+          _this8.overlay.showAlert(yield _this8.translate.get('ERROR').toPromise(), e.message || (yield _this8.translate.get('GENERIC_ERROR').toPromise()));
         }
       }
     })();
   }
 
   signInWithGoogle() {
-    var _this8 = this;
+    var _this9 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         const provider = new _angular_fire_auth__WEBPACK_IMPORTED_MODULE_8__.GoogleAuthProvider();
-        const result = yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.signInWithPopup)(_this8.authy, provider);
+        const result = yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_9__.signInWithPopup)(_this9.authy, provider);
         const user = result.user;
 
         if (user) {
-          _this8.imageUrl = user.photoURL || ''; // Update imageUrl with photoURL from Google
+          _this9.imageUrl = user.photoURL || ''; // Update imageUrl with photoURL from Google
 
-          _this8.form.patchValue({
+          _this9.form.patchValue({
             fullname: user.displayName?.split(' ')[0] || '',
             lastname: user.displayName?.split(' ')[1] || '',
             email: user.email || ''
@@ -641,12 +763,12 @@ class DetailsPage {
           console.log("Display Name:", user.displayName);
           console.log("Photo URL:", user.photoURL); // Call updateProfile to update user details in Firebase
 
-          yield _this8.updateProfile();
+          yield _this9.updateProfile();
         }
       } catch (error) {
         console.error("Error during Google sign-in", error);
 
-        _this8.overlay.showAlert('Sign-in failed', 'There was a problem signing in with Google.');
+        _this9.overlay.showAlert('Sign-in failed', 'There was a problem signing in with Google.');
       }
     })();
   }

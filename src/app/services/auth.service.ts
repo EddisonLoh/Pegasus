@@ -78,20 +78,88 @@ export class AuthService {
     try {
       // Ensure reCAPTCHA is initialized
       if (!this.appVerifier || !this.isRecaptchaInitialized) {
+        console.log('🔄 reCAPTCHA not initialized, initializing now...');
         this.recaptcha();
-        // Wait a bit for initialization
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Wait for initialization
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
 
       if (!this.appVerifier) {
-        throw new Error('reCAPTCHA not initialized');
+        const error: any = new Error('reCAPTCHA not initialized');
+        error.code = 'auth/captcha-check-failed';
+        console.error('❌ reCAPTCHA initialization failed');
+        throw error;
       }
 
+      console.log('📱 Attempting to sign in with phone number:', phoneNumber);
+      console.log('🔐 reCAPTCHA initialized:', this.isRecaptchaInitialized);
+      console.log('🌐 Platform:', navigator.userAgent);
+      
       const confirmationResult = await signInWithPhoneNumber(this.auth, phoneNumber, this.appVerifier);
       this.confirmationResult = confirmationResult;
+      console.log('✅ Phone authentication successful');
       return confirmationResult;
     } catch (e) {
-      console.error('Sign in with phone number error:', e);
+      // Comprehensive error logging
+      console.error('═══════════════════════════════════════');
+      console.error('❌ FIREBASE AUTHENTICATION ERROR');
+      console.error('═══════════════════════════════════════');
+      console.error('📱 Phone Number:', phoneNumber);
+      console.error('🔴 Error Code:', e.code || 'NO_CODE');
+      console.error('💬 Error Message:', e.message || 'NO_MESSAGE');
+      console.error('📋 Full Error Object:', JSON.stringify(e, Object.getOwnPropertyNames(e), 2));
+      console.error('🌐 User Agent:', navigator.userAgent);
+      console.error('🔐 reCAPTCHA Status:', this.isRecaptchaInitialized);
+      console.error('⏰ Timestamp:', new Date().toISOString());
+      
+      // Detailed error analysis
+      if (e.code === 'auth/invalid-app-credential') {
+        console.error('');
+        console.error('🔴 CRITICAL: Invalid App Credential Error');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error('This error means Firebase cannot verify your app.');
+        console.error('');
+        console.error('✅ SOLUTIONS FOR ANDROID:');
+        console.error('1. Add SHA-1 fingerprint to Firebase Console');
+        console.error('2. Add SHA-256 fingerprint to Firebase Console');
+        console.error('3. Download new google-services.json');
+        console.error('4. Replace old google-services.json');
+        console.error('5. Rebuild app: ionic capacitor sync android');
+        console.error('');
+        console.error('📋 TO GET SHA FINGERPRINTS:');
+        console.error('cd android && .\\gradlew signingReport');
+        console.error('');
+        console.error('🔗 Firebase Console:');
+        console.error('https://console.firebase.google.com/project/pegasus-2be94/settings/general');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      } else if (e.code === 'auth/quota-exceeded' || e.code === 'auth/too-many-requests') {
+        console.error('');
+        console.error('⚠️ Quota/Rate Limit Error');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error('Possible causes:');
+        console.error('1. SMS quota exceeded (check Firebase Console)');
+        console.error('2. Too many requests from this device');
+        console.error('3. Billing not enabled on Firebase project');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      } else if (e.code === 'auth/captcha-check-failed') {
+        console.error('');
+        console.error('🤖 reCAPTCHA Verification Failed');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error('Possible causes:');
+        console.error('1. reCAPTCHA container not found in DOM');
+        console.error('2. Network connectivity issues');
+        console.error('3. Invalid Firebase configuration');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      } else if (e.code === 'auth/network-request-failed') {
+        console.error('');
+        console.error('🌐 Network Request Failed');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error('Check internet connectivity');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      }
+      
+      console.error('═══════════════════════════════════════');
+      
       // Reset reCAPTCHA on error
       this.isRecaptchaInitialized = false;
       throw(e);

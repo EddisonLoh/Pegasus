@@ -55,7 +55,7 @@ export class PaymentPage implements OnInit, AfterViewInit {
   // Ensure Stripe card is initialized
   initializeStripeCard() {
     if (this.cardElement && this.cardElement.nativeElement) {
-      this.stripe = Stripe('sk_test_51SShK5PRgzt7CIyeGJFVqBAhwzD1zcKQGSYBQLRgCJqtSfX2IsfEcosQHprv8X4JXfTiqx56tRLB8Y34K0aWX3nl00Fkx2eMfd');
+      this.stripe = Stripe('pk_test_51SShK5PRgzt7CIyewdombVyUyoBjYRQGrw8uBfWOF58l49mTcKZzWoeeyeBrjcsLT8NzCDKKjbwZQfDnNnpFzoxn00ivj0cGEe');
       this.elements = this.stripe.elements();
       if (!this.card) {
         this.card = this.elements.create('card');
@@ -122,17 +122,23 @@ export class PaymentPage implements OnInit, AfterViewInit {
       this.showLoading();
   
       try {
-        let paymentResult;
-        paymentResult = await this.processStripePayment(formValues);
+        const cardData = await this.processStripePayment(formValues);
 
-        console.log('Payment successful:', paymentResult);
-        await this.showAlert('Success', 'Payment successful!');
-        await this.avatarService.updateFirestoreAfterPayment(paymentResult);
+        console.log('Card added successfully:', cardData);
+        await this.showAlert('Success', 'Card added successfully!');
+        
+        // Refresh the saved payment methods list to show the new card
+        await this.fetchSavedPaymentMethods();
+        
+        // Clear the card input after successful addition
+        if (this.card) {
+          this.card.clear();
+        }
   
       } catch (error) {
-        console.error('Error during payment:', error);
+        console.error('Error adding card:', error);
         const errorMessage = error.error ? error.error.error : 'An unexpected error occurred.';
-        await this.showAlert('Error', `Payment failed: ${errorMessage}`);
+        await this.showAlert('Error', `Failed to add card: ${errorMessage}`);
       } finally {
         this.hideLoading();
         this.approve = false;
@@ -147,8 +153,22 @@ export class PaymentPage implements OnInit, AfterViewInit {
   
     try {
       const setupIntentResponse = await this.paymentService.createSetupIntent(formValues.email).toPromise();
-      const clientSecret = setupIntentResponse.client_secret;
-      console.log('Setup Intent created:', setupIntentResponse);
+      console.log('Setup Intent raw response:', setupIntentResponse);
+      const resp: any = setupIntentResponse;
+      const clientSecret = resp && (resp.client_secret || resp.clientSecret || resp.clientSecretValue || resp.secret);
+      console.log('Resolved clientSecret:', clientSecret);
+
+      // Validate clientSecret looks like a client secret (contains the secret part)
+      if (!clientSecret) {
+        console.error('No client_secret returned from server. Response:', setupIntentResponse);
+        throw new Error('No client_secret returned from server for SetupIntent.');
+      }
+      // A client secret normally contains "_secret_"; if we only received an ID like 'seti_...'
+      // that's likely the server returned the SetupIntent id instead of the client_secret.
+      if (String(clientSecret).startsWith('seti_') && !String(clientSecret).includes('_secret_')) {
+        console.error('Client secret looks like a SetupIntent ID (missing secret). Did the server return the ID instead of the client_secret?),', clientSecret);
+        throw new Error('Invalid client_secret returned from server (looks like an ID). Ensure server returns the full client_secret.');
+      }
   
       const { setupIntent, error } = await this.stripe.confirmCardSetup(
         clientSecret,
@@ -163,6 +183,7 @@ export class PaymentPage implements OnInit, AfterViewInit {
       );
   
       if (error) {
+        console.error('Stripe confirmCardSetup returned error object:', error);
         const errorElement = document.getElementById('card-errors');
         if (errorElement) {
           errorElement.textContent = error.message;
@@ -183,15 +204,30 @@ export class PaymentPage implements OnInit, AfterViewInit {
   
       const cardDetails = paymentMethod.card;
       const last4 = cardDetails.last4;
+      const brand = cardDetails.brand; // Get card brand (visa, mastercard, etc.)
   
       console.log('Checking if card exists with email:', formValues.email, ' and last4:', last4);
       const cardExists = await this.avatarService.checkCardExistsStripe(formValues.email, last4);
-      if (!cardExists) {
-        await this.avatarService.addCardStripe(formValues.email, paymentMethodId, last4);
-        await this.fetchSavedPaymentMethods();
+      
+      if (cardExists) {
+        throw new Error('This card is already saved to your account.');
       }
+      
+      // Save card to Firestore using the correct method
+      const cardData = {
+        cardId: paymentMethodId,
+        email: formValues.email,
+        last4: last4,
+        brand: brand || 'unknown'
+      };
+      
+      await this.avatarService.saveCard(cardData);
+      console.log('Card saved to Firestore:', cardData);
+      
+      // Also save to backend if needed
+      await this.paymentService.savePaymentMethod(formValues.email, paymentMethodId).toPromise();
   
-      return this.paymentService.savePaymentMethod(formValues.email, paymentMethodId).toPromise();
+      return cardData;
   
     } catch (error) {
       console.error('Error in processStripePayment:', error);

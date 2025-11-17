@@ -879,7 +879,7 @@ async checkCardExistsStripe(email: string, last4: string): Promise<boolean> {
 
 
 
-async saveCard(cardDetails: { cardId: string; email: string, last4: string }) {
+async saveCard(cardDetails: { cardId: string; email: string, last4: string | number, brand?: string }) {
   console.log('Saving card with details:', cardDetails);
 
   const cardsCollectionRef = collection(this.firestore, `Riders/${this.user.uid}/cards`);

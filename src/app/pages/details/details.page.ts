@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, updateEmail, updateProfile, User, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier, PhoneAuthProvider, reauthenticateWithCredential, signInWithPhoneNumber, sendEmailVerification } from '@angular/fire/auth';
+import { Auth, updateEmail, updateProfile, User, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier, PhoneAuthProvider, reauthenticateWithCredential, signInWithPhoneNumber, sendEmailVerification, EmailAuthProvider } from '@angular/fire/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -364,6 +364,69 @@ export class DetailsPage implements OnInit {
       }
     });
   }
+
+  // Try to re-authenticate the user using available methods.
+  // Returns true if re-authentication succeeded, false otherwise.
+  async reauthenticateUser(): Promise<boolean> {
+    try {
+      const user = this.authy.currentUser;
+      if (!user) return false;
+
+      // Prefer phone-based re-authentication if phoneNumber exists
+      if (user.phoneNumber) {
+        try {
+          await this.reauthenticateWithPhoneNumber();
+          return true;
+        } catch (e) {
+          console.error('Phone re-authentication failed', e);
+          // continue to password fallback
+        }
+      }
+
+      // If user has an email, prompt for password to re-authenticate
+      if (user.email) {
+        return await new Promise<boolean>(async (resolve) => {
+          const alert = await this.alertController.create({
+            header: 'Re-authenticate',
+            inputs: [
+              {
+                name: 'password',
+                type: 'password',
+                placeholder: 'Enter your password'
+              }
+            ],
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => resolve(false)
+              },
+              {
+                text: 'Verify',
+                handler: async (data) => {
+                  try {
+                    const credential = EmailAuthProvider.credential(user.email!, data.password);
+                    await reauthenticateWithCredential(user, credential);
+                    resolve(true);
+                  } catch (err) {
+                    console.error('Password re-authentication failed', err);
+                    this.overlay.showAlert(await this.translate.get('ERROR').toPromise(), err.message || await this.translate.get('GENERIC_ERROR').toPromise());
+                    resolve(false);
+                  }
+                }
+              }
+            ]
+          });
+          await alert.present();
+        });
+      }
+
+      return false;
+    } catch (e) {
+      console.error('reauthenticateUser error', e);
+      return false;
+    }
+  }
   
   
   
@@ -406,7 +469,7 @@ export class DetailsPage implements OnInit {
                     await updateEmail(user, this.form.value.email);
                     // Send verification email
                     await sendEmailVerification(user);
-                    
+
                     // Show success message
                     await this.alertController.create({
                       header: await this.translate.get('EMAIL_VERIFICATION_SENT').toPromise(),
@@ -414,24 +477,68 @@ export class DetailsPage implements OnInit {
                       buttons: ['OK']
                     }).then(alert => alert.present());
                   } catch (error) {
-                    if (error.code === 'auth/requires-recent-login') {
-                      await this.reauthenticateWithPhoneNumber();
+                    if (error && error.code === 'auth/requires-recent-login') {
+                      const reauthOk = await this.reauthenticateUser();
+                      if (reauthOk) {
+                        try {
+                          const freshUser = this.authy.currentUser;
+                          if (freshUser) {
+                            await updateEmail(freshUser, this.form.value.email);
+                            await sendEmailVerification(freshUser);
+                            await this.alertController.create({
+                              header: await this.translate.get('EMAIL_VERIFICATION_SENT').toPromise(),
+                              message: await this.translate.get('CHECK_EMAIL').toPromise(),
+                              buttons: ['OK']
+                            }).then(a => a.present());
+                          }
+                        } catch (err2) {
+                          console.error('Failed to update email after reauthentication', err2);
+                          this.overlay.showAlert(await this.translate.get('ERROR').toPromise(), err2.message || await this.translate.get('GENERIC_ERROR').toPromise());
+                          return;
+                        }
+                      } else {
+                        // Re-authentication failed or was cancelled by the user.
+                        this.overlay.showAlert(await this.translate.get('ERROR').toPromise(), await this.translate.get('PLEASE_WAIT').toPromise());
+                        return;
+                      }
                     } else {
-                      throw error;
+                      this.overlay.showAlert(await this.translate.get('ERROR').toPromise(), error?.message || await this.translate.get('GENERIC_ERROR').toPromise());
+                      return;
                     }
+                  }
+
+                  // Only create/update avatar and navigate after email handling completes
+                  try {
+                    await this.avatar.createUser(
+                      `${this.form.value.fullname} ${this.form.value.lastname}`,
+                      this.form.value.email,
+                      this.imageUrl,
+                      user.phoneNumber,
+                      user.uid
+                    );
+                    this.approve2 = false;
+                    this.router.navigateByUrl('home');
+                    console.log('Profile updated');
+                  } catch (createErr) {
+                    console.error('Error creating/updating avatar after email change', createErr);
+                    this.overlay.showAlert(await this.translate.get('ERROR').toPromise(), createErr?.message || await this.translate.get('GENERIC_ERROR').toPromise());
+                    this.approve2 = false;
                   }
                 }
               }
             ]
           });
           await alert.present();
+          // Stop further execution here; avatar.createUser will be handled in the alert handler.
+          return;
         }
 
+        // No email change required — proceed to create/update avatar and navigate
         await this.avatar.createUser(
-          `${this.form.value.fullname} ${this.form.value.lastname}`, 
-          this.form.value.email, 
-          this.imageUrl, 
-          user.phoneNumber, 
+          `${this.form.value.fullname} ${this.form.value.lastname}`,
+          this.form.value.email,
+          this.imageUrl,
+          user.phoneNumber,
           user.uid
         );
 

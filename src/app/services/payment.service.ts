@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentService {
-  private serverUrl = environment.serverUrl;
+  // Normalize serverUrl by removing any trailing slashes so concatenation
+  // like `${this.serverUrl}/setup-intent` won't produce a double slash.
+  private serverUrl = String(environment.serverUrl || '').replace(/\/\/+$|\/+$/g, '');
 
   constructor(private http: HttpClient) {}
 

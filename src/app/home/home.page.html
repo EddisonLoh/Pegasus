@@ -87,6 +87,19 @@
 
       <!--where to bar and button-->
       <ion-list class="bottomItems shadow-top" *ngIf="bookingStage" lines="full">
+
+            <!-- Preset places row -->
+            <div class="preset-row ion-padding-horizontal">
+              <ion-chip *ngFor="let p of presets; let i = index" (click)="selectPreset(p)" outline="true">
+                <ion-label>{{p.name}}</ion-label>
+                <ion-icon name="close-circle" slot="end" (click)="deletePreset(i); $event.stopPropagation();"></ion-icon>
+              </ion-chip>
+
+              <ion-button fill="clear" size="small" (click)="addCurrentAsPreset()">
+                <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+              </ion-button>
+            </div>
+
   
         <ion-item-group class="ion-margin-horizontal ion-margin-bottom ">
           <ion-button 
