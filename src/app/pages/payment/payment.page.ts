@@ -55,7 +55,10 @@ export class PaymentPage implements OnInit, AfterViewInit {
   // Ensure Stripe card is initialized
   initializeStripeCard() {
     if (this.cardElement && this.cardElement.nativeElement) {
-      this.stripe = Stripe('pk_test_51SShK5PRgzt7CIyewdombVyUyoBjYRQGrw8uBfWOF58l49mTcKZzWoeeyeBrjcsLT8NzCDKKjbwZQfDnNnpFzoxn00ivj0cGEe');
+            // this.stripe = Stripe('pk_test_51SShK5PRgzt7CIyewdo
+            //   mbVyUyoBjYRQGrw8uBfWOF58l49mTcKZzWoeeyeBrjcsLT8NzCDKKjbwZQfDnNnpFzoxn00ivj0cGEe');
+
+      this.stripe = Stripe('pk_test_5Ee');
       this.elements = this.stripe.elements();
       if (!this.card) {
         this.card = this.elements.create('card');
