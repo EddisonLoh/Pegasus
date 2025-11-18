@@ -1,3 +1,4 @@
+/// <reference types="google.maps" />
 import { AfterViewInit, Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { ModalOptions, ModalController, Platform, NavController, AlertController, ToastController, ActionSheetController } from '@ionic/angular';
@@ -23,7 +24,7 @@ import { LatLngLiteral } from '@googlemaps/google-maps-services-js';
 import { LatLng } from '@capacitor/google-maps/dist/typings/definitions';
 import { Preferences } from '@capacitor/preferences';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
-import Debug from 'onesignal-cordova-plugin/dist/DebugNamespace';
+
 import { TripSummaryComponent } from '../trip-summary/trip-summary.component';
 import { geohashForLocation } from 'geofire-common';
 
@@ -122,6 +123,7 @@ export class HomePage implements AfterViewInit {
   destinationMarker: any;
   D_duration: any;
   routePolyline: any;
+  paymentProcessed: boolean = false;
   private routeUpdateSubscription: Subscription;
   topBarHeight: any;
   bottomBarHeight:any;
@@ -179,6 +181,11 @@ export class HomePage implements AfterViewInit {
     await this.clearAllPolylines();
   }
 
+
+  async ionViewWillEnter() {
+    // Refresh payment methods every time the view is entered
+    await this.fetchSavedPaymentMethods();
+  }
 
   async ngAfterViewInit() {
     try {
@@ -460,6 +467,7 @@ export class HomePage implements AfterViewInit {
     this.driverInfo = null;
     this.rideHasStarted = false;
     this.lastHandledState = null;
+    this.paymentProcessed = false; // Reset payment flag
     // Clear any other ride-specific data
   }
 
@@ -585,7 +593,20 @@ export class HomePage implements AfterViewInit {
   }
 
   chooseCard(event: any) {
-    this.selectedCard = event.detail.value;
+    const selectedValue = event.detail.value;
+    
+    // Handle the \"Add Card\" option
+    if (selectedValue === 'add_card') {
+      this.openAddCardModal();
+      // Reset to previous selection if user cancels or if no cards after modal
+      if (!this.selectedCard || this.selectedCard === 'add_card') {
+        this.selectedCard = this.savedPaymentMethods.length > 0 ? this.savedPaymentMethods[0].cardId : 'cash';
+        this.cash = this.selectedCard === 'cash';
+      }
+      return;
+    }
+    
+    this.selectedCard = selectedValue;
     this.cash = this.selectedCard === 'cash';
     if (!this.cash) {
      // this.processPayment(this.authService.user.email, this.defaultAmount, this.selectedCard);
@@ -608,6 +629,117 @@ export class HomePage implements AfterViewInit {
     }
   }
 
+  async processRidePayment(rideData: any) {
+    try {
+      // Check if payment was already processed for this ride
+      if (this.paymentProcessed) {
+        console.log('Payment already processed for this ride, skipping...');
+        return;
+      }
+
+      // Check if payment was already processed in the database
+      const rideRef = doc(this.firestore, 'Request', this.requestID);
+      const rideDoc = await getDoc(rideRef);
+      const existingData = rideDoc.data();
+      
+      if (existingData?.paymentProcessed) {
+        console.log('Payment already processed in database, skipping...');
+        this.paymentProcessed = true;
+        return;
+      }
+      
+      console.log('Processing ride payment...');
+      
+      // Calculate split: 80% to driver, 20% to company
+      const totalAmount = Math.round(this.price * 100); // Convert to cents 
+      const driverAmount = Math.round(totalAmount * 0.80);
+      const companyAmount = totalAmount - driverAmount;
+      
+      const paymentData = {
+        email: this.database.user.email,
+        amount: totalAmount,
+        currency: 'usd',
+        paymentMethodId: this.selectedCard,
+        driverId: rideData.driverDetails?.Driver_id || this.driverInfo?.Driver_id,
+        rideId: this.requestID,
+        driverAmount: driverAmount,
+        companyAmount: companyAmount,
+        description: `Ride from ${this.locationAddress} to ${this.destinationAddress}`
+      };
+      
+      console.log('Payment data:', paymentData);
+      
+      // Show loading indicator using overlay service
+      this.overlay.showLoader('Processing payment...');
+      
+      // Process the payment
+      const paymentResult = await this.payME.processRidePayment(paymentData).toPromise();
+      
+      this.overlay.hideLoader();
+      
+      if (paymentResult.success) {
+        console.log('Payment processed successfully:', paymentResult);
+        
+        // Mark payment as processed FIRST
+        this.paymentProcessed = true;
+        
+        // Update ride document with payment information
+        await updateDoc(doc(this.firestore, 'Request', this.requestID), {
+          paymentProcessed: true,
+          paymentIntentId: paymentResult.paymentIntentId,
+          paymentAmount: totalAmount,
+          paymentTimestamp: new Date(),
+          driverAmount: driverAmount,
+          companyAmount: companyAmount
+        });
+        
+        // Show success toast
+        const toast = await this.toastController.create({
+          message: 'Payment processed successfully',
+          duration: 2000,
+          position: 'bottom',
+          color: 'success'
+        });
+        await toast.present();
+      } else {
+        throw new Error(paymentResult.error || 'Payment failed');
+      }
+    } catch (error) {
+      console.error('Error processing ride payment:', error);
+      this.overlay.hideLoader();
+      
+      // Show error to user but don't cancel the ride
+      const alert = await this.alert.create({
+        header: 'Payment Error',
+        message: 'Payment could not be processed. You can pay cash to the driver instead.',
+        buttons: [
+          {
+            text: 'Pay Cash',
+            handler: async () => {
+              // Switch to cash payment
+              this.cash = true;
+              this.paymentProcessed = true; // Mark as processed to prevent retry
+              await updateDoc(doc(this.firestore, 'Request', this.requestID), {
+                cash: true,
+                paymentMethod: 'cash',
+                paymentProcessed: true
+              });
+            }
+          },
+          {
+            text: 'Retry Payment',
+            handler: async () => {
+              // Reset the flag before retrying
+              this.paymentProcessed = false;
+              await this.processRidePayment(rideData);
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+  }
+
   async showPaymentErrorModal(errorMessage: string) {
     const alert = await this.alert.create({
       header: 'Payment Error',
@@ -616,15 +748,7 @@ export class HomePage implements AfterViewInit {
         {
           text: 'Add New Card',
           handler: async () => {
-            const modal = await this.modalCtrl.create({
-              component: AddCardComponent, // Create this component to handle adding a new card
-            });
-            await modal.present();
-            const { data } = await modal.onWillDismiss();
-            if (data && data.newCardId) {
-              this.selectedCard = data.newCardId;
-              this.cash = false;
-            }
+            await this.openAddCardModal();
           }
         },
         {
@@ -634,6 +758,23 @@ export class HomePage implements AfterViewInit {
       ]
     });
     await alert.present();
+  }
+
+  async openAddCardModal() {
+    const modal = await this.modalCtrl.create({
+      component: AddCardComponent,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data && data.success) {
+      // Refresh payment methods after adding a card
+      await this.fetchSavedPaymentMethods();
+      // Select the newly added card if available
+      if (this.savedPaymentMethods.length > 0) {
+        this.selectedCard = this.savedPaymentMethods[this.savedPaymentMethods.length - 1].cardId;
+        this.cash = false;
+      }
+    }
   }
 
 
@@ -1571,20 +1712,44 @@ async handleRideStop(docSnapshot) {
     
     const rideData = {
       tripId: tripId || '',
+      riderId: this.database.user?.uid || '',
       driverId: docData?.driverDetails?.Driver_id || this.driverInfo?.Driver_id || '',
       driverName: docData?.driverDetails?.Driver_name || this.driverInfo?.Driver_name || 'Unknown Driver',
       driverImage: docData?.driverDetails?.Driver_imgUrl || this.driverInfo?.Driver_imgUrl || '',
       driverCar: docData?.driverDetails?.Driver_car || this.driverInfo?.Driver_car || '',
       driverPlate: docData?.driverDetails?.Driver_plate || this.driverInfo?.Driver_plate || '',
+      driverRating: docData?.driverDetails?.Driver_rating || this.driverInfo?.Driver_rating || 0,
       pickup: docData?.Rider_Location || this.locationAddress || 'Unknown pickup',
       destination: docData?.Rider_Destination || this.destinationAddress || 'Unknown destination',
+      Loc_lat: docData?.Loc_lat || this.LatLng?.lat || 0,
+      Loc_lng: docData?.Loc_lng || this.LatLng?.lng || 0,
+      Des_lat: docData?.Des_lat || this.D_LatLng?.lat || 0,
+      Des_lng: docData?.Des_lng || this.D_LatLng?.lng || 0,
+      Rider_Location: docData?.Rider_Location || this.locationAddress || 'Unknown pickup',
+      Rider_Destination: docData?.Rider_Destination || this.destinationAddress || 'Unknown destination',
+      Driver_name: docData?.driverDetails?.Driver_name || this.driverInfo?.Driver_name || 'Unknown Driver',
+      Driver_car: docData?.driverDetails?.Driver_car || this.driverInfo?.Driver_car || '',
+      Driver_plate: docData?.driverDetails?.Driver_plate || this.driverInfo?.Driver_plate || '',
+      Driver_imgUrl: docData?.driverDetails?.Driver_imgUrl || this.driverInfo?.Driver_imgUrl || '',
+      Driver_rating: docData?.driverDetails?.Driver_rating || this.driverInfo?.Driver_rating || 0,
       price: docData?.price || this.price || 0,
       distance: docData?.distance || this.distance || 0,
       duration: docData?.duration || this.duration || '',
       rating: docData?.driverDetails?.Driver_rating || this.driverInfo?.Driver_rating || 0,
       completed: true,
-      completedAt: new Date()
+      completedAt: new Date(),
+      timestamp: new Date()
     };
+
+    // Save to ride history BEFORE showing modal
+    try {
+      console.log('Saving ride history with data:', rideData);
+      await this.database.saveRideHistory(rideData);
+      console.log('Ride history saved successfully');
+    } catch (historyError) {
+      console.error('Failed to save ride history:', historyError);
+      // Don't block the modal from showing even if history save fails
+    }
 
     // CRITICAL: Clear ride state from storage BEFORE showing modal
     try {
@@ -1644,6 +1809,7 @@ private clearRideState() {
   this.animatedMarker = null;
   this.driverLocation = null;
   this.isRideStopProcessed = false;
+  this.paymentProcessed = false; // Reset payment flag
   
   // Reset stage-related properties
   this.bookingStage = false;
@@ -1704,6 +1870,15 @@ async handleRideConfirmation(docOrData) {
     // Update ride information
     this.requestID = docId || rideData.requestId;
     this.driverInfo = rideData.driverDetails;
+    
+    // Process payment if not using cash AND not already processed
+    if (!this.cash && this.selectedCard && this.selectedCard !== 'cash' && !this.paymentProcessed && !rideData.paymentProcessed) {
+      await this.processRidePayment(rideData);
+    } else if (rideData.paymentProcessed) {
+      // Payment was already processed, just update the flag
+      console.log('Payment already processed in previous session');
+      this.paymentProcessed = true;
+    }
     
     // Set driver information for UI display to avoid template errors
     if (this.driverInfo) {
@@ -1839,7 +2014,7 @@ const options: ModalOptions = {
         userId: this.requestID,
         message: ""
     },
-    swipeToClose: true,
+   
 };
 
 const modal = await this.modalCtrl.create(options);
@@ -2040,7 +2215,7 @@ async showAutocompleteModal(): Promise<void> {
           LatLng: this.LatLng,
           locationAddress: this.locationAddress,
       },
-      swipeToClose: true,
+
   };
 
   const modal = await this.modalCtrl.create(options);

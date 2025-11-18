@@ -46,7 +46,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ 4666);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ 2508);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 5992);
 /* harmony import */ var _login_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login-routing.module */ 5393);
 /* harmony import */ var _login_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login.page */ 6825);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngx-translate/core */ 8699);
@@ -97,14 +97,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _country_search_modal_country_search_modal_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../country-search-modal/country-search-modal.component */ 9568);
 /* harmony import */ var _capacitor_preferences__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @capacitor/preferences */ 5191);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 2560);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 5992);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ionic/angular */ 2124);
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/auth.service */ 7556);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/router */ 124);
 /* harmony import */ var _services_avatar_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/avatar.service */ 5083);
 /* harmony import */ var _services_overlay_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../services/overlay.service */ 5596);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ngx-translate/core */ 8699);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ngx-translate/core */ 8699);
 /* harmony import */ var _services_country_flag_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/country-flag.service */ 699);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/common */ 4666);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/common */ 4666);
 
 
 
@@ -228,6 +229,19 @@ function LoginPage_ion_spinner_38_Template(rf, ctx) {
   }
 }
 
+const _c0 = function () {
+  return {
+    clickable: true
+  };
+};
+
+const _c1 = function () {
+  return {
+    delay: 3000,
+    disableOnInteraction: false
+  };
+};
+
 class LoginPage {
   constructor(modalCtrl, auth, router, avatar, overlay, alertController, platform, translate, countryFlagService) {
     this.modalCtrl = modalCtrl;
@@ -247,18 +261,7 @@ class LoginPage {
     this.userCountry = 'MY'; // Default to Malaysia
 
     this.isInTestMode = false; // Flag to track if we're in test mode
-
-    this.slideOpts = {
-      initialSlide: 0,
-      speed: 400,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false
-      },
-      pagination: {
-        clickable: true
-      }
-    }; // Set Malaysia as default - no auto-detection
+    // Set Malaysia as default - no auto-detection
 
     this.CountryCode = '+60';
     this.numberT = '+60';
@@ -398,17 +401,7 @@ class LoginPage {
 
         _this4.overlay.showLoader('');
 
-        const fullPhoneNumber = _this4.numberT + _this4.form.value.phone; // Enhanced logging for debugging
-
-        console.log('═══════════════════════════════════════');
-        console.log('🚀 Starting Sign In Process');
-        console.log('═══════════════════════════════════════');
-        console.log('📱 Phone Number:', fullPhoneNumber);
-        console.log('🌐 Country Code:', _this4.numberT);
-        console.log('🔢 Phone Input:', _this4.form.value.phone);
-        console.log('🧪 Test Mode:', _this4.isInTestMode);
-        console.log('⏰ Timestamp:', new Date().toISOString());
-        console.log('═══════════════════════════════════════');
+        const fullPhoneNumber = _this4.numberT + _this4.form.value.phone;
         let confirmationResult; // Check if we're in test mode - bypass Firebase
 
         if (_this4.isInTestMode) {
@@ -424,15 +417,11 @@ class LoginPage {
 
         try {
           confirmationResult = yield _this4.auth.signInWithPhoneNumber(fullPhoneNumber);
-          console.log('✅ Firebase authentication successful');
         } catch (authError) {
-          console.error('❌ Firebase authentication failed');
-          console.error('Error details:', authError);
+          console.error('Firebase authentication error:', authError);
 
-          _this4.overlay.hideLoader(); // Show simple error popup with error code
+          _this4.overlay.hideLoader(); // For ANY Firebase error, offer test mode - simpler approach
 
-
-          yield _this4.showSimpleErrorPopup(authError, fullPhoneNumber); // For ANY Firebase error, offer test mode
 
           const wantsTestMode = yield _this4.showErrorWithTestModeOption(authError.code);
 
@@ -456,7 +445,7 @@ class LoginPage {
             confirmationResult: confirmationResult,
             isTestMode: false
           },
-          swipeToClose: true
+          canDismiss: true
         });
         yield modal.present();
         const {
@@ -551,266 +540,31 @@ class LoginPage {
     })();
   }
 
-  showDetailedErrorPopup(error, phoneNumber) {
+  switchToTestMode() {
     var _this6 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const errorCode = error.code || 'unknown';
-      const errorMessage = error.message || 'No error message'; // Create detailed error report
-
-      let detailedMessage = `
-🔍 <strong>Detailed Error Information:</strong>
-━━━━━━━━━━━━━━━━━━━━━━━━
-
-📱 <strong>Phone Number:</strong> ${phoneNumber}
-🔴 <strong>Error Code:</strong> ${errorCode}
-💬 <strong>Error Message:</strong> ${errorMessage}
-⏰ <strong>Time:</strong> ${new Date().toLocaleString()}
-🌐 <strong>Platform:</strong> ${_this6.platform.is('android') ? 'Android' : _this6.platform.is('ios') ? 'iOS' : 'Web'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━
-
-`; // Add specific guidance based on error code
-
-      if (errorCode === 'auth/invalid-app-credential') {
-        detailedMessage += `
-<strong>🔴 CRITICAL: Invalid App Credential</strong>
-
-<strong>What this means:</strong>
-Firebase cannot verify your Android app's identity.
-
-<strong>✅ SOLUTION:</strong>
-1. Get SHA-1 fingerprint:
-   <code>cd android && .\\gradlew signingReport</code>
-
-2. Add fingerprint to Firebase Console:
-   Project Settings → Your Apps → Android app
-
-3. Download new google-services.json
-
-4. Replace the old file and rebuild:
-   <code>ionic capacitor sync android</code>
-
-<strong>🔗 Firebase Console:</strong>
-https://console.firebase.google.com/project/pegasus-2be94/settings/general
-`;
-      } else if (errorCode === 'auth/quota-exceeded' || errorCode === 'auth/too-many-requests') {
-        detailedMessage += `
-<strong>⚠️ Quota or Rate Limit Exceeded</strong>
-
-<strong>Possible causes:</strong>
-• SMS daily quota reached
-• Too many requests from this device
-• Billing not enabled on Firebase project
-
-<strong>Check:</strong>
-Firebase Console → Usage
-https://console.firebase.google.com/project/pegasus-2be94/usage
-`;
-      } else if (errorCode === 'auth/network-request-failed') {
-        detailedMessage += `
-<strong>🌐 Network Connection Issue</strong>
-
-<strong>Check:</strong>
-• Internet connection is active
-• Firebase services are reachable
-• No firewall blocking Firebase
-`;
-      }
-
-      detailedMessage += `
-━━━━━━━━━━━━━━━━━━━━━━━━
-<strong>💡 This detailed error is also logged in LogCat</strong>
-`; // Log to console for LogCat
-
-      console.error('═══════════════════════════════════════');
-      console.error('📋 DETAILED ERROR POPUP');
-      console.error('═══════════════════════════════════════');
-      console.error(detailedMessage.replace(/<[^>]*>/g, '')); // Remove HTML tags for console
-
-      console.error('═══════════════════════════════════════');
-      const alert = yield _this6.alertController.create({
-        header: '🔍 Detailed Error Report',
-        message: detailedMessage,
-        cssClass: 'detailed-error-alert',
-        buttons: [{
-          text: 'Copy to Clipboard',
-          handler: () => {
-            // Copy error details to clipboard
-            const textVersion = detailedMessage.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
-
-            if (navigator.clipboard) {
-              navigator.clipboard.writeText(textVersion);
-              console.log('✅ Error details copied to clipboard');
-            }
-          }
-        }, {
-          text: 'OK',
-          role: 'cancel'
-        }]
-      });
-      yield alert.present();
-    })();
-  }
-
-  showSimpleErrorPopup(error, phoneNumber) {
-    var _this7 = this;
-
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const errorCode = error.code || 'unknown';
-      const errorMessage = error.message || 'No error message'; // Log to console for debugging
-
-      console.error('═══════════════════════════════════════');
-      console.error('❌ AUTHENTICATION ERROR');
-      console.error('═══════════════════════════════════════');
-      console.error('📱 Phone Number:', phoneNumber);
-      console.error('🔴 Error Code:', errorCode);
-      console.error('💬 Error Message:', errorMessage);
-      console.error('⏰ Timestamp:', new Date().toISOString());
-      console.error('🌐 Platform:', _this7.platform.is('android') ? 'Android' : _this7.platform.is('ios') ? 'iOS' : 'Web');
-      console.error('═══════════════════════════════════════'); // Create simple, clear error message
-
-      let title = '❌ Authentication Error';
-      let message = ''; // Provide specific guidance based on error code
-
-      if (errorCode === 'auth/invalid-app-credential') {
-        title = '🔴 Invalid App Credential';
-        message = `
-<strong>Error Code:</strong> ${errorCode}
-
-<strong>Problem:</strong>
-Firebase cannot verify your Android app.
-
-<strong>Quick Fix:</strong>
-1. Get SHA-1 fingerprint
-2. Add to Firebase Console
-3. Download new google-services.json
-4. Rebuild app
-
-<strong>Command:</strong>
-<code>cd android && .\\gradlew signingReport</code>
-
-<strong>Phone:</strong> ${phoneNumber}
-`;
-      } else if (errorCode === 'auth/quota-exceeded') {
-        title = '⚠️ SMS Quota Exceeded';
-        message = `
-<strong>Error Code:</strong> ${errorCode}
-
-<strong>Problem:</strong>
-Daily SMS quota limit reached.
-
-<strong>Solutions:</strong>
-• Wait 24 hours
-• Check Firebase Console → Usage
-• Use test mode
-
-<strong>Phone:</strong> ${phoneNumber}
-`;
-      } else if (errorCode === 'auth/too-many-requests') {
-        title = '⚠️ Too Many Requests';
-        message = `
-<strong>Error Code:</strong> ${errorCode}
-
-<strong>Problem:</strong>
-Too many authentication attempts.
-
-<strong>Solutions:</strong>
-• Wait 1-2 hours
-• Use test mode
-
-<strong>Phone:</strong> ${phoneNumber}
-`;
-      } else if (errorCode === 'auth/captcha-check-failed') {
-        title = '🤖 reCAPTCHA Failed';
-        message = `
-<strong>Error Code:</strong> ${errorCode}
-
-<strong>Problem:</strong>
-reCAPTCHA verification failed.
-
-<strong>Solutions:</strong>
-• Check internet connection
-• Try again in a few minutes
-
-<strong>Phone:</strong> ${phoneNumber}
-`;
-      } else if (errorCode === 'auth/network-request-failed') {
-        title = '🌐 Network Error';
-        message = `
-<strong>Error Code:</strong> ${errorCode}
-
-<strong>Problem:</strong>
-Cannot reach Firebase servers.
-
-<strong>Solutions:</strong>
-• Check internet connection
-• Try again
-
-<strong>Phone:</strong> ${phoneNumber}
-`;
-      } else {
-        // Generic error
-        message = `
-<strong>Error Code:</strong> ${errorCode}
-
-<strong>Message:</strong>
-${errorMessage}
-
-<strong>Phone:</strong> ${phoneNumber}
-
-<strong>Time:</strong> ${new Date().toLocaleString()}
-`;
-      }
-
-      const alert = yield _this7.alertController.create({
-        header: title,
-        message: message,
-        cssClass: 'simple-error-alert',
-        buttons: [{
-          text: 'Copy Error Code',
-          handler: () => {
-            const errorText = `Error Code: ${errorCode}\nMessage: ${errorMessage}\nPhone: ${phoneNumber}\nTime: ${new Date().toISOString()}`;
-
-            if (navigator.clipboard) {
-              navigator.clipboard.writeText(errorText);
-              console.log('✅ Error code copied to clipboard');
-            }
-          }
-        }, {
-          text: 'OK',
-          role: 'cancel'
-        }]
-      });
-      yield alert.present();
-    })();
-  }
-
-  switchToTestMode() {
-    var _this8 = this;
-
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Make sure loader is hidden
-      _this8.overlay.hideLoader(); // Set test credentials
+      _this6.overlay.hideLoader(); // Set test credentials
 
 
-      _this8.CountryCode = '+60';
-      _this8.numberT = '+60';
+      _this6.CountryCode = '+60';
+      _this6.numberT = '+60';
       const defaultNumbers = ['1234567856'];
       const randomDefaultNumber = defaultNumbers[Math.floor(Math.random() * defaultNumbers.length)];
 
-      _this8.form.controls['phone'].setValue(randomDefaultNumber);
+      _this6.form.controls['phone'].setValue(randomDefaultNumber);
 
       const testOTP = '123456';
       localStorage.setItem('defaultOTP', testOTP); // Set test mode flag so next signIn() call bypasses Firebase
 
-      _this8.isInTestMode = true; // Show instructions about what was filled
+      _this6.isInTestMode = true; // Show instructions about what was filled
 
-      const alert = yield _this8.alertController.create({
-        header: yield _this8.translate.get('TEST_MODE_ACTIVATED_TITLE').toPromise(),
-        message: (yield _this8.translate.get('TEST_MODE_ACTIVATED_MESSAGE').toPromise()) + `\n\n📱 ${yield _this8.translate.get('PHONE').toPromise()}: +60${randomDefaultNumber}\n🔐 OTP: ${testOTP}\n\n` + (yield _this8.translate.get('TEST_MODE_NEXT_STEP').toPromise()),
+      const alert = yield _this6.alertController.create({
+        header: yield _this6.translate.get('TEST_MODE_ACTIVATED_TITLE').toPromise(),
+        message: (yield _this6.translate.get('TEST_MODE_ACTIVATED_MESSAGE').toPromise()) + `\n\n📱 ${yield _this6.translate.get('PHONE').toPromise()}: +60${randomDefaultNumber}\n🔐 OTP: ${testOTP}\n\n` + (yield _this6.translate.get('TEST_MODE_NEXT_STEP').toPromise()),
         buttons: [{
-          text: yield _this8.translate.get('GOT_IT').toPromise(),
+          text: yield _this6.translate.get('GOT_IT').toPromise(),
           handler: () => {// User can now see the filled form and click Continue button themselves
             // When they click Continue, isInTestMode flag will bypass Firebase
           }
@@ -821,30 +575,39 @@ ${errorMessage}
   }
 
   proceedWithTestMode(phoneNumber, testOTP) {
-    var _this9 = this;
+    var _this7 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Use the correct test phone number
-      const testPhoneNumber = '1234567856'; // Create a mock confirmation result for test mode
+      const testPhoneNumber = '1234567856'; // Create a PURE MOCK confirmation result - NO FIREBASE CALLS
 
       const mockConfirmationResult = {
         confirm: function () {
           var _ref2 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (otp) {
-            if (otp === testOTP) {
-              // In test mode, sign in with the test phone number
-              try {
-                _this9.overlay.showLoader('');
+            console.log('🧪 Test mode: Verifying OTP:', otp);
 
-                const fullPhoneNumber = '+60' + testPhoneNumber;
-                const realConfirmationResult = yield _this9.auth.signInWithPhoneNumber(fullPhoneNumber);
+            if (otp === testOTP) {
+              // IMPORTANT: Don't call Firebase at all in test mode
+              // Return a mock user structure that matches Firebase user
+              console.log('✅ Test mode: OTP verified successfully'); // For test mode, we need to actually authenticate with Firebase
+              // but only ONCE when OTP is verified, not during initial SMS request
+
+              try {
+                _this7.overlay.showLoader('Signing in...');
+
+                const fullPhoneNumber = '+60' + testPhoneNumber; // This is the ONLY Firebase call in test mode - when OTP is verified
+
+                const realConfirmationResult = yield _this7.auth.signInWithPhoneNumber(fullPhoneNumber);
                 const result = yield realConfirmationResult.confirm(otp);
 
-                _this9.overlay.hideLoader();
+                _this7.overlay.hideLoader();
 
+                console.log('✅ Test mode: Firebase authentication completed');
                 return result;
               } catch (error) {
-                _this9.overlay.hideLoader();
+                _this7.overlay.hideLoader();
 
+                console.error('❌ Test mode: Firebase authentication failed:', error);
                 throw error;
               }
             } else {
@@ -858,7 +621,7 @@ ${errorMessage}
         }()
       }; // Open OTP modal with test credentials pre-filled
 
-      const modal = yield _this9.modalCtrl.create({
+      const modal = yield _this7.modalCtrl.create({
         component: _otp_otp_component__WEBPACK_IMPORTED_MODULE_1__.OtpComponent,
         componentProps: {
           defaultOtp: testOTP,
@@ -867,85 +630,85 @@ ${errorMessage}
           confirmationResult: mockConfirmationResult,
           isTestMode: true
         },
-        swipeToClose: true
+        canDismiss: true
       });
       yield modal.present();
       const {
         data
       } = yield modal.onWillDismiss();
       if (!data?.user) return;
-      yield _this9.navigateAfterLogin(data.user);
+      yield _this7.navigateAfterLogin(data.user);
     })();
   }
 
   handleAuthError(error) {
-    var _this10 = this;
+    var _this8 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      let errorTitle = yield _this10.translate.get('ERROR').toPromise();
+      let errorTitle = yield _this8.translate.get('ERROR').toPromise();
       let errorMessage = '';
 
       switch (error.code) {
         case 'auth/invalid-phone-number':
-          errorMessage = yield _this10.translate.get('MOBILE_INVALID').toPromise();
+          errorMessage = yield _this8.translate.get('MOBILE_INVALID').toPromise();
           break;
 
         case 'auth/missing-phone-number':
-          errorMessage = yield _this10.translate.get('MOBILE_REQUIRED').toPromise();
+          errorMessage = yield _this8.translate.get('MOBILE_REQUIRED').toPromise();
           break;
 
         case 'auth/network-request-failed':
-          errorMessage = yield _this10.translate.get('NETWORK_ERROR').toPromise();
+          errorMessage = yield _this8.translate.get('NETWORK_ERROR').toPromise();
           break;
 
         case 'auth/too-many-requests':
-          errorTitle = yield _this10.translate.get('TOO_MANY_REQUESTS_TITLE').toPromise();
-          errorMessage = yield _this10.translate.get('TOO_MANY_REQUESTS').toPromise();
+          errorTitle = yield _this8.translate.get('TOO_MANY_REQUESTS_TITLE').toPromise();
+          errorMessage = yield _this8.translate.get('TOO_MANY_REQUESTS').toPromise();
           break;
 
         case 'auth/invalid-app-credential':
         case 'auth/quota-exceeded':
-          errorTitle = yield _this10.translate.get('SMS_QUOTA_TITLE').toPromise();
-          errorMessage = yield _this10.translate.get('SMS_QUOTA_MESSAGE').toPromise();
+          errorTitle = yield _this8.translate.get('SMS_QUOTA_TITLE').toPromise();
+          errorMessage = yield _this8.translate.get('SMS_QUOTA_MESSAGE').toPromise();
           break;
 
         case 'auth/captcha-check-failed':
-          errorTitle = yield _this10.translate.get('CAPTCHA_FAILED_TITLE').toPromise();
-          errorMessage = yield _this10.translate.get('CAPTCHA_FAILED_MESSAGE').toPromise();
+          errorTitle = yield _this8.translate.get('CAPTCHA_FAILED_TITLE').toPromise();
+          errorMessage = yield _this8.translate.get('CAPTCHA_FAILED_MESSAGE').toPromise();
           break;
 
         default:
-          errorMessage = `${yield _this10.translate.get('SIGN_IN_ERROR').toPromise()} ${error.code || error.message || 'Unknown error'}`;
+          errorMessage = `${yield _this8.translate.get('SIGN_IN_ERROR').toPromise()} ${error.code || error.message || 'Unknown error'}`;
           break;
       }
 
-      yield _this10.overlay.showAlert(errorTitle, errorMessage);
+      yield _this8.overlay.showAlert(errorTitle, errorMessage);
     })();
   }
 
   navigateAfterLogin(user) {
-    var _this11 = this;
+    var _this9 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Check if user has a rider profile
-        const hasRiderProfile = yield _this11.avatar.checkRiderProfile(user.uid);
+        const hasRiderProfile = yield _this9.avatar.checkRiderProfile(user.uid);
 
         if (hasRiderProfile) {
           // Existing rider - go to home
-          _this11.router.navigateByUrl('/home', {
+          _this9.router.navigateByUrl('/home', {
             replaceUrl: true
           });
         } else {
           // New user - complete profile
-          _this11.router.navigateByUrl('/details', {
+          _this9.router.navigateByUrl('/details', {
             replaceUrl: true
           });
         }
       } catch (error) {
         console.error('Error checking user profile:', error); // If error occurs, assume new user and redirect to details
 
-        _this11.router.navigateByUrl('/details', {
+        _this9.router.navigateByUrl('/details', {
           replaceUrl: true
         });
       }
@@ -959,11 +722,11 @@ ${errorMessage}
   }
 
   handleBackButton() {
-    var _this12 = this;
+    var _this10 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        yield _this12.showExitConfirmation();
+        yield _this10.showExitConfirmation();
       } catch (error) {
         console.error('Error handling back button:', error);
       }
@@ -971,17 +734,17 @@ ${errorMessage}
   }
 
   showExitConfirmation() {
-    var _this13 = this;
+    var _this11 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const alert = yield _this13.alertController.create({
-        header: yield _this13.translate.get('EXIT_APP').toPromise(),
-        message: yield _this13.translate.get('EXIT_CONFIRM').toPromise(),
+      const alert = yield _this11.alertController.create({
+        header: yield _this11.translate.get('EXIT_APP').toPromise(),
+        message: yield _this11.translate.get('EXIT_CONFIRM').toPromise(),
         buttons: [{
-          text: yield _this13.translate.get('CANCEL').toPromise(),
+          text: yield _this11.translate.get('CANCEL').toPromise(),
           role: 'cancel'
         }, {
-          text: yield _this13.translate.get('EXIT').toPromise(),
+          text: yield _this11.translate.get('EXIT').toPromise(),
           handler: () => {
             navigator['app'].exitApp();
           }
@@ -992,26 +755,26 @@ ${errorMessage}
   }
 
   changeLanguage(lang) {
-    var _this14 = this;
+    var _this12 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log('Changing language to:', lang);
 
       try {
         // Set the language immediately
-        _this14.translate.setDefaultLang(lang); // Use the translation service to switch language and wait for it
+        _this12.translate.setDefaultLang(lang); // Use the translation service to switch language and wait for it
 
 
-        yield _this14.translate.use(lang).toPromise();
+        yield _this12.translate.use(lang).toPromise();
         console.log('Language successfully changed to:', lang);
-        console.log('Current language:', _this14.translate.currentLang); // Save to preferences
+        console.log('Current language:', _this12.translate.currentLang); // Save to preferences
 
         yield _capacitor_preferences__WEBPACK_IMPORTED_MODULE_6__.Preferences.set({
           key: 'user-lang',
           value: lang
         }); // Force reload translations by getting a test key
 
-        const testTranslation = yield _this14.translate.get('APP_NAME').toPromise();
+        const testTranslation = yield _this12.translate.get('APP_NAME').toPromise();
         console.log('Test translation:', testTranslation);
       } catch (error) {
         console.error('Error changing language:', error);
@@ -1032,7 +795,7 @@ ${errorMessage}
   }
 
   detectUserCountry() {
-    var _this15 = this;
+    var _this13 = this;
 
     return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
@@ -1052,30 +815,30 @@ ${errorMessage}
         const data = yield response.json();
         const countryCode = data.country;
 
-        const matchingCountry = _this15.CountryJson.find(country => country.isoCode === countryCode);
+        const matchingCountry = _this13.CountryJson.find(country => country.isoCode === countryCode);
 
         if (matchingCountry) {
-          _this15.CountryCode = matchingCountry.dialCode;
-          _this15.numberT = matchingCountry.dialCode;
-          _this15.userCountry = countryCode;
+          _this13.CountryCode = matchingCountry.dialCode;
+          _this13.numberT = matchingCountry.dialCode;
+          _this13.userCountry = countryCode;
 
-          _this15.updateFlag(countryCode);
+          _this13.updateFlag(countryCode);
         } else {
           // If country not found, keep Malaysia as default
-          _this15.CountryCode = '+60';
-          _this15.numberT = '+60';
-          _this15.userCountry = 'MY';
+          _this13.CountryCode = '+60';
+          _this13.numberT = '+60';
+          _this13.userCountry = 'MY';
 
-          _this15.updateFlag('MY');
+          _this13.updateFlag('MY');
         }
       } catch (error) {
         console.error('Error detecting country:', error); // On error, ensure Malaysia defaults are set
 
-        _this15.CountryCode = '+60';
-        _this15.numberT = '+60';
-        _this15.userCountry = 'MY';
+        _this13.CountryCode = '+60';
+        _this13.numberT = '+60';
+        _this13.userCountry = 'MY';
 
-        _this15.updateFlag('MY');
+        _this13.updateFlag('MY');
       }
     })();
   }
@@ -1083,15 +846,15 @@ ${errorMessage}
 }
 
 LoginPage.ɵfac = function LoginPage_Factory(t) {
-  return new (t || LoginPage)(_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_13__.ModalController), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_7__.AuthService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_14__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_avatar_service__WEBPACK_IMPORTED_MODULE_8__.AvatarService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_overlay_service__WEBPACK_IMPORTED_MODULE_9__.OverlayService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_13__.AlertController), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_13__.Platform), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslateService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_country_flag_service__WEBPACK_IMPORTED_MODULE_10__.CountryFlagService));
+  return new (t || LoginPage)(_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_13__.ModalController), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_7__.AuthService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_14__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_avatar_service__WEBPACK_IMPORTED_MODULE_8__.AvatarService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_overlay_service__WEBPACK_IMPORTED_MODULE_9__.OverlayService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_13__.AlertController), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_15__.Platform), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_16__.TranslateService), _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdirectiveInject"](_services_country_flag_service__WEBPACK_IMPORTED_MODULE_10__.CountryFlagService));
 };
 
 LoginPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdefineComponent"]({
   type: LoginPage,
   selectors: [["app-login"]],
   decls: 54,
-  vars: 20,
-  consts: [[1, "ion-no-border", 3, "translucent"], [1, "header-toolbar"], [1, "app-title"], [1, "tagline"], [1, "login-content"], [1, "content-wrapper", 2, "padding-top", "10px"], [1, "slider-container"], ["pager", "true", 3, "options"], ["src", "../assets/imgs/main.svg"], ["src", "../assets/imgs/main1.svg"], ["src", "../assets/imgs/main2.svg"], [1, "form-container"], [3, "formGroup"], ["id", "sign-in-button"], [1, "phone-input-card"], [1, "card-content"], [1, "input-wrapper"], ["type", "button", 1, "country-select-btn", 3, "click"], ["class", "country-flag", "alt", "country flag", 3, "src", "error", 4, "ngIf"], ["class", "country-flag-emoji", 4, "ngIf"], [1, "country-code"], ["name", "chevron-down-outline", 1, "dropdown-icon"], [1, "phone-input-wrapper"], ["type", "tel", "formControlName", "phone", "clearInput", "", "minlength", "10", "maxlength", "10", 1, "phone-input", 3, "placeholder", "ionFocus", "ionBlur"], ["class", "validation-error", 4, "ngIf"], ["shape", "round", "size", "large", "type", "submit", "color", "primary", "expand", "block", 1, "submit-btn", 3, "disabled", "click"], [4, "ngIf"], ["slot", "end", "name", "arrow-forward-outline", 4, "ngIf"], ["name", "crescent", 4, "ngIf"], ["vertical", "bottom", "horizontal", "end", "slot", "fixed", 1, "language-fab"], ["size", "small", "color", "light"], ["name", "language-outline"], ["side", "top"], ["color", "light", "size", "small", 3, "click"], [1, "lang-flag"], [1, "ion-no-border"], ["id", "recaptcha-container"], ["alt", "country flag", 1, "country-flag", 3, "src", "error"], [1, "country-flag-emoji"], [1, "validation-error"], ["color", "danger"], ["slot", "end", "name", "arrow-forward-outline"], ["name", "crescent"]],
+  vars: 25,
+  consts: [[1, "ion-no-border", 3, "translucent"], [1, "header-toolbar"], [1, "app-title"], [1, "tagline"], [1, "login-content"], [1, "content-wrapper", 2, "padding-top", "10px"], [1, "slider-container"], [3, "pagination", "autoplay", "initialSlide", "speed"], ["src", "../assets/imgs/main.svg"], ["src", "../assets/imgs/main1.svg"], ["src", "../assets/imgs/main2.svg"], [1, "form-container"], [3, "formGroup"], ["id", "sign-in-button"], [1, "phone-input-card"], [1, "card-content"], [1, "input-wrapper"], ["type", "button", 1, "country-select-btn", 3, "click"], ["class", "country-flag", "alt", "country flag", 3, "src", "error", 4, "ngIf"], ["class", "country-flag-emoji", 4, "ngIf"], [1, "country-code"], ["name", "chevron-down-outline", 1, "dropdown-icon"], [1, "phone-input-wrapper"], ["type", "tel", "formControlName", "phone", "clearInput", "", "minlength", "10", "maxlength", "10", 1, "phone-input", 3, "placeholder", "ionFocus", "ionBlur"], ["class", "validation-error", 4, "ngIf"], ["shape", "round", "size", "large", "type", "submit", "color", "primary", "expand", "block", 1, "submit-btn", 3, "disabled", "click"], [4, "ngIf"], ["slot", "end", "name", "arrow-forward-outline", 4, "ngIf"], ["name", "crescent", 4, "ngIf"], ["vertical", "bottom", "horizontal", "end", "slot", "fixed", 1, "language-fab"], ["size", "small", "color", "light"], ["name", "language-outline"], ["side", "top"], ["color", "light", "size", "small", 3, "click"], [1, "lang-flag"], [1, "ion-no-border"], ["id", "recaptcha-container"], ["alt", "country flag", 1, "country-flag", 3, "src", "error"], [1, "country-flag-emoji"], [1, "validation-error"], ["color", "danger"], ["slot", "end", "name", "arrow-forward-outline"], ["name", "crescent"]],
   template: function LoginPage_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](0, "ion-header", 0)(1, "ion-toolbar", 1)(2, "ion-title", 2)(3, "h1");
@@ -1102,13 +865,13 @@ LoginPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵ
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵtext"](7);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpipe"](8, "translate");
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementEnd"]()()()();
-      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](9, "ion-content", 4)(10, "div", 5)(11, "div", 6)(12, "ion-slides", 7)(13, "ion-slide");
+      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](9, "ion-content", 4)(10, "div", 5)(11, "div", 6)(12, "swiper-container", 7)(13, "swiper-slide");
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelement"](14, "ion-img", 8);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementEnd"]();
-      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](15, "ion-slide");
+      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](15, "swiper-slide");
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelement"](16, "ion-img", 9);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementEnd"]();
-      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](17, "ion-slide");
+      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](17, "swiper-slide");
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelement"](18, "ion-img", 10);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementEnd"]()()();
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](19, "div", 11)(20, "form", 12);
@@ -1174,11 +937,11 @@ LoginPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵ
     if (rf & 2) {
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("translucent", true);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](4);
-      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpipeBind1"](5, 14, "PEGASUS"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpipeBind1"](5, 17, "PEGASUS"));
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](3);
-      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpipeBind1"](8, 16, "APP_TAGLINE"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpipeBind1"](8, 19, "APP_TAGLINE"));
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](5);
-      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("options", ctx.slideOpts);
+      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("pagination", _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpureFunction0"](23, _c0))("autoplay", _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpureFunction0"](24, _c1))("initialSlide", 0)("speed", 400);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](8);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("formGroup", ctx.form);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](6);
@@ -1188,7 +951,7 @@ LoginPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵ
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](2);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵtextInterpolate"](ctx.CountryCode);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](3);
-      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("placeholder", _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpipeBind1"](33, 18, "MOBILE_NUMBER"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("placeholder", _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵpipeBind1"](33, 21, "MOBILE_NUMBER"));
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](2);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("ngIf", !ctx.form.get("phone").valid && ctx.form.get("phone").touched);
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵadvance"](1);
@@ -1201,8 +964,8 @@ LoginPage.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵ
       _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵproperty"]("ngIf", ctx.approve2);
     }
   },
-  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_16__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_12__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_12__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.MinLengthValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.MaxLengthValidator, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonCardContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFab, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFabButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFabList, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFooter, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonImg, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonInput, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonSlide, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonSlides, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonSpinner, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonText, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.TextValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.FormControlName, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslatePipe],
-  styles: [".header-toolbar[_ngcontent-%COMP%] {\n  --background: transparent;\n  --border-width: 0;\n  padding-top: 20px;\n}\n\n.app-title[_ngcontent-%COMP%] {\n  text-align: center;\n}\n\n.app-title[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 32px;\n  font-weight: 700;\n  margin: 0;\n  padding: 0;\n  color: var(--ion-color-primary);\n}\n\n.app-title[_ngcontent-%COMP%]   .tagline[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: var(--ion-color-medium);\n  margin: 4px 0 0 0;\n  font-weight: 400;\n}\n\n.login-content[_ngcontent-%COMP%] {\n  --background: var(--ion-background-color);\n}\n\n.content-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  padding: 0 24px;\n}\n\n.slider-container[_ngcontent-%COMP%] {\n  flex: 0 0 auto;\n  margin: 20px 0;\n}\n\n.slider-container[_ngcontent-%COMP%]   ion-slides[_ngcontent-%COMP%] {\n  height: 280px;\n}\n\n.slider-container[_ngcontent-%COMP%]   ion-img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: contain;\n}\n\n.form-container[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  padding-bottom: 80px;\n}\n\n.phone-input-card[_ngcontent-%COMP%] {\n  margin: 0 0 24px 0;\n  border-radius: 16px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n}\n\n.phone-input-card[_ngcontent-%COMP%]   .card-content[_ngcontent-%COMP%] {\n  padding: 16px;\n}\n\n.input-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  background: var(--ion-color-light);\n  border-radius: 12px;\n  padding: 4px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n}\n\n.input-wrapper[_ngcontent-%COMP%]:focus-within {\n  border-color: var(--ion-color-primary);\n  background: var(--ion-color-light-tint);\n}\n\n.country-select-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 12px 16px;\n  background: white;\n  border: none;\n  border-radius: 10px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 110px;\n}\n\n.country-select-btn[_ngcontent-%COMP%]:hover {\n  background: var(--ion-color-light-shade);\n}\n\n.country-select-btn[_ngcontent-%COMP%]:active {\n  transform: scale(0.98);\n}\n\n.country-select-btn[_ngcontent-%COMP%]   .country-flag[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  border-radius: 4px;\n  object-fit: cover;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.country-select-btn[_ngcontent-%COMP%]   .country-code[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ion-color-dark);\n}\n\n.country-select-btn[_ngcontent-%COMP%]   .dropdown-icon[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: var(--ion-color-medium);\n}\n\n.phone-input-wrapper[_ngcontent-%COMP%] {\n  flex: 1;\n}\n\n.phone-input-wrapper[_ngcontent-%COMP%]   .phone-input[_ngcontent-%COMP%] {\n  --padding-start: 12px;\n  --padding-end: 12px;\n  --background: transparent;\n  --placeholder-color: var(--ion-color-medium);\n  --placeholder-opacity: 0.7;\n  font-size: 16px;\n  font-weight: 500;\n  height: 48px;\n}\n\n.validation-error[_ngcontent-%COMP%] {\n  margin-top: 12px;\n  padding: 0 4px;\n}\n\n.validation-error[_ngcontent-%COMP%]   small[_ngcontent-%COMP%] {\n  font-size: 13px;\n  display: block;\n  margin: 0;\n}\n\n.submit-btn[_ngcontent-%COMP%] {\n  margin-top: 8px;\n  height: 56px;\n  --border-radius: 14px;\n  font-weight: 600;\n  font-size: 17px;\n  text-transform: none;\n  letter-spacing: 0.3px;\n  box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);\n}\n\n.submit-btn[_ngcontent-%COMP%]:not([disabled]):hover {\n  --box-shadow: 0 6px 16px rgba(var(--ion-color-primary-rgb), 0.4);\n}\n\n.submit-btn[_ngcontent-%COMP%]:not([disabled]):active {\n  transform: scale(0.98);\n}\n\n.submit-btn[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 22px;\n  margin-left: 8px;\n}\n\n.submit-btn[_ngcontent-%COMP%]   ion-spinner[_ngcontent-%COMP%] {\n  --color: white;\n}\n\n.language-fab[_ngcontent-%COMP%] {\n  margin: 0 16px 16px 0;\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%] {\n  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 24px;\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-list[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%] {\n  width: 48px;\n  height: 48px;\n  margin: 8px 0;\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-list[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%]   ion-img[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  border-radius: 4px;\n}\n\nion-footer[_ngcontent-%COMP%] {\n  background: transparent;\n}\n\nion-footer[_ngcontent-%COMP%]   #recaptcha-container[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n  z-index: 1000;\n}\n\n@keyframes slide-left {\n  0% {\n    transform: translateX(0);\n  }\n  100% {\n    transform: translateX(-100px);\n  }\n}\n\n@keyframes slide-right {\n  0% {\n    transform: translateX(0);\n  }\n  100% {\n    transform: translateX(100px);\n  }\n}\n\n.slide-left[_ngcontent-%COMP%] {\n  animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;\n}\n\n.slide-right[_ngcontent-%COMP%] {\n  animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;\n}\n\n[dir=rtl][_ngcontent-%COMP%]   .input-wrapper[_ngcontent-%COMP%] {\n  flex-direction: row-reverse;\n}\n\n[dir=rtl][_ngcontent-%COMP%]   .country-select-btn[_ngcontent-%COMP%]   .country-flag[_ngcontent-%COMP%] {\n  margin-left: 8px;\n  margin-right: 0;\n}\n\n[dir=rtl][_ngcontent-%COMP%]   .submit-btn[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-right: 8px;\n  margin-left: 0;\n  transform: rotate(180deg);\n}\n\n@media (max-width: 360px) {\n  .app-title[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n    font-size: 28px;\n  }\n  .slider-container[_ngcontent-%COMP%]   ion-slides[_ngcontent-%COMP%] {\n    height: 220px;\n  }\n  .country-select-btn[_ngcontent-%COMP%] {\n    min-width: 95px;\n    padding: 10px 12px;\n  }\n  .country-select-btn[_ngcontent-%COMP%]   .country-flag[_ngcontent-%COMP%] {\n    width: 24px;\n    height: 24px;\n  }\n}\n\n@media (min-width: 768px) {\n  .content-wrapper[_ngcontent-%COMP%] {\n    max-width: 500px;\n    margin: 0 auto;\n  }\n}\n\n.country-flag-emoji[_ngcontent-%COMP%] {\n  font-size: 20px;\n  width: 24px;\n  height: 18px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin-right: 8px;\n}\n\n.lang-flag[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.country-flag[_ngcontent-%COMP%] {\n  width: 24px;\n  height: 18px;\n  object-fit: cover;\n  margin-right: 8px;\n  border-radius: 2px;\n}\n/*# sourceMappingURL=data:application/json;base64,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OztBQThDSTtFQUNFLGdCQUFBO0VBQ0EsZUFBQTtBQTVDTjs7QUFpREk7RUFDRSxpQkFBQTtFQUNBLGNBQUE7RUFDQSx5QkFBQTtBQS9DTjs7QUFxREE7RUFDRTtJQUNFLGVBQUE7RUFsREY7RUFzREE7SUFDRSxhQUFBO0VBcERGO0VBdURBO0lBQ0UsZUFBQTtJQUNBLGtCQUFBO0VBckRGO0VBdURFO0lBQ0UsV0FBQTtJQUNBLFlBQUE7RUFyREo7QUFDRjs7QUF5REE7RUFDRTtJQUNFLGdCQUFBO0lBQ0EsY0FBQTtFQXZERjtBQUNGOztBQTJEQTtFQUNFLGVBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtFQUNBLG9CQUFBO0VBQ0EsbUJBQUE7RUFDQSx1QkFBQTtFQUNBLGlCQUFBO0FBekRGOztBQTREQTtFQUNFLGVBQUE7RUFDQSxvQkFBQTtFQUNBLG1CQUFBO0VBQ0EsdUJBQUE7QUF6REY7O0FBNkRBO0VBQ0UsV0FBQTtFQUNBLFlBQUE7RUFDQSxpQkFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7QUExREYiLCJmaWxlIjoibG9naW4ucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gSGVhZGVyIFN0eWxlc1xyXG4uaGVhZGVyLXRvb2xiYXIge1xyXG4gIC0tYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XHJcbiAgLS1ib3JkZXItd2lkdGg6IDA7XHJcbiAgcGFkZGluZy10b3A6IDIwcHg7XHJcbn1cclxuXHJcbi5hcHAtdGl0bGUge1xyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICBcclxuICBoMSB7XHJcbiAgICBmb250LXNpemU6IDMycHg7XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG4gICAgbWFyZ2luOjA7XHJcbiAgICBwYWRkaW5nOjA7XHJcbiAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpO1xyXG4gIH1cclxuICBcclxuICAudGFnbGluZSB7XHJcbiAgICBmb250LXNpemU6IDE0cHg7XHJcbiAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICBtYXJnaW46IDRweCAwIDAgMDtcclxuICAgIGZvbnQtd2VpZ2h0OiA0MDA7XHJcbiAgfVxyXG59XHJcblxyXG4vLyBDb250ZW50IFN0eWxlc1xyXG4ubG9naW4tY29udGVudCB7XHJcbiAgLS1iYWNrZ3JvdW5kOiB2YXIoLS1pb24tYmFja2dyb3VuZC1jb2xvcik7XHJcbn1cclxuXHJcbi5jb250ZW50LXdyYXBwZXIge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBoZWlnaHQ6IDEwMCU7XHJcbiAgcGFkZGluZzogMCAyNHB4O1xyXG59XHJcblxyXG4vLyBTbGlkZXIgU3R5bGVzXHJcbi5zbGlkZXItY29udGFpbmVyIHtcclxuICBmbGV4OiAwIDAgYXV0bztcclxuICBtYXJnaW46IDIwcHggMDtcclxuICBcclxuICBpb24tc2xpZGVzIHtcclxuICAgIGhlaWdodDogMjgwcHg7XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1pbWcge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICBvYmplY3QtZml0OiBjb250YWluO1xyXG4gIH1cclxufVxyXG5cclxuLy8gRm9ybSBDb250YWluZXJcclxuLmZvcm0tY29udGFpbmVyIHtcclxuICBmbGV4OiAxO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XHJcbiAgcGFkZGluZy1ib3R0b206IDgwcHg7XHJcbn1cclxuXHJcbi8vIFBob25lIElucHV0IENhcmRcclxuLnBob25lLWlucHV0LWNhcmQge1xyXG4gIG1hcmdpbjogMCAwIDI0cHggMDtcclxuICBib3JkZXItcmFkaXVzOiAxNnB4O1xyXG4gIGJveC1zaGFkb3c6IDAgMnB4IDhweCByZ2JhKDAsIDAsIDAsIDAuMDgpO1xyXG4gIFxyXG4gIC5jYXJkLWNvbnRlbnQge1xyXG4gICAgcGFkZGluZzogMTZweDtcclxuICB9XHJcbn1cclxuXHJcbi8vIElucHV0IFdyYXBwZXJcclxuLmlucHV0LXdyYXBwZXIge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICBnYXA6IDEycHg7XHJcbiAgYmFja2dyb3VuZDogdmFyKC0taW9uLWNvbG9yLWxpZ2h0KTtcclxuICBib3JkZXItcmFkaXVzOiAxMnB4O1xyXG4gIHBhZGRpbmc6IDRweDtcclxuICBib3JkZXI6IDJweCBzb2xpZCB0cmFuc3BhcmVudDtcclxuICB0cmFuc2l0aW9uOiBhbGwgMC4zcyBlYXNlO1xyXG4gIFxyXG4gICY6Zm9jdXMtd2l0aGluIHtcclxuICAgIGJvcmRlci1jb2xvcjogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpO1xyXG4gICAgYmFja2dyb3VuZDogdmFyKC0taW9uLWNvbG9yLWxpZ2h0LXRpbnQpO1xyXG4gIH1cclxufVxyXG5cclxuLy8gQ291bnRyeSBTZWxlY3QgQnV0dG9uXHJcbi5jb3VudHJ5LXNlbGVjdC1idG4ge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICBnYXA6IDhweDtcclxuICBwYWRkaW5nOiAxMnB4IDE2cHg7XHJcbiAgYmFja2dyb3VuZDogd2hpdGU7XHJcbiAgYm9yZGVyOiBub25lO1xyXG4gIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgY3Vyc29yOiBwb2ludGVyO1xyXG4gIHRyYW5zaXRpb246IGFsbCAwLjJzIGVhc2U7XHJcbiAgbWluLXdpZHRoOiAxMTBweDtcclxuICBcclxuICAmOmhvdmVyIHtcclxuICAgIGJhY2tncm91bmQ6IHZhcigtLWlvbi1jb2xvci1saWdodC1zaGFkZSk7XHJcbiAgfVxyXG4gIFxyXG4gICY6YWN0aXZlIHtcclxuICAgIHRyYW5zZm9ybTogc2NhbGUoMC45OCk7XHJcbiAgfVxyXG4gIFxyXG4gIC5jb3VudHJ5LWZsYWcge1xyXG4gICAgd2lkdGg6IDI4cHg7XHJcbiAgICBoZWlnaHQ6IDI4cHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiA0cHg7XHJcbiAgICBvYmplY3QtZml0OiBjb3ZlcjtcclxuICAgIGJveC1zaGFkb3c6IDAgMXB4IDNweCByZ2JhKDAsIDAsIDAsIDAuMSk7XHJcbiAgfVxyXG4gIFxyXG4gIC5jb3VudHJ5LWNvZGUge1xyXG4gICAgZm9udC1zaXplOiAxNnB4O1xyXG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItZGFyayk7XHJcbiAgfVxyXG4gIFxyXG4gIC5kcm9wZG93bi1pY29uIHtcclxuICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItbWVkaXVtKTtcclxuICB9XHJcbn1cclxuXHJcbi8vIFBob25lIElucHV0IFdyYXBwZXJcclxuLnBob25lLWlucHV0LXdyYXBwZXIge1xyXG4gIGZsZXg6IDE7XHJcbiAgXHJcbiAgLnBob25lLWlucHV0IHtcclxuICAgIC0tcGFkZGluZy1zdGFydDogMTJweDtcclxuICAgIC0tcGFkZGluZy1lbmQ6IDEycHg7XHJcbiAgICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xyXG4gICAgLS1wbGFjZWhvbGRlci1jb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICAtLXBsYWNlaG9sZGVyLW9wYWNpdHk6IDAuNztcclxuICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgIGZvbnQtd2VpZ2h0OiA1MDA7XHJcbiAgICBoZWlnaHQ6IDQ4cHg7XHJcbiAgfVxyXG59XHJcblxyXG4vLyBWYWxpZGF0aW9uIEVycm9yXHJcbi52YWxpZGF0aW9uLWVycm9yIHtcclxuICBtYXJnaW4tdG9wOiAxMnB4O1xyXG4gIHBhZGRpbmc6IDAgNHB4O1xyXG4gIFxyXG4gIHNtYWxsIHtcclxuICAgIGZvbnQtc2l6ZTogMTNweDtcclxuICAgIGRpc3BsYXk6IGJsb2NrO1xyXG4gICAgbWFyZ2luOiAwO1xyXG4gIH1cclxufVxyXG5cclxuLy8gU3VibWl0IEJ1dHRvblxyXG4uc3VibWl0LWJ0biB7XHJcbiAgbWFyZ2luLXRvcDogOHB4O1xyXG4gIGhlaWdodDogNTZweDtcclxuICAtLWJvcmRlci1yYWRpdXM6IDE0cHg7XHJcbiAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICBmb250LXNpemU6IDE3cHg7XHJcbiAgdGV4dC10cmFuc2Zvcm06IG5vbmU7XHJcbiAgbGV0dGVyLXNwYWNpbmc6IDAuM3B4O1xyXG4gIGJveC1zaGFkb3c6IDAgNHB4IDEycHggcmdiYSh2YXIoLS1pb24tY29sb3ItcHJpbWFyeS1yZ2IpLCAwLjMpO1xyXG4gIFxyXG4gICY6bm90KFtkaXNhYmxlZF0pIHtcclxuICAgICY6aG92ZXIge1xyXG4gICAgICAtLWJveC1zaGFkb3c6IDAgNnB4IDE2cHggcmdiYSh2YXIoLS1pb24tY29sb3ItcHJpbWFyeS1yZ2IpLCAwLjQpO1xyXG4gICAgfVxyXG4gICAgXHJcbiAgICAmOmFjdGl2ZSB7XHJcbiAgICAgIHRyYW5zZm9ybTogc2NhbGUoMC45OCk7XHJcbiAgICB9XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1pY29uIHtcclxuICAgIGZvbnQtc2l6ZTogMjJweDtcclxuICAgIG1hcmdpbi1sZWZ0OiA4cHg7XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1zcGlubmVyIHtcclxuICAgIC0tY29sb3I6IHdoaXRlO1xyXG4gIH1cclxufVxyXG5cclxuLy8gTGFuZ3VhZ2UgRkFCXHJcbi5sYW5ndWFnZS1mYWIge1xyXG4gIG1hcmdpbjogMCAxNnB4IDE2cHggMDtcclxuICBcclxuICBpb24tZmFiLWJ1dHRvbiB7XHJcbiAgICAtLWJveC1zaGFkb3c6IDAgNHB4IDEycHggcmdiYSgwLCAwLCAwLCAwLjE1KTtcclxuICAgIFxyXG4gICAgaW9uLWljb24ge1xyXG4gICAgICBmb250LXNpemU6IDI0cHg7XHJcbiAgICB9XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1mYWItbGlzdCB7XHJcbiAgICBpb24tZmFiLWJ1dHRvbiB7XHJcbiAgICAgIHdpZHRoOiA0OHB4O1xyXG4gICAgICBoZWlnaHQ6IDQ4cHg7XHJcbiAgICAgIG1hcmdpbjogOHB4IDA7XHJcbiAgICAgIFxyXG4gICAgICBpb24taW1nIHtcclxuICAgICAgICB3aWR0aDogMjhweDtcclxuICAgICAgICBoZWlnaHQ6IDI4cHg7XHJcbiAgICAgICAgYm9yZGVyLXJhZGl1czogNHB4O1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4vLyBGb290ZXJcclxuaW9uLWZvb3RlciB7XHJcbiAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XHJcbiAgXHJcbiAgI3JlY2FwdGNoYS1jb250YWluZXIge1xyXG4gICAgcG9zaXRpb246IGZpeGVkO1xyXG4gICAgYm90dG9tOiAxMHB4O1xyXG4gICAgcmlnaHQ6IDEwcHg7XHJcbiAgICB6LWluZGV4OiAxMDAwO1xyXG4gIH1cclxufVxyXG5cclxuLy8gQW5pbWF0aW9uc1xyXG5Aa2V5ZnJhbWVzIHNsaWRlLWxlZnQge1xyXG4gIDAlIHtcclxuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWCgwKTtcclxuICB9XHJcbiAgMTAwJSB7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoLTEwMHB4KTtcclxuICB9XHJcbn1cclxuXHJcbkBrZXlmcmFtZXMgc2xpZGUtcmlnaHQge1xyXG4gIDAlIHtcclxuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWCgwKTtcclxuICB9XHJcbiAgMTAwJSB7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoMTAwcHgpO1xyXG4gIH1cclxufVxyXG5cclxuLnNsaWRlLWxlZnQge1xyXG4gIGFuaW1hdGlvbjogc2xpZGUtbGVmdCAwLjVzIGN1YmljLWJlemllcigwLjI1MCwgMC40NjAsIDAuNDUwLCAwLjk0MCkgYm90aDtcclxufVxyXG5cclxuLnNsaWRlLXJpZ2h0IHtcclxuICBhbmltYXRpb246IHNsaWRlLXJpZ2h0IDAuNXMgY3ViaWMtYmV6aWVyKDAuMjUwLCAwLjQ2MCwgMC40NTAsIDAuOTQwKSBib3RoO1xyXG59XHJcblxyXG4vLyBSVEwgU3VwcG9ydFxyXG5bZGlyPVwicnRsXCJdIHtcclxuICAuaW5wdXQtd3JhcHBlciB7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93LXJldmVyc2U7XHJcbiAgfVxyXG4gIFxyXG4gIC5jb3VudHJ5LXNlbGVjdC1idG4ge1xyXG4gICAgLmNvdW50cnktZmxhZyB7XHJcbiAgICAgIG1hcmdpbi1sZWZ0OiA4cHg7XHJcbiAgICAgIG1hcmdpbi1yaWdodDogMDtcclxuICAgIH1cclxuICB9XHJcbiAgXHJcbiAgLnN1Ym1pdC1idG4ge1xyXG4gICAgaW9uLWljb24ge1xyXG4gICAgICBtYXJnaW4tcmlnaHQ6IDhweDtcclxuICAgICAgbWFyZ2luLWxlZnQ6IDA7XHJcbiAgICAgIHRyYW5zZm9ybTogcm90YXRlKDE4MGRlZyk7XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4vLyBSZXNwb25zaXZlIERlc2lnblxyXG5AbWVkaWEgKG1heC13aWR0aDogMzYwcHgpIHtcclxuICAuYXBwLXRpdGxlIGgxIHtcclxuICAgIGZvbnQtc2l6ZTogMjhweDtcclxuICAgXHJcbiAgfVxyXG4gIFxyXG4gIC5zbGlkZXItY29udGFpbmVyIGlvbi1zbGlkZXMge1xyXG4gICAgaGVpZ2h0OiAyMjBweDtcclxuICB9XHJcbiAgXHJcbiAgLmNvdW50cnktc2VsZWN0LWJ0biB7XHJcbiAgICBtaW4td2lkdGg6IDk1cHg7XHJcbiAgICBwYWRkaW5nOiAxMHB4IDEycHg7XHJcbiAgICBcclxuICAgIC5jb3VudHJ5LWZsYWcge1xyXG4gICAgICB3aWR0aDogMjRweDtcclxuICAgICAgaGVpZ2h0OiAyNHB4O1xyXG4gICAgfVxyXG4gIH1cclxufVxyXG5cclxuQG1lZGlhIChtaW4td2lkdGg6IDc2OHB4KSB7XHJcbiAgLmNvbnRlbnQtd3JhcHBlciB7XHJcbiAgICBtYXgtd2lkdGg6IDUwMHB4O1xyXG4gICAgbWFyZ2luOiAwIGF1dG87XHJcbiAgfVxyXG59XHJcblxyXG4vLyBGbGFnIGVtb2ppIHN0eWxlc1xyXG4uY291bnRyeS1mbGFnLWVtb2ppIHtcclxuICBmb250LXNpemU6IDIwcHg7XHJcbiAgd2lkdGg6IDI0cHg7XHJcbiAgaGVpZ2h0OiAxOHB4O1xyXG4gIGRpc3BsYXk6IGlubGluZS1mbGV4O1xyXG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgbWFyZ2luLXJpZ2h0OiA4cHg7XHJcbn1cclxuXHJcbi5sYW5nLWZsYWcge1xyXG4gIGZvbnQtc2l6ZTogMThweDtcclxuICBkaXNwbGF5OiBpbmxpbmUtZmxleDtcclxuICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4vLyBFbnN1cmUgY291bnRyeSBmbGFnIGltZyBoYXMgY29uc2lzdGVudCBzaXppbmdcclxuLmNvdW50cnktZmxhZyB7XHJcbiAgd2lkdGg6IDI0cHg7XHJcbiAgaGVpZ2h0OiAxOHB4O1xyXG4gIG9iamVjdC1maXQ6IGNvdmVyO1xyXG4gIG1hcmdpbi1yaWdodDogOHB4O1xyXG4gIGJvcmRlci1yYWRpdXM6IDJweDtcclxufSJdfQ== */"]
+  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_17__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_12__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_12__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.MinLengthValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.MaxLengthValidator, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonCardContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFab, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFabButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFabList, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonFooter, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonImg, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonInput, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonSpinner, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonText, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.TextValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_12__.FormControlName, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_16__.TranslatePipe],
+  styles: [".header-toolbar[_ngcontent-%COMP%] {\n  --background: transparent;\n  --border-width: 0;\n  padding-top: 20px;\n}\n\n.app-title[_ngcontent-%COMP%] {\n  text-align: center;\n}\n\n.app-title[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n  font-size: 32px;\n  font-weight: 700;\n  margin: 0;\n  padding: 0;\n  color: var(--ion-color-primary);\n}\n\n.app-title[_ngcontent-%COMP%]   .tagline[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: var(--ion-color-medium);\n  margin: 4px 0 0 0;\n  font-weight: 400;\n}\n\n.login-content[_ngcontent-%COMP%] {\n  --background: var(--ion-background-color);\n}\n\n.content-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  padding: 0 24px;\n}\n\n.slider-container[_ngcontent-%COMP%] {\n  flex: 0 0 auto;\n  margin: 20px 0;\n}\n\n.slider-container[_ngcontent-%COMP%]   swiper-container[_ngcontent-%COMP%] {\n  height: 280px;\n}\n\n.slider-container[_ngcontent-%COMP%]   ion-img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: contain;\n}\n\n.form-container[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  padding-bottom: 80px;\n}\n\n.phone-input-card[_ngcontent-%COMP%] {\n  margin: 0 0 24px 0;\n  border-radius: 16px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n}\n\n.phone-input-card[_ngcontent-%COMP%]   .card-content[_ngcontent-%COMP%] {\n  padding: 16px;\n}\n\n.input-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  background: var(--ion-color-light);\n  border-radius: 12px;\n  padding: 4px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n}\n\n.input-wrapper[_ngcontent-%COMP%]:focus-within {\n  border-color: var(--ion-color-primary);\n  background: var(--ion-color-light-tint);\n}\n\n.country-select-btn[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 12px 16px;\n  background: white;\n  border: none;\n  border-radius: 10px;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 110px;\n}\n\n.country-select-btn[_ngcontent-%COMP%]:hover {\n  background: var(--ion-color-light-shade);\n}\n\n.country-select-btn[_ngcontent-%COMP%]:active {\n  transform: scale(0.98);\n}\n\n.country-select-btn[_ngcontent-%COMP%]   .country-flag[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  border-radius: 4px;\n  object-fit: cover;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.country-select-btn[_ngcontent-%COMP%]   .country-code[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--ion-color-dark);\n}\n\n.country-select-btn[_ngcontent-%COMP%]   .dropdown-icon[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: var(--ion-color-medium);\n}\n\n.phone-input-wrapper[_ngcontent-%COMP%] {\n  flex: 1;\n}\n\n.phone-input-wrapper[_ngcontent-%COMP%]   .phone-input[_ngcontent-%COMP%] {\n  --padding-start: 12px;\n  --padding-end: 12px;\n  --background: transparent;\n  --placeholder-color: var(--ion-color-medium);\n  --placeholder-opacity: 0.7;\n  font-size: 16px;\n  font-weight: 500;\n  height: 48px;\n}\n\n.validation-error[_ngcontent-%COMP%] {\n  margin-top: 12px;\n  padding: 0 4px;\n}\n\n.validation-error[_ngcontent-%COMP%]   small[_ngcontent-%COMP%] {\n  font-size: 13px;\n  display: block;\n  margin: 0;\n}\n\n.submit-btn[_ngcontent-%COMP%] {\n  margin-top: 8px;\n  height: 56px;\n  --border-radius: 14px;\n  font-weight: 600;\n  font-size: 17px;\n  text-transform: none;\n  letter-spacing: 0.3px;\n  box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);\n}\n\n.submit-btn[_ngcontent-%COMP%]:not([disabled]):hover {\n  --box-shadow: 0 6px 16px rgba(var(--ion-color-primary-rgb), 0.4);\n}\n\n.submit-btn[_ngcontent-%COMP%]:not([disabled]):active {\n  transform: scale(0.98);\n}\n\n.submit-btn[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 22px;\n  margin-left: 8px;\n}\n\n.submit-btn[_ngcontent-%COMP%]   ion-spinner[_ngcontent-%COMP%] {\n  --color: white;\n}\n\n.language-fab[_ngcontent-%COMP%] {\n  margin: 0 16px 16px 0;\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%] {\n  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  font-size: 24px;\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-list[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%] {\n  width: 48px;\n  height: 48px;\n  margin: 8px 0;\n}\n\n.language-fab[_ngcontent-%COMP%]   ion-fab-list[_ngcontent-%COMP%]   ion-fab-button[_ngcontent-%COMP%]   ion-img[_ngcontent-%COMP%] {\n  width: 28px;\n  height: 28px;\n  border-radius: 4px;\n}\n\nion-footer[_ngcontent-%COMP%] {\n  background: transparent;\n}\n\nion-footer[_ngcontent-%COMP%]   #recaptcha-container[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n  z-index: 1000;\n}\n\n@keyframes slide-left {\n  0% {\n    transform: translateX(0);\n  }\n  100% {\n    transform: translateX(-100px);\n  }\n}\n\n@keyframes slide-right {\n  0% {\n    transform: translateX(0);\n  }\n  100% {\n    transform: translateX(100px);\n  }\n}\n\n.slide-left[_ngcontent-%COMP%] {\n  animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;\n}\n\n.slide-right[_ngcontent-%COMP%] {\n  animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;\n}\n\n[dir=rtl][_ngcontent-%COMP%]   .input-wrapper[_ngcontent-%COMP%] {\n  flex-direction: row-reverse;\n}\n\n[dir=rtl][_ngcontent-%COMP%]   .country-select-btn[_ngcontent-%COMP%]   .country-flag[_ngcontent-%COMP%] {\n  margin-left: 8px;\n  margin-right: 0;\n}\n\n[dir=rtl][_ngcontent-%COMP%]   .submit-btn[_ngcontent-%COMP%]   ion-icon[_ngcontent-%COMP%] {\n  margin-right: 8px;\n  margin-left: 0;\n  transform: rotate(180deg);\n}\n\n@media (max-width: 360px) {\n  .app-title[_ngcontent-%COMP%]   h1[_ngcontent-%COMP%] {\n    font-size: 28px;\n  }\n  .slider-container[_ngcontent-%COMP%]   swiper-container[_ngcontent-%COMP%] {\n    height: 220px;\n  }\n  .country-select-btn[_ngcontent-%COMP%] {\n    min-width: 95px;\n    padding: 10px 12px;\n  }\n  .country-select-btn[_ngcontent-%COMP%]   .country-flag[_ngcontent-%COMP%] {\n    width: 24px;\n    height: 24px;\n  }\n}\n\n@media (min-width: 768px) {\n  .content-wrapper[_ngcontent-%COMP%] {\n    max-width: 500px;\n    margin: 0 auto;\n  }\n}\n\n.country-flag-emoji[_ngcontent-%COMP%] {\n  font-size: 20px;\n  width: 24px;\n  height: 18px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin-right: 8px;\n}\n\n.lang-flag[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.country-flag[_ngcontent-%COMP%] {\n  width: 24px;\n  height: 18px;\n  object-fit: cover;\n  margin-right: 8px;\n  border-radius: 2px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ2luLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDQTtFQUNFLHlCQUFBO0VBQ0EsaUJBQUE7RUFDQSxpQkFBQTtBQUFGOztBQUdBO0VBQ0Usa0JBQUE7QUFBRjs7QUFFRTtFQUNFLGVBQUE7RUFDQSxnQkFBQTtFQUNBLFNBQUE7RUFDQSxVQUFBO0VBQ0EsK0JBQUE7QUFBSjs7QUFHRTtFQUNFLGVBQUE7RUFDQSw4QkFBQTtFQUNBLGlCQUFBO0VBQ0EsZ0JBQUE7QUFESjs7QUFNQTtFQUNFLHlDQUFBO0FBSEY7O0FBTUE7RUFDRSxhQUFBO0VBQ0Esc0JBQUE7RUFDQSxZQUFBO0VBQ0EsZUFBQTtBQUhGOztBQU9BO0VBQ0UsY0FBQTtFQUNBLGNBQUE7QUFKRjs7QUFNRTtFQUNFLGFBQUE7QUFKSjs7QUFPRTtFQUNFLFdBQUE7RUFDQSxZQUFBO0VBQ0EsbUJBQUE7QUFMSjs7QUFVQTtFQUNFLE9BQUE7RUFDQSxhQUFBO0VBQ0Esc0JBQUE7RUFDQSwyQkFBQTtFQUNBLG9CQUFBO0FBUEY7O0FBV0E7RUFDRSxrQkFBQTtFQUNBLG1CQUFBO0VBQ0EseUNBQUE7QUFSRjs7QUFVRTtFQUNFLGFBQUE7QUFSSjs7QUFhQTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLFNBQUE7RUFDQSxrQ0FBQTtFQUNBLG1CQUFBO0VBQ0EsWUFBQTtFQUNBLDZCQUFBO0VBQ0EseUJBQUE7QUFWRjs7QUFZRTtFQUNFLHNDQUFBO0VBQ0EsdUNBQUE7QUFWSjs7QUFlQTtFQUNFLGFBQUE7RUFDQSxtQkFBQTtFQUNBLFFBQUE7RUFDQSxrQkFBQTtFQUNBLGlCQUFBO0VBQ0EsWUFBQTtFQUNBLG1CQUFBO0VBQ0EsZUFBQTtFQUNBLHlCQUFBO0VBQ0EsZ0JBQUE7QUFaRjs7QUFjRTtFQUNFLHdDQUFBO0FBWko7O0FBZUU7RUFDRSxzQkFBQTtBQWJKOztBQWdCRTtFQUNFLFdBQUE7RUFDQSxZQUFBO0VBQ0Esa0JBQUE7RUFDQSxpQkFBQTtFQUNBLHdDQUFBO0FBZEo7O0FBaUJFO0VBQ0UsZUFBQTtFQUNBLGdCQUFBO0VBQ0EsNEJBQUE7QUFmSjs7QUFrQkU7RUFDRSxlQUFBO0VBQ0EsOEJBQUE7QUFoQko7O0FBcUJBO0VBQ0UsT0FBQTtBQWxCRjs7QUFvQkU7RUFDRSxxQkFBQTtFQUNBLG1CQUFBO0VBQ0EseUJBQUE7RUFDQSw0Q0FBQTtFQUNBLDBCQUFBO0VBQ0EsZUFBQTtFQUNBLGdCQUFBO0VBQ0EsWUFBQTtBQWxCSjs7QUF1QkE7RUFDRSxnQkFBQTtFQUNBLGNBQUE7QUFwQkY7O0FBc0JFO0VBQ0UsZUFBQTtFQUNBLGNBQUE7RUFDQSxTQUFBO0FBcEJKOztBQXlCQTtFQUNFLGVBQUE7RUFDQSxZQUFBO0VBQ0EscUJBQUE7RUFDQSxnQkFBQTtFQUNBLGVBQUE7RUFDQSxvQkFBQTtFQUNBLHFCQUFBO0VBQ0EsOERBQUE7QUF0QkY7O0FBeUJJO0VBQ0UsZ0VBQUE7QUF2Qk47O0FBMEJJO0VBQ0Usc0JBQUE7QUF4Qk47O0FBNEJFO0VBQ0UsZUFBQTtFQUNBLGdCQUFBO0FBMUJKOztBQTZCRTtFQUNFLGNBQUE7QUEzQko7O0FBZ0NBO0VBQ0UscUJBQUE7QUE3QkY7O0FBK0JFO0VBQ0UsNENBQUE7QUE3Qko7O0FBK0JJO0VBQ0UsZUFBQTtBQTdCTjs7QUFrQ0k7RUFDRSxXQUFBO0VBQ0EsWUFBQTtFQUNBLGFBQUE7QUFoQ047O0FBa0NNO0VBQ0UsV0FBQTtFQUNBLFlBQUE7RUFDQSxrQkFBQTtBQWhDUjs7QUF1Q0E7RUFDRSx1QkFBQTtBQXBDRjs7QUFzQ0U7RUFDRSxlQUFBO0VBQ0EsWUFBQTtFQUNBLFdBQUE7RUFDQSxhQUFBO0FBcENKOztBQXlDQTtFQUNFO0lBQ0Usd0JBQUE7RUF0Q0Y7RUF3Q0E7SUFDRSw2QkFBQTtFQXRDRjtBQUNGOztBQXlDQTtFQUNFO0lBQ0Usd0JBQUE7RUF2Q0Y7RUF5Q0E7SUFDRSw0QkFBQTtFQXZDRjtBQUNGOztBQTBDQTtFQUNFLG9FQUFBO0FBeENGOztBQTJDQTtFQUNFLHFFQUFBO0FBeENGOztBQTZDRTtFQUNFLDJCQUFBO0FBMUNKOztBQThDSTtFQUNFLGdCQUFBO0VBQ0EsZUFBQTtBQTVDTjs7QUFpREk7RUFDRSxpQkFBQTtFQUNBLGNBQUE7RUFDQSx5QkFBQTtBQS9DTjs7QUFxREE7RUFDRTtJQUNFLGVBQUE7RUFsREY7RUFzREE7SUFDRSxhQUFBO0VBcERGO0VBdURBO0lBQ0UsZUFBQTtJQUNBLGtCQUFBO0VBckRGO0VBdURFO0lBQ0UsV0FBQTtJQUNBLFlBQUE7RUFyREo7QUFDRjs7QUF5REE7RUFDRTtJQUNFLGdCQUFBO0lBQ0EsY0FBQTtFQXZERjtBQUNGOztBQTJEQTtFQUNFLGVBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtFQUNBLG9CQUFBO0VBQ0EsbUJBQUE7RUFDQSx1QkFBQTtFQUNBLGlCQUFBO0FBekRGOztBQTREQTtFQUNFLGVBQUE7RUFDQSxvQkFBQTtFQUNBLG1CQUFBO0VBQ0EsdUJBQUE7QUF6REY7O0FBNkRBO0VBQ0UsV0FBQTtFQUNBLFlBQUE7RUFDQSxpQkFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7QUExREYiLCJmaWxlIjoibG9naW4ucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gSGVhZGVyIFN0eWxlc1xyXG4uaGVhZGVyLXRvb2xiYXIge1xyXG4gIC0tYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XHJcbiAgLS1ib3JkZXItd2lkdGg6IDA7XHJcbiAgcGFkZGluZy10b3A6IDIwcHg7XHJcbn1cclxuXHJcbi5hcHAtdGl0bGUge1xyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICBcclxuICBoMSB7XHJcbiAgICBmb250LXNpemU6IDMycHg7XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG4gICAgbWFyZ2luOjA7XHJcbiAgICBwYWRkaW5nOjA7XHJcbiAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpO1xyXG4gIH1cclxuICBcclxuICAudGFnbGluZSB7XHJcbiAgICBmb250LXNpemU6IDE0cHg7XHJcbiAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICBtYXJnaW46IDRweCAwIDAgMDtcclxuICAgIGZvbnQtd2VpZ2h0OiA0MDA7XHJcbiAgfVxyXG59XHJcblxyXG4vLyBDb250ZW50IFN0eWxlc1xyXG4ubG9naW4tY29udGVudCB7XHJcbiAgLS1iYWNrZ3JvdW5kOiB2YXIoLS1pb24tYmFja2dyb3VuZC1jb2xvcik7XHJcbn1cclxuXHJcbi5jb250ZW50LXdyYXBwZXIge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBoZWlnaHQ6IDEwMCU7XHJcbiAgcGFkZGluZzogMCAyNHB4O1xyXG59XHJcblxyXG4vLyBTbGlkZXIgU3R5bGVzXHJcbi5zbGlkZXItY29udGFpbmVyIHtcclxuICBmbGV4OiAwIDAgYXV0bztcclxuICBtYXJnaW46IDIwcHggMDtcclxuICBcclxuICBzd2lwZXItY29udGFpbmVyIHtcclxuICAgIGhlaWdodDogMjgwcHg7XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1pbWcge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICBvYmplY3QtZml0OiBjb250YWluO1xyXG4gIH1cclxufVxyXG5cclxuLy8gRm9ybSBDb250YWluZXJcclxuLmZvcm0tY29udGFpbmVyIHtcclxuICBmbGV4OiAxO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XHJcbiAgcGFkZGluZy1ib3R0b206IDgwcHg7XHJcbn1cclxuXHJcbi8vIFBob25lIElucHV0IENhcmRcclxuLnBob25lLWlucHV0LWNhcmQge1xyXG4gIG1hcmdpbjogMCAwIDI0cHggMDtcclxuICBib3JkZXItcmFkaXVzOiAxNnB4O1xyXG4gIGJveC1zaGFkb3c6IDAgMnB4IDhweCByZ2JhKDAsIDAsIDAsIDAuMDgpO1xyXG4gIFxyXG4gIC5jYXJkLWNvbnRlbnQge1xyXG4gICAgcGFkZGluZzogMTZweDtcclxuICB9XHJcbn1cclxuXHJcbi8vIElucHV0IFdyYXBwZXJcclxuLmlucHV0LXdyYXBwZXIge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICBnYXA6IDEycHg7XHJcbiAgYmFja2dyb3VuZDogdmFyKC0taW9uLWNvbG9yLWxpZ2h0KTtcclxuICBib3JkZXItcmFkaXVzOiAxMnB4O1xyXG4gIHBhZGRpbmc6IDRweDtcclxuICBib3JkZXI6IDJweCBzb2xpZCB0cmFuc3BhcmVudDtcclxuICB0cmFuc2l0aW9uOiBhbGwgMC4zcyBlYXNlO1xyXG4gIFxyXG4gICY6Zm9jdXMtd2l0aGluIHtcclxuICAgIGJvcmRlci1jb2xvcjogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpO1xyXG4gICAgYmFja2dyb3VuZDogdmFyKC0taW9uLWNvbG9yLWxpZ2h0LXRpbnQpO1xyXG4gIH1cclxufVxyXG5cclxuLy8gQ291bnRyeSBTZWxlY3QgQnV0dG9uXHJcbi5jb3VudHJ5LXNlbGVjdC1idG4ge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICBnYXA6IDhweDtcclxuICBwYWRkaW5nOiAxMnB4IDE2cHg7XHJcbiAgYmFja2dyb3VuZDogd2hpdGU7XHJcbiAgYm9yZGVyOiBub25lO1xyXG4gIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgY3Vyc29yOiBwb2ludGVyO1xyXG4gIHRyYW5zaXRpb246IGFsbCAwLjJzIGVhc2U7XHJcbiAgbWluLXdpZHRoOiAxMTBweDtcclxuICBcclxuICAmOmhvdmVyIHtcclxuICAgIGJhY2tncm91bmQ6IHZhcigtLWlvbi1jb2xvci1saWdodC1zaGFkZSk7XHJcbiAgfVxyXG4gIFxyXG4gICY6YWN0aXZlIHtcclxuICAgIHRyYW5zZm9ybTogc2NhbGUoMC45OCk7XHJcbiAgfVxyXG4gIFxyXG4gIC5jb3VudHJ5LWZsYWcge1xyXG4gICAgd2lkdGg6IDI4cHg7XHJcbiAgICBoZWlnaHQ6IDI4cHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiA0cHg7XHJcbiAgICBvYmplY3QtZml0OiBjb3ZlcjtcclxuICAgIGJveC1zaGFkb3c6IDAgMXB4IDNweCByZ2JhKDAsIDAsIDAsIDAuMSk7XHJcbiAgfVxyXG4gIFxyXG4gIC5jb3VudHJ5LWNvZGUge1xyXG4gICAgZm9udC1zaXplOiAxNnB4O1xyXG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItZGFyayk7XHJcbiAgfVxyXG4gIFxyXG4gIC5kcm9wZG93bi1pY29uIHtcclxuICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItbWVkaXVtKTtcclxuICB9XHJcbn1cclxuXHJcbi8vIFBob25lIElucHV0IFdyYXBwZXJcclxuLnBob25lLWlucHV0LXdyYXBwZXIge1xyXG4gIGZsZXg6IDE7XHJcbiAgXHJcbiAgLnBob25lLWlucHV0IHtcclxuICAgIC0tcGFkZGluZy1zdGFydDogMTJweDtcclxuICAgIC0tcGFkZGluZy1lbmQ6IDEycHg7XHJcbiAgICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xyXG4gICAgLS1wbGFjZWhvbGRlci1jb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICAtLXBsYWNlaG9sZGVyLW9wYWNpdHk6IDAuNztcclxuICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgIGZvbnQtd2VpZ2h0OiA1MDA7XHJcbiAgICBoZWlnaHQ6IDQ4cHg7XHJcbiAgfVxyXG59XHJcblxyXG4vLyBWYWxpZGF0aW9uIEVycm9yXHJcbi52YWxpZGF0aW9uLWVycm9yIHtcclxuICBtYXJnaW4tdG9wOiAxMnB4O1xyXG4gIHBhZGRpbmc6IDAgNHB4O1xyXG4gIFxyXG4gIHNtYWxsIHtcclxuICAgIGZvbnQtc2l6ZTogMTNweDtcclxuICAgIGRpc3BsYXk6IGJsb2NrO1xyXG4gICAgbWFyZ2luOiAwO1xyXG4gIH1cclxufVxyXG5cclxuLy8gU3VibWl0IEJ1dHRvblxyXG4uc3VibWl0LWJ0biB7XHJcbiAgbWFyZ2luLXRvcDogOHB4O1xyXG4gIGhlaWdodDogNTZweDtcclxuICAtLWJvcmRlci1yYWRpdXM6IDE0cHg7XHJcbiAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICBmb250LXNpemU6IDE3cHg7XHJcbiAgdGV4dC10cmFuc2Zvcm06IG5vbmU7XHJcbiAgbGV0dGVyLXNwYWNpbmc6IDAuM3B4O1xyXG4gIGJveC1zaGFkb3c6IDAgNHB4IDEycHggcmdiYSh2YXIoLS1pb24tY29sb3ItcHJpbWFyeS1yZ2IpLCAwLjMpO1xyXG4gIFxyXG4gICY6bm90KFtkaXNhYmxlZF0pIHtcclxuICAgICY6aG92ZXIge1xyXG4gICAgICAtLWJveC1zaGFkb3c6IDAgNnB4IDE2cHggcmdiYSh2YXIoLS1pb24tY29sb3ItcHJpbWFyeS1yZ2IpLCAwLjQpO1xyXG4gICAgfVxyXG4gICAgXHJcbiAgICAmOmFjdGl2ZSB7XHJcbiAgICAgIHRyYW5zZm9ybTogc2NhbGUoMC45OCk7XHJcbiAgICB9XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1pY29uIHtcclxuICAgIGZvbnQtc2l6ZTogMjJweDtcclxuICAgIG1hcmdpbi1sZWZ0OiA4cHg7XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1zcGlubmVyIHtcclxuICAgIC0tY29sb3I6IHdoaXRlO1xyXG4gIH1cclxufVxyXG5cclxuLy8gTGFuZ3VhZ2UgRkFCXHJcbi5sYW5ndWFnZS1mYWIge1xyXG4gIG1hcmdpbjogMCAxNnB4IDE2cHggMDtcclxuICBcclxuICBpb24tZmFiLWJ1dHRvbiB7XHJcbiAgICAtLWJveC1zaGFkb3c6IDAgNHB4IDEycHggcmdiYSgwLCAwLCAwLCAwLjE1KTtcclxuICAgIFxyXG4gICAgaW9uLWljb24ge1xyXG4gICAgICBmb250LXNpemU6IDI0cHg7XHJcbiAgICB9XHJcbiAgfVxyXG4gIFxyXG4gIGlvbi1mYWItbGlzdCB7XHJcbiAgICBpb24tZmFiLWJ1dHRvbiB7XHJcbiAgICAgIHdpZHRoOiA0OHB4O1xyXG4gICAgICBoZWlnaHQ6IDQ4cHg7XHJcbiAgICAgIG1hcmdpbjogOHB4IDA7XHJcbiAgICAgIFxyXG4gICAgICBpb24taW1nIHtcclxuICAgICAgICB3aWR0aDogMjhweDtcclxuICAgICAgICBoZWlnaHQ6IDI4cHg7XHJcbiAgICAgICAgYm9yZGVyLXJhZGl1czogNHB4O1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4vLyBGb290ZXJcclxuaW9uLWZvb3RlciB7XHJcbiAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XHJcbiAgXHJcbiAgI3JlY2FwdGNoYS1jb250YWluZXIge1xyXG4gICAgcG9zaXRpb246IGZpeGVkO1xyXG4gICAgYm90dG9tOiAxMHB4O1xyXG4gICAgcmlnaHQ6IDEwcHg7XHJcbiAgICB6LWluZGV4OiAxMDAwO1xyXG4gIH1cclxufVxyXG5cclxuLy8gQW5pbWF0aW9uc1xyXG5Aa2V5ZnJhbWVzIHNsaWRlLWxlZnQge1xyXG4gIDAlIHtcclxuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWCgwKTtcclxuICB9XHJcbiAgMTAwJSB7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoLTEwMHB4KTtcclxuICB9XHJcbn1cclxuXHJcbkBrZXlmcmFtZXMgc2xpZGUtcmlnaHQge1xyXG4gIDAlIHtcclxuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWCgwKTtcclxuICB9XHJcbiAgMTAwJSB7XHJcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoMTAwcHgpO1xyXG4gIH1cclxufVxyXG5cclxuLnNsaWRlLWxlZnQge1xyXG4gIGFuaW1hdGlvbjogc2xpZGUtbGVmdCAwLjVzIGN1YmljLWJlemllcigwLjI1MCwgMC40NjAsIDAuNDUwLCAwLjk0MCkgYm90aDtcclxufVxyXG5cclxuLnNsaWRlLXJpZ2h0IHtcclxuICBhbmltYXRpb246IHNsaWRlLXJpZ2h0IDAuNXMgY3ViaWMtYmV6aWVyKDAuMjUwLCAwLjQ2MCwgMC40NTAsIDAuOTQwKSBib3RoO1xyXG59XHJcblxyXG4vLyBSVEwgU3VwcG9ydFxyXG5bZGlyPVwicnRsXCJdIHtcclxuICAuaW5wdXQtd3JhcHBlciB7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93LXJldmVyc2U7XHJcbiAgfVxyXG4gIFxyXG4gIC5jb3VudHJ5LXNlbGVjdC1idG4ge1xyXG4gICAgLmNvdW50cnktZmxhZyB7XHJcbiAgICAgIG1hcmdpbi1sZWZ0OiA4cHg7XHJcbiAgICAgIG1hcmdpbi1yaWdodDogMDtcclxuICAgIH1cclxuICB9XHJcbiAgXHJcbiAgLnN1Ym1pdC1idG4ge1xyXG4gICAgaW9uLWljb24ge1xyXG4gICAgICBtYXJnaW4tcmlnaHQ6IDhweDtcclxuICAgICAgbWFyZ2luLWxlZnQ6IDA7XHJcbiAgICAgIHRyYW5zZm9ybTogcm90YXRlKDE4MGRlZyk7XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4vLyBSZXNwb25zaXZlIERlc2lnblxyXG5AbWVkaWEgKG1heC13aWR0aDogMzYwcHgpIHtcclxuICAuYXBwLXRpdGxlIGgxIHtcclxuICAgIGZvbnQtc2l6ZTogMjhweDtcclxuICAgXHJcbiAgfVxyXG4gIFxyXG4gIC5zbGlkZXItY29udGFpbmVyIHN3aXBlci1jb250YWluZXIge1xyXG4gICAgaGVpZ2h0OiAyMjBweDtcclxuICB9XHJcbiAgXHJcbiAgLmNvdW50cnktc2VsZWN0LWJ0biB7XHJcbiAgICBtaW4td2lkdGg6IDk1cHg7XHJcbiAgICBwYWRkaW5nOiAxMHB4IDEycHg7XHJcbiAgICBcclxuICAgIC5jb3VudHJ5LWZsYWcge1xyXG4gICAgICB3aWR0aDogMjRweDtcclxuICAgICAgaGVpZ2h0OiAyNHB4O1xyXG4gICAgfVxyXG4gIH1cclxufVxyXG5cclxuQG1lZGlhIChtaW4td2lkdGg6IDc2OHB4KSB7XHJcbiAgLmNvbnRlbnQtd3JhcHBlciB7XHJcbiAgICBtYXgtd2lkdGg6IDUwMHB4O1xyXG4gICAgbWFyZ2luOiAwIGF1dG87XHJcbiAgfVxyXG59XHJcblxyXG4vLyBGbGFnIGVtb2ppIHN0eWxlc1xyXG4uY291bnRyeS1mbGFnLWVtb2ppIHtcclxuICBmb250LXNpemU6IDIwcHg7XHJcbiAgd2lkdGg6IDI0cHg7XHJcbiAgaGVpZ2h0OiAxOHB4O1xyXG4gIGRpc3BsYXk6IGlubGluZS1mbGV4O1xyXG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgbWFyZ2luLXJpZ2h0OiA4cHg7XHJcbn1cclxuXHJcbi5sYW5nLWZsYWcge1xyXG4gIGZvbnQtc2l6ZTogMThweDtcclxuICBkaXNwbGF5OiBpbmxpbmUtZmxleDtcclxuICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4vLyBFbnN1cmUgY291bnRyeSBmbGFnIGltZyBoYXMgY29uc2lzdGVudCBzaXppbmdcclxuLmNvdW50cnktZmxhZyB7XHJcbiAgd2lkdGg6IDI0cHg7XHJcbiAgaGVpZ2h0OiAxOHB4O1xyXG4gIG9iamVjdC1maXQ6IGNvdmVyO1xyXG4gIG1hcmdpbi1yaWdodDogOHB4O1xyXG4gIGJvcmRlci1yYWRpdXM6IDJweDtcclxufSJdfQ== */"]
 });
 
 /***/ }),

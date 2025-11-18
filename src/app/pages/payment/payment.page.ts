@@ -238,8 +238,41 @@ export class PaymentPage implements OnInit, AfterViewInit {
   }
   
   async deletePaymentMethod(cardId: string) {
-    await this.avatarService.deleteSavedPaymentMethod(cardId);
-    this.fetchSavedPaymentMethods(); // Refresh the list of saved payment methods
+    const alert = await this.alertController.create({
+      header: await this.translate.get('PAYMENT.DELETE_CARD').toPromise(),
+      message: await this.translate.get('PAYMENT.DELETE_CARD_CONFIRM').toPromise(),
+      buttons: [
+        {
+          text: await this.translate.get('PAYMENT.CANCEL').toPromise(),
+          role: 'cancel'
+        },
+        {
+          text: await this.translate.get('PAYMENT.DELETE').toPromise(),
+          role: 'destructive',
+          handler: async () => {
+            try {
+              await this.avatarService.deleteSavedPaymentMethod(cardId);
+              await this.fetchSavedPaymentMethods();
+              
+              // If deleted card was selected, switch to another card or cash
+              if (this.selectedCardId === cardId) {
+                if (this.savedPaymentMethods.length > 0) {
+                  this.selectedCardId = this.savedPaymentMethods[0].cardId;
+                  await this.setActiveCard({ detail: { value: this.selectedCardId } });
+                } else {
+                  this.selectedCardId = '';
+                }
+              }
+            } catch (error) {
+              console.error('Error deleting payment method:', error);
+              await this.showAlert('Error', 'Failed to delete card. Please try again.');
+            }
+          }
+        }
+      ]
+    });
+    
+    await alert.present();
   }
 
   async showLoading() {

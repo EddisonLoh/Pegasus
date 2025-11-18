@@ -37,4 +37,29 @@ export class PaymentService {
     return this.http.post('/api/process-payment', { email, amount, cardId });
   }
 
+  // Process payment for ride with payment splitting
+  processRidePayment(paymentData: {
+    email: string;
+    amount: number;
+    currency: string;
+    paymentMethodId: string;
+    driverId: string;
+    rideId: string;
+    driverAmount: number;
+    companyAmount: number;
+  }): Observable<any> {
+    return this.http.post(`${this.serverUrl}/process-ride-payment`, paymentData);
+  }
+
+  // Create a payment intent for immediate charge
+  createPaymentIntent(paymentData: {
+    email: string;
+    amount: number;
+    currency: string;
+    paymentMethodId: string;
+    description: string;
+  }): Observable<any> {
+    return this.http.post(`${this.serverUrl}/create-payment-intent`, paymentData);
+  }
+
 }

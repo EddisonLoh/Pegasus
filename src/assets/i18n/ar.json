@@ -160,10 +160,16 @@
     "LOADING_PREVIOUS_RIDE": "جاري تحميل تفاصيل الرحلة السابقة..."
   },
   "PAYMENT": {
-    "TITLE": "الدفع",
+    "TITLE": "طرق الدفع",
     "ADD_CARD": "إضافة بطاقة",
-    "SAVED_METHODS": "طرق الدفع المحفوظة",
+    "ADD_NEW_CARD": "إضافة بطاقة جديدة",
+    "SAVED_METHODS": "البطاقات المحفوظة",
+    "NO_SAVED_CARDS": "لا توجد بطاقات محفوظة بعد",
+    "ADD_CARD_HINT": "أضف بطاقة أعلاه للبدء في المدفوعات السريعة",
     "DELETE": "حذف",
+    "DELETE_CARD": "حذف البطاقة",
+    "DELETE_CARD_CONFIRM": "هل أنت متأكد أنك تريد حذف هذه البطاقة؟",
+    "CANCEL": "إلغاء",
     "PROCESSING": "جاري معالجة الدفع...",
     "SUCCESS": "نجاح",
     "PAYMENT_SUCCESS": "تم الدفع بنجاح!",

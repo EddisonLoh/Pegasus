@@ -838,6 +838,22 @@ ion-item ion-item {
         --placeholder-opacity: 1;
       }
     }
+    
+    .payment-hint {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--ion-color-medium);
+      background: rgba(var(--ion-color-primary-rgb), 0.05);
+      border-radius: 8px;
+      
+      ion-icon {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+    }
   }
   
   .book-button-container {

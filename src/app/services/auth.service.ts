@@ -3,14 +3,13 @@ import {
   Auth,
   signOut,
   signInWithPhoneNumber,
-  RecaptchaVerifier,
-  GoogleAuthProvider,
   signInWithPopup,
   getAuth,
   linkWithCredential,
   unlink,
   fetchSignInMethodsForEmail,
 } from '@angular/fire/auth';
+import { RecaptchaVerifier, GoogleAuthProvider } from 'firebase/auth';
 import { User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 

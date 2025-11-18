@@ -60,7 +60,10 @@
 <!--Capacitor Google Map-->
 
 <ion-content [fullscreen]="true" scroll-y="false">
-  <capacitor-google-maps #map></capacitor-google-maps>
+  
+  <capacitor-google-maps #map style="z-index: 1;">
+   
+  </capacitor-google-maps>
 
 
   <ion-fab *ngIf="bookingStage && showResetLocationButton" vertical="bottom" horizontal="end" style="bottom: 130px;">
@@ -87,19 +90,6 @@
 
       <!--where to bar and button-->
       <ion-list class="bottomItems shadow-top" *ngIf="bookingStage" lines="full">
-
-            <!-- Preset places row -->
-            <div class="preset-row ion-padding-horizontal">
-              <ion-chip *ngFor="let p of presets; let i = index" (click)="selectPreset(p)" outline="true">
-                <ion-label>{{p.name}}</ion-label>
-                <ion-icon name="close-circle" slot="end" (click)="deletePreset(i); $event.stopPropagation();"></ion-icon>
-              </ion-chip>
-
-              <ion-button fill="clear" size="small" (click)="addCurrentAsPreset()">
-                <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-              </ion-button>
-            </div>
-
   
         <ion-item-group class="ion-margin-horizontal ion-margin-bottom ">
           <ion-button 
@@ -119,7 +109,7 @@
       </ion-list>
 
       <!--Map Pin Choose Bar-->
-      <ion-list class='bottomItems shadow-top' [hidden]="!mapPinStage" lines="full">
+      <ion-list class='bottomItems shadow-top' *ngIf="mapPinStage" lines="full">
 
         <ion-item-group class="ion-margin-horizontal ion-margin-bottom">
           <ion-button shape="round" size="large" type="submit" (click)="getDistanceAndDirections()" expand="block">
@@ -198,15 +188,22 @@
             <ion-item lines="none">
               <ion-icon name="wallet-outline" slot="start" color="primary"></ion-icon>
               <ion-label>Payment Method</ion-label>
-              <ion-select [value]="selectedCard" (ionChange)="chooseCard($event)" interface="popover">
+              <ion-select [value]="selectedCard" (ionChange)="chooseCard($event)" interface="action-sheet">
                 <ion-select-option value="cash">
-                  <ion-icon name="cash-outline"></ion-icon> Cash
+                  Cash
                 </ion-select-option>
                 <ion-select-option *ngFor="let card of savedPaymentMethods" [value]="card.cardId">
-                  <ion-icon name="card-outline"></ion-icon> •••• {{card.last4}}
+                  {{card.brand | titlecase}} •••• {{card.last4}}
+                </ion-select-option>
+                <ion-select-option value="add_card">
+                  + Add New Card
                 </ion-select-option>
               </ion-select>
             </ion-item>
+            <ion-note *ngIf="!savedPaymentMethods || savedPaymentMethods.length === 0" class="payment-hint">
+              <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+              You can pay with cash or add a card for faster checkout
+            </ion-note>
           </div>
           
           <!-- Book ride button -->

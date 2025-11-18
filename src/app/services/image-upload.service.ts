@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@angular/fire/storage';
-import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { Storage, ref, uploadString, getDownloadURL } from '@angular/fire/storage';
 import { Photo } from '@capacitor/camera';
 
 @Injectable({

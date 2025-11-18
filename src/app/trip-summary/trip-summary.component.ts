@@ -206,6 +206,50 @@ export class TripSummaryComponent implements OnInit {
   }
 
   dismiss() {
+    // Save the final ride data before dismissing
+    if (this.tripData && !this.tripData.historySaved) {
+      // Mark as saved to prevent duplicate saves
+      this.tripData.historySaved = true;
+      
+      // Prepare complete ride data for history
+      const finalRideData = {
+        tripId: this.tripId || this.tripData.tripId || '',
+        riderId: this.avatarService.user?.uid || '',
+        driverId: this.driverId || this.tripData.driverId || '',
+        driverName: this.tripData.driverName || this.tripData.Driver_name || 'Unknown Driver',
+        driverImage: this.tripData.driverImage || this.tripData.Driver_imgUrl || '',
+        driverCar: this.tripData.driverCar || this.tripData.Driver_car || '',
+        driverPlate: this.tripData.driverPlate || this.tripData.Driver_plate || '',
+        driverRating: this.rating || this.tripData.rating || this.tripData.driverRating || this.tripData.Driver_rating || 0,
+        pickup: this.tripData.pickup || this.tripData.Rider_Location || 'Unknown pickup',
+        destination: this.tripData.destination || this.tripData.Rider_Destination || 'Unknown destination',
+        Loc_lat: this.tripData.Loc_lat || 0,
+        Loc_lng: this.tripData.Loc_lng || 0,
+        Des_lat: this.tripData.Des_lat || 0,
+        Des_lng: this.tripData.Des_lng || 0,
+        Rider_Location: this.tripData.Rider_Location || this.tripData.pickup || 'Unknown pickup',
+        Rider_Destination: this.tripData.Rider_Destination || this.tripData.destination || 'Unknown destination',
+        Driver_name: this.tripData.Driver_name || this.tripData.driverName || 'Unknown Driver',
+        Driver_car: this.tripData.Driver_car || this.tripData.driverCar || '',
+        Driver_imgUrl: this.tripData.Driver_imgUrl || this.tripData.driverImage || '',
+        Driver_plate: this.tripData.Driver_plate || this.tripData.driverPlate || '',
+        Driver_rating: this.rating || this.tripData.Driver_rating || this.tripData.driverRating || 0,
+        price: this.tripData.price || 0,
+        distance: this.tripData.distance || 0,
+        duration: this.tripData.duration || '',
+        rating: this.rating || this.tripData.rating || 0,
+        ratingComment: this.comment || '',
+        completed: true,
+        completedAt: this.tripData.completedAt || new Date(),
+        timestamp: new Date()
+      };
+      
+      // Save to history (don't await to avoid blocking dismiss)
+      this.avatarService.saveRideHistory(finalRideData).catch(err => {
+        console.error('Error saving ride history on dismiss:', err);
+      });
+    }
+    
     this.modalCtrl.dismiss({
       rated: this.rating > 0,
       rating: this.rating

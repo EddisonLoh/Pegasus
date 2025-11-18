@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AvatarService } from 'src/app/services/avatar.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Auth } from '@angular/fire/auth';
-import { onAuthStateChanged } from 'firebase/auth';
+import { authState } from 'rxfire/auth';
 
 @Component({
   selector: 'app-support',
@@ -34,7 +34,7 @@ export class SupportPage implements OnInit, OnDestroy {
  
   ngOnInit() {
     // Check authentication status
-    onAuthStateChanged(this.auth, (user) => {
+    authState(this.auth).subscribe((user) => {
       if (user) {
         this.initializeChat();
       } else {
