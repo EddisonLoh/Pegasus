@@ -22,10 +22,13 @@
       <ion-col size="9" class="message"
         [offset]="message.myMsg ? 3 : 0"
         [ngClass]="{ 'my-message': message.myMsg, 'other-message': !message.myMsg }">
-        <b>{{ message.fromName }}</b><br>
-        <span>{{ message.msg }}
-        </span>
-        <div class="time ion-text-right"><br>{{ message.createdAt?.toMillis() | date:'short' }}</div>
+        <div class="message-bubble">
+          <div class="message-meta">
+            <span class="sender">{{ message.fromName }}</span>
+            <span class="timestamp">{{ message.createdAt?.toMillis() | date:'short' }}</span>
+          </div>
+          <p class="message-text">{{ message.msg }}</p>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

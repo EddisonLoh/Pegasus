@@ -16,7 +16,7 @@ export class AddCardComponent {
   stripe: any;
   elements: any;
   card: any;
-  approve: boolean = false;
+  isCardComplete: boolean = false;
   cardInitialized: boolean = false;
 
   constructor(
@@ -36,7 +36,6 @@ export class AddCardComponent {
   }
 
   ngOnInit() {
-    this.initializeBackButtonCustomHandler();
     // Initialize the form or any other needed data
   }
 
@@ -46,18 +45,17 @@ export class AddCardComponent {
 
   initializeStripeCard() {
     if (this.cardElement && this.cardElement.nativeElement) {
-      this.stripe = Stripe('pk_test_0t85o0Llo0MbBfC9imSzznam');
+      this.stripe = Stripe('pk_test_51SShK5PRgzt7CIyewdombVyUyoBjYRQGrw8uBfWOF58l49mTcKZzWoeeyeBrjcsLT8NzCDKKjbwZQfDnNnpFzoxn00ivj0cGEe');
       this.elements = this.stripe.elements();
       if (!this.card) {
         this.card = this.elements.create('card');
         this.card.mount(this.cardElement.nativeElement);
+        this.card.on('change', event => {
+          this.isCardComplete = event.complete;
+        });
       }
       this.cardInitialized = true;
     }
-  }
-
-  initializeBackButtonCustomHandler() {
-    this.navController.back();
   }
 
   async processPayment() {
@@ -68,39 +66,93 @@ export class AddCardComponent {
       this.showLoading();
 
       try {
-        const setupIntentResponse = await this.paymentService.createSetupIntent(formValues.email).toPromise();
-        const clientSecret = setupIntentResponse.client_secret;
-
-        const { setupIntent, error } = await this.stripe.confirmCardSetup(clientSecret, {
-          payment_method: {
-            card: this.card,
-            billing_details: { email: formValues.email },
-          },
-        });
-
-        if (error) {
-          await this.showAlert('Payment Error', error.message);
-          throw new Error(error.message);
-        }
-
-        const paymentMethodId = setupIntent.payment_method;
-        const paymentMethod = await this.paymentService.retrievePaymentMethod(paymentMethodId).toPromise();
-        const cardDetails = paymentMethod.card;
-        const last4 = cardDetails.last4;
-
-        const cardExists = await this.avatarService.checkCardExistsStripe(formValues.email, last4);
-        if (!cardExists) {
-          await this.avatarService.addCardStripe(formValues.email, paymentMethodId, last4);
-        }
-
-        await this.modalController.dismiss({ success: true, paymentMethodId });
+        const cardData = await this.processStripePayment(formValues);
+        
+        await this.modalController.dismiss({ success: true, cardData });
       } catch (error) {
-        await this.showAlert('Error', error.message || 'An unexpected error occurred.');
+        const errorMessage = error.message || (error.error ? error.error.error : 'An unexpected error occurred.');
+        await this.showAlert('Error', errorMessage);
       } finally {
         this.hideLoading();
       }
     } else {
       this.showAlert('Form Error', 'Please fill out all required fields.');
+    }
+  }
+
+  async processStripePayment(formValues) {
+    console.log('Starting processStripePayment with formValues:', formValues);
+  
+    try {
+      const setupIntentResponse = await this.paymentService.createSetupIntent(formValues.email).toPromise();
+      console.log('Setup Intent raw response:', setupIntentResponse);
+      const resp: any = setupIntentResponse;
+      const clientSecret = resp && (resp.client_secret || resp.clientSecret || resp.clientSecretValue || resp.secret);
+      console.log('Resolved clientSecret:', clientSecret);
+
+      if (!clientSecret) {
+        throw new Error('No client_secret returned from server for SetupIntent.');
+      }
+      
+      if (String(clientSecret).startsWith('seti_') && !String(clientSecret).includes('_secret_')) {
+        throw new Error('Invalid client_secret returned from server (looks like an ID). Ensure server returns the full client_secret.');
+      }
+  
+      const { setupIntent, error } = await this.stripe.confirmCardSetup(
+        clientSecret,
+        {
+          payment_method: {
+            card: this.card,
+            billing_details: {
+              email: formValues.email,
+            },
+          },
+        }
+      );
+  
+      if (error) {
+        console.error('Stripe confirmCardSetup returned error object:', error);
+        throw new Error(error.message);
+      }
+  
+      console.log('Card setup confirmed:', setupIntent);
+  
+      const paymentMethodId = setupIntent.payment_method;
+  
+      // Fetch the payment method details from your server (which will call Stripe)
+      const paymentMethod = await this.paymentService.retrievePaymentMethod(paymentMethodId).toPromise();
+      console.log('Payment method retrieved:', paymentMethod);
+  
+      const cardDetails = paymentMethod.card;
+      const last4 = cardDetails.last4;
+      const brand = cardDetails.brand; // Get card brand (visa, mastercard, etc.)
+  
+      console.log('Checking if card exists with email:', formValues.email, ' and last4:', last4);
+      const cardExists = await this.avatarService.checkCardExistsStripe(formValues.email, last4);
+      
+      if (cardExists) {
+        throw new Error('This card is already saved to your account.');
+      }
+      
+      // Save card to Firestore using the correct method
+      const cardData = {
+        cardId: paymentMethodId,
+        email: formValues.email,
+        last4: last4,
+        brand: brand || 'unknown'
+      };
+      
+      await this.avatarService.saveCard(cardData);
+      console.log('Card saved to Firestore:', cardData);
+      
+      // Also save to backend if needed
+      await this.paymentService.savePaymentMethod(formValues.email, paymentMethodId).toPromise();
+  
+      return cardData;
+  
+    } catch (error) {
+      console.error('Error in processStripePayment:', error);
+      throw error;
     }
   }
 

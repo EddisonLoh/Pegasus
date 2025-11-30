@@ -59,9 +59,9 @@
 
 <!--Capacitor Google Map-->
 
-<ion-content [fullscreen]="true" scroll-y="false">
+<ion-content scroll-y="false">
   
-  <capacitor-google-maps #map style="z-index: 1;">
+  <capacitor-google-maps #map style="width: 100%; height: 100%;">
    
   </capacitor-google-maps>
 
@@ -89,7 +89,7 @@
 
 
       <!--where to bar and button-->
-      <ion-list class="bottomItems shadow-top" *ngIf="bookingStage" lines="full">
+      <div class="bottomItems shadow-top" *ngIf="bookingStage">
   
         <ion-item-group class="ion-margin-horizontal ion-margin-bottom ">
           <ion-button 
@@ -106,10 +106,10 @@
         
         </ion-item-group>
 
-      </ion-list>
+      </div>
 
       <!--Map Pin Choose Bar-->
-      <ion-list class='bottomItems shadow-top' *ngIf="mapPinStage" lines="full">
+      <div class='bottomItems shadow-top' *ngIf="mapPinStage">
 
         <ion-item-group class="ion-margin-horizontal ion-margin-bottom">
           <ion-button shape="round" size="large" type="submit" (click)="getDistanceAndDirections()" expand="block">
@@ -118,14 +118,14 @@
           </ion-button>
         </ion-item-group>
 
-      </ion-list>
+      </div>
 
       <!--No driver Found Bar-->
       
-      <ion-list class='bottomItems shadow-top' *ngIf="noDriverStage" lines="none">
+      <div class='bottomItems shadow-top' *ngIf="noDriverStage">
         <ion-list-header>
-          <ion-item style="margin:0 auto;">
-              <img src="../../assets/imgs/No connection-pana.svg">
+          <ion-item lines="none" style="margin: 2px;">
+              <img src="../../assets/imgs/No connection-pana.svg" style="height: 200px; width: 150px; margin: 0 auto;">
           </ion-item>
             
          </ion-list-header>
@@ -138,17 +138,17 @@
             
        </ion-item-group>
 
-     </ion-list>
+     </div>
 
       <!--Car type, payment, confirmation and Selection Bar-->
-      <ion-list class='bottomItems shadow-top' *ngIf="confirmStage" lines="none">
+      <div class='bottomItems shadow-top' *ngIf="confirmStage">
         <!-- Modern card layout -->
         <div class="ride-confirmation-card">
           <!-- Vehicle info with price section -->
           <div *ngIf="price" class="ride-details">
             <div class="vehicle-info" (click)="ShowDriverInfoPop()">
               <ion-avatar>
-                <ion-img src="../../assets/icon/hatchback.png"></ion-img>
+                <ion-img src="../../assets/icon/pin.png"></ion-img>
               </ion-avatar>
               <div class="vehicle-details">
                 <h2>{{carname}} <ion-icon name="information-circle" color="primary"></ion-icon></h2>
@@ -216,11 +216,11 @@
             </ion-button>
           </div>
         </div>
-      </ion-list>
+      </div>
 
 
 <!-- Connecting to driver bar-->
-      <ion-list class='bottomItems shadow-top' *ngIf="searchingStage" lines="none">
+      <div class='bottomItems shadow-top' *ngIf="searchingStage">
          <ion-list-header>
           <ion-item>
             <ion-avatar slot="start">
@@ -247,12 +247,12 @@
              
         </ion-item-group>
        
-      </ion-list>
+      </div>
 
 
 
        <!--Driver tracking to user bar (FIXED LAYOUT)-->
-       <ion-list class='bottomItems shadow-top' *ngIf="trackingStage" lines="none">
+       <div class='bottomItems shadow-top' *ngIf="trackingStage">
          <div class="card">
            <!-- Car information row -->
            <ion-item lines="none" class="driver-card-item">
@@ -320,13 +320,13 @@
              </ion-accordion>
            </ion-accordion-group>
          </div>
-       </ion-list>
+       </div>
 
 
 
     
    <!--Rider Picked Up now tracking to destination bar (FIXED LAYOUT)-->
-      <ion-list class='bottomItems shadow-top' *ngIf="drivingToDestinationStage" lines="none">
+      <div class='bottomItems shadow-top' *ngIf="drivingToDestinationStage">
         <div class="card">
           <!-- Car information row -->
           <ion-item lines="none" class="driver-card-item">
@@ -389,7 +389,7 @@
             </ion-accordion>
           </ion-accordion-group>
         </div>
-      </ion-list>
+      </div>
       
 
 

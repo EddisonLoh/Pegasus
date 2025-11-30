@@ -53,7 +53,12 @@ export class SupportPage implements OnInit, OnDestroy {
       next: (messages) => {
         this.loading = false;
         this.hideSkeleton = false;
-        this.hasNoData = messages.length === 0;
+        this.hasNoData = messages.length === 0; 
+        if(messages.length > 0){
+          requestAnimationFrame(() => this.content.scrollToBottom(300));
+        
+        }
+
       },
       error: (error) => {
         console.error('Error loading messages:', error);

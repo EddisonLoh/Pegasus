@@ -65,7 +65,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
     // Load saved language from Preferences
     await this.loadLanguage();
-
     // Initialize reCAPTCHA after a short delay to ensure DOM is ready
     setTimeout(() => {
       this.auth.recaptcha();
@@ -85,7 +84,7 @@ export class LoginPage implements OnInit, OnDestroy {
   async loadLanguage() {
     try {
       const { value } = await Preferences.get({ key: 'user-lang' });
-      const lang = value || 'ms';
+      const lang = value || 'en';
       console.log('Loading language:', lang);
 
       // Set default language first
@@ -103,12 +102,19 @@ export class LoginPage implements OnInit, OnDestroy {
 
     } catch (error) {
       console.error('Error loading language:', error);
-      this.translate.setDefaultLang('ms');
-      await this.translate.use('ms').toPromise();
+      this.translate.setDefaultLang('en');
+      await this.translate.use('en').toPromise();
     }
   }
 
-
+  getFlag(lang: string) {
+    let isoCode = 'US';
+    if (lang === 'ms') isoCode = 'MY';
+    if (lang === 'ar') isoCode = 'SA';
+    
+    const country = this.CountryJson.find(c => c.isoCode === isoCode);
+    return country ? country.flag : '';
+  }
 
   async HideSplash() {
     await SplashScreen.hide();
@@ -179,7 +185,7 @@ export class LoginPage implements OnInit, OnDestroy {
         this.isInTestMode = false;
         return this.proceedWithTestMode(this.form.value.phone, testOTP);
       }
-
+      console.log('📱 Signing in with phone number:', fullPhoneNumber);
       try {
         confirmationResult = await this.auth.signInWithPhoneNumber(fullPhoneNumber);
       } catch (authError) {

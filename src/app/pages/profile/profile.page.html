@@ -64,10 +64,13 @@
     </ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button (click)="changeLanguage('en')">
-        <ion-img src="https://cdn.kcak11.com/CountryFlags/countries/us.svg" style="width: 24px; height: 24px;"></ion-img>
+        <img [src]="getFlag('en')" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage('ms')">
+        <img [src]="getFlag('ms')" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
       </ion-fab-button>
       <ion-fab-button (click)="changeLanguage('ar')">
-        <ion-img src="https://cdn.kcak11.com/CountryFlags/countries/sa.svg" style="width: 24px; height: 24px;"></ion-img>
+        <img [src]="getFlag('ar')" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

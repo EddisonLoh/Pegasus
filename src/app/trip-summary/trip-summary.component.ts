@@ -150,7 +150,7 @@ export class TripSummaryComponent implements OnInit {
 
       // Update the trip record with the rating
       await updateDoc(doc(this.firestore, 'Request', this.tripId), {
-        rating: this.rating,
+        riderRating: this.rating,
         ratingComment: this.comment,
         ratedAt: new Date().toISOString()
       });
@@ -244,6 +244,8 @@ export class TripSummaryComponent implements OnInit {
         timestamp: new Date()
       };
       
+
+      console.log("Pinpointed ride data to saved distance:", finalRideData.distance);
       // Save to history (don't await to avoid blocking dismiss)
       this.avatarService.saveRideHistory(finalRideData).catch(err => {
         console.error('Error saving ride history on dismiss:', err);

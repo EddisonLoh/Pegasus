@@ -124,6 +124,7 @@ export class HomePage implements AfterViewInit {
   D_duration: any;
   routePolyline: any;
   paymentProcessed: boolean = false;
+  processingPaymentForRide: string | null = null; // Track which ride payment is being processed for
   private routeUpdateSubscription: Subscription;
   topBarHeight: any;
   bottomBarHeight:any;
@@ -147,6 +148,9 @@ export class HomePage implements AfterViewInit {
 
   // Add this property to the class
   private isRideStopProcessed = false;
+
+  // Update interval for route tracking (in milliseconds)
+  private readonly UPDATE_INTERVAL = 5000; // Update every 5 seconds
 
   constructor(
     private auth: Auth,
@@ -175,7 +179,7 @@ export class HomePage implements AfterViewInit {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
-    window.removeEventListener('resize', this.setMapHeight.bind(this));
+    // window.removeEventListener('resize', this.setMapHeight.bind(this));
     this.clearSubscriptions();
     await this.clearPrevMarkers();
     await this.clearAllPolylines();
@@ -204,16 +208,20 @@ export class HomePage implements AfterViewInit {
       await this.fetchSavedPaymentMethods();
   // load user preset places (localStorage-backed)
   await this.loadPresets();
-      this.EnterBookingStage();
+      
+      // Initialize geolocation and map BEFORE entering booking stage
       await this.initializeGeolocation();
       await this.initializeMap();
+      
+      // Now it's safe to enter booking stage (map is initialized)
+      this.EnterBookingStage();
       
       // Set up real-time listener for ride state
       this.initializeRideStateListener();
     } catch (e) {
-      console.error('Error in ngAfterViewInit:', e);
-      this.overlay.hideLoader();
-      this.overlay.showAlert('Error', 'An error occurred during initialization. Please try again.');
+      console.log('Error in ngAfterViewInit:', e);
+      //this.overlay.hideLoader();
+      //this.overlay.showAlert('Error', 'An error occurred during initialization. Please try again.');
     }
   }
 
@@ -468,6 +476,7 @@ export class HomePage implements AfterViewInit {
     this.rideHasStarted = false;
     this.lastHandledState = null;
     this.paymentProcessed = false; // Reset payment flag
+    this.processingPaymentForRide = null; // Reset processing flag
     // Clear any other ride-specific data
   }
 
@@ -613,21 +622,21 @@ export class HomePage implements AfterViewInit {
     }
   }
 
-  async processPayment(email: string, amount: number, cardId: any) {
-    this.overlay.showLoader('Processing payment...');
+  // async processPayment(email: string, amount: number, cardId: any) {
+  //   //this.overlay.showLoader('Processing payment...');
 
-    try {
-      const paymentResult = await this.payME.processPaymentWithCardId(email, amount, cardId).toPromise();
-      console.log('Payment successful:', paymentResult);
-      await this.overlay.showAlert('Success', 'Payment successful!');
-    } catch (error) {
-      console.error('Error during payment:', error);
-      const errorMessage = error.error ? error.error.error : 'An unexpected error occurred.';
-      await this.showPaymentErrorModal(errorMessage);
-    } finally {
-      this.overlay.hideLoader();
-    }
-  }
+  //   try {
+  //     const paymentResult = await this.payME.processPaymentWithCardId(email, amount, cardId).toPromise();
+  //     console.log('Payment successful:', paymentResult);
+  //     await this.overlay.showAlert('Success', 'Payment successful!');
+  //   } catch (error) {
+  //     console.error('Error during payment:', error);
+  //     const errorMessage = error.error ? error.error.error : 'An unexpected error occurred.';
+  //     await this.showPaymentErrorModal(errorMessage);
+  //   } finally {
+  //     //this.overlay.hideLoader();
+  //   }
+  // }
 
   async processRidePayment(rideData: any) {
     try {
@@ -650,32 +659,63 @@ export class HomePage implements AfterViewInit {
       
       console.log('Processing ride payment...');
       
+      // Validate price before processing
+      if (!this.price || typeof this.price !== 'number' || this.price <= 0) {
+        console.error('Invalid price for payment:', this.price);
+        throw new Error('Invalid price amount');
+      }
+      
       // Calculate split: 80% to driver, 20% to company
-      const totalAmount = Math.round(this.price * 100); // Convert to cents 
+      const totalAmount = Math.round(this.price * 100); // Convert to cents
+      
+      // Stripe requires minimum 50 cents
+      if (totalAmount < 50) {
+        console.error('Amount too small for Stripe:', totalAmount);
+        throw new Error('Payment amount is too small (minimum $0.50)');
+      }
+      
       const driverAmount = Math.round(totalAmount * 0.80);
       const companyAmount = totalAmount - driverAmount;
+      
+      console.log('Payment amounts - Total:', totalAmount, 'cents, Driver:', driverAmount, 'cents, Company:', companyAmount, 'cents');
+      
+      // Validate required fields
+      if (!this.selectedCard || this.selectedCard === 'cash') {
+        console.error('Invalid payment method:', this.selectedCard);
+        throw new Error('No valid payment method selected');
+      }
+      
+      if (!this.database.user?.email) {
+        console.error('User email not found');
+        throw new Error('User email is required for payment');
+      }
+      
+      if (!this.requestID) {
+        console.error('Request ID not found');
+        throw new Error('Ride ID is required for payment');
+      }
       
       const paymentData = {
         email: this.database.user.email,
         amount: totalAmount,
         currency: 'usd',
         paymentMethodId: this.selectedCard,
-        driverId: rideData.driverDetails?.Driver_id || this.driverInfo?.Driver_id,
+        driverId: rideData.driverDetails?.Driver_id || this.driverInfo?.Driver_id || '',
         rideId: this.requestID,
         driverAmount: driverAmount,
         companyAmount: companyAmount,
-        description: `Ride from ${this.locationAddress} to ${this.destinationAddress}`
+        description: `Ride from ${this.locationAddress || 'pickup'} to ${this.destinationAddress || 'destination'}`
       };
       
-      console.log('Payment data:', paymentData);
+      console.log('Payment data:', JSON.stringify(paymentData, null, 2));
       
       // Show loading indicator using overlay service
-      this.overlay.showLoader('Processing payment...');
+      //this.overlay.showLoader('Processing payment...');
       
       // Process the payment
       const paymentResult = await this.payME.processRidePayment(paymentData).toPromise();
       
-      this.overlay.hideLoader();
+      //this.overlay.hideLoader();
       
       if (paymentResult.success) {
         console.log('Payment processed successfully:', paymentResult);
@@ -708,10 +748,22 @@ export class HomePage implements AfterViewInit {
       console.error('Error processing ride payment:', error);
       this.overlay.hideLoader();
       
+      // Extract meaningful error message
+      let errorMessage = 'Payment could not be processed.';
+      if (error?.error?.error) {
+        errorMessage = error.error.error;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      
+      console.error('Payment error details:', errorMessage);
+      
       // Show error to user but don't cancel the ride
       const alert = await this.alert.create({
         header: 'Payment Error',
-        message: 'Payment could not be processed. You can pay cash to the driver instead.',
+        message: `${errorMessage}\n\nYou can pay cash to the driver instead.`,
         buttons: [
           {
             text: 'Pay Cash',
@@ -719,11 +771,13 @@ export class HomePage implements AfterViewInit {
               // Switch to cash payment
               this.cash = true;
               this.paymentProcessed = true; // Mark as processed to prevent retry
-              await updateDoc(doc(this.firestore, 'Request', this.requestID), {
-                cash: true,
-                paymentMethod: 'cash',
-                paymentProcessed: true
-              });
+              if (this.requestID) {
+                await updateDoc(doc(this.firestore, 'Request', this.requestID), {
+                  cash: true,
+                  paymentMethod: 'cash',
+                  paymentProcessed: true
+                });
+              }
             }
           },
           {
@@ -778,49 +832,35 @@ export class HomePage implements AfterViewInit {
   }
 
 
-  // Add this single unified method for all map height calculations
-  setMapContainerHeight(extraPadding = 0) {
-    if (!this.mapRef || !this.topBar || !this.bottomBar) return;
-    
-    // Get proper measurements of the bars
-    const topHeight = this.topBar.nativeElement.offsetHeight || 0;
-    const bottomHeight = this.bottomBar.nativeElement.offsetHeight || 0;
-    
-    // Calculate available height properly
-    const availableHeight = window.innerHeight - topHeight - bottomHeight + extraPadding;
-    
-    // Set map height
-    this.mapRef.nativeElement.style.height = `${availableHeight}px`;
-    
-    // Ensure map container is positioned properly
-    this.mapRef.nativeElement.style.top = `${topHeight}px`;
-    this.mapRef.nativeElement.style.position = 'absolute';
-    this.mapRef.nativeElement.style.zIndex = '1'; // Lower than UI elements
-    this.mapRef.nativeElement.style.left = '0';
-    this.mapRef.nativeElement.style.right = '0';
-    
-    console.log(`Map container height set to: ${availableHeight}px (top: ${topHeight}px, bottom: ${bottomHeight}px)`);
+    async updateMapPadding(bottomPadding: number) {
+    if (this.map && this.map.newMap) {
+      await this.map.newMap.setPadding({
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: bottomPadding
+      });
+    }
   }
 
-  // Update these methods to use the unified approach
   setMapHeight() {
-    this.setMapContainerHeight(0);
+    this.updateMapPadding(0);
   }
 
   setMapHeightCreateAndAddMarkers() {
-    this.setMapContainerHeight(40); // Add some padding if needed
+    this.updateMapPadding(40);
   }
 
   setMapHeightHandleDrivertoRider() {
-    this.setMapContainerHeight(20);
+    this.updateMapPadding(20);
   }
 
   setMapHeightHandleDrivertoDestination() {
-    this.setMapContainerHeight(0);
+    this.updateMapPadding(0);
   }
 
   ResetMapHeight() {
-    this.setMapContainerHeight(0);
+    this.updateMapPadding(0);
   }
 
   private async initializeNetworkMonitoring() {
@@ -987,7 +1027,7 @@ export class HomePage implements AfterViewInit {
         console.error('Error getting position:', err);
         // Reduce error alerts by not showing specific errors repeatedly
       }
-    }, 5000); // Poll every 10 seconds
+    }, 3000); // Poll every 3 seconds for more responsive location updates
   }
   
   hasSignificantLocationChange(oldLatLng, newLatLng, minDistance) {
@@ -1221,21 +1261,39 @@ export class HomePage implements AfterViewInit {
   }
 
 async clearMarkers() {
-  if (this.marker1) {
-    await this.map.newMap.removeMarker(this.marker1);
-    this.marker1 = null;
+  // Check if map is initialized
+  if (!this.map || !this.map.newMap) {
+    console.warn('Map not initialized when clearing markers');
+    return;
   }
 
-  if (this.marker2) {
-    await this.map.newMap.removeMarker(this.marker2.toString());
-    this.marker2 = null;
-  }
-
-  if (this._carmarkers) {
-    for (const { marker } of this._carmarkers) {
-      await this.map.newMap.removeMarker(marker); // Assuming marker is the instance
+  try {
+    if (this.marker1 !== null && this.marker1 !== undefined) {
+      await this.map.newMap.removeMarker(this.marker1).catch(e => 
+        console.error('Error removing marker1:', e)
+      );
+      this.marker1 = null;
     }
-    this._carmarkers = []; // Clear the array after removing markers
+
+    if (this.marker2 !== null && this.marker2 !== undefined) {
+      await this.map.newMap.removeMarker(this.marker2).catch(e => 
+        console.error('Error removing marker2:', e)
+      );
+      this.marker2 = null;
+    }
+
+    if (this._carmarkers && Array.isArray(this._carmarkers)) {
+      for (const { marker } of this._carmarkers) {
+        if (marker !== null && marker !== undefined) {
+          await this.map.newMap.removeMarker(marker).catch(e => 
+            console.error('Error removing car marker:', e)
+          );
+        }
+      }
+      this._carmarkers = [];
+    }
+  } catch (error) {
+    console.error('Error in clearMarkers:', error);
   }
 }
 
@@ -1556,7 +1614,7 @@ async handleRideStart(doc) {
     
     // Adjust map height before adding markers
     this.setMapHeightHandleDrivertoDestination();
-    window.addEventListener('resize', this.setMapHeightHandleDrivertoDestination.bind(this));
+    // window.addEventListener('resize', this.setMapHeightHandleDrivertoDestination.bind(this));
     
     // Initialize locations with fallbacks
     this.LatLng = {
@@ -1741,6 +1799,27 @@ async handleRideStop(docSnapshot) {
       timestamp: new Date()
     };
 
+    // Process payment at the end of the ride (if not using cash)
+    if (!this.cash && this.selectedCard && this.selectedCard !== 'cash' && !this.paymentProcessed && !docData?.paymentProcessed) {
+      // Check if we're already processing payment for this exact ride
+      if (this.processingPaymentForRide === this.requestID) {
+        console.log('Payment already being processed for this ride, skipping...');
+      } else {
+        // Set the processing flag IMMEDIATELY before any async operations
+        this.processingPaymentForRide = this.requestID;
+        try {
+          await this.processRidePayment(docData);
+        } finally {
+          // Clear the processing flag after completion (success or failure)
+          this.processingPaymentForRide = null;
+        }
+      }
+    } else if (docData?.paymentProcessed) {
+      // Payment was already processed, just update the flag
+      console.log('Payment already processed for this ride');
+      this.paymentProcessed = true;
+    }
+
     // Save to ride history BEFORE showing modal
     try {
       console.log('Saving ride history with data:', rideData);
@@ -1775,11 +1854,13 @@ async handleRideStop(docSnapshot) {
     await modal.present();
     
     // Clean up once modal is dismissed
-    modal.onDidDismiss().then(() => {
+    modal.onDidDismiss().then(async () => {
       console.log('Trip summary dismissed, resetting state');
-      this.isRideStopProcessed = false; // Reset the flag
-      this.clearRideState();            // Additional cleanup
-      this.ReturnHome();                // Return to booking view
+      this.isRideStopProcessed = false;
+      
+      // Comprehensive cleanup and return home
+      await this.clearRideState();
+      await this.ReturnHome();
     });
 
   } catch (error) {
@@ -1790,11 +1871,15 @@ async handleRideStop(docSnapshot) {
 }
 
 // Add this method for more thorough ride state cleanup
-private clearRideState() {
+private async clearRideState() {
   console.log('Clearing ride state completely');
   
   // First clear all subscriptions
   this.clearSubscriptions();
+  
+  // Clear visual elements from map
+  await this.clearPrevMarkers().catch(e => console.error('Error clearing markers:', e));
+  await this.clearAllPolylines().catch(e => console.error('Error clearing polylines:', e));
   
   // Reset all ride-related properties
   this.requestID = null;
@@ -1803,13 +1888,49 @@ private clearRideState() {
   this.driver_marker = null;
   this.rider_marker = null;
   this.destinationMarker = null;
+  this.marker1 = null;
+  this.marker2 = null;
   this.routePolyline = null;
   this.routePath = null;
   this.newPoly = null;
   this.animatedMarker = null;
   this.driverLocation = null;
   this.isRideStopProcessed = false;
-  this.paymentProcessed = false; // Reset payment flag
+  this.paymentProcessed = false;
+  this.processingPaymentForRide = null;
+  
+  // Reset driver/ride info
+  this.carname = null;
+  this.driverImage = null;
+  this.driver_duration_apart = null;
+  this.driver_ID = null;
+  this.driver_number_of_seats = null;
+  this.DriverLatLng = null;
+  this.rideHasStarted = false;
+  this.duration = null;
+  this.distance = null;
+  
+  // Reset destination data
+  this.destinationAddress = 'Unknown location';
+  this.actualDestination = null;
+  this.D_LatLng = { lat: null, lng: null };
+  this.price = null;
+  
+  // Clear car markers array
+  if (this._carmarkers && this._carmarkers.length > 0) {
+    for (const { marker } of this._carmarkers) {
+      if (marker !== null && marker !== undefined && this.map?.newMap) {
+        await this.map.newMap.removeMarker(marker).catch(e => 
+          console.error('Error removing car marker:', e)
+        );
+      }
+    }
+    this._carmarkers = [];
+  }
+  
+  // Reset drivers list
+  this.drivers_Requested = [];
+  this.NoDrivers = false;
   
   // Reset stage-related properties
   this.bookingStage = false;
@@ -1823,15 +1944,26 @@ private clearRideState() {
   // Set default stage
   this.EnterBookingStage();
   
-  // Stop polling
+  // Reset polling state
   this.stopPolling = false;
+  
+  // Reset current request number
+  this.current_Request_Number = 0;
   
   // Re-enable map interactions if needed
   if (this.map && this.map.newMap) {
-    this.map.newMap.enableCurrentLocation(true);
-    this.map.newMap.enableTouch();
+    try {
+      await this.map.newMap.enableCurrentLocation(true);
+      this.map.newMap.enableTouch();
+    } catch (e) {
+      console.error('Error enabling map features:', e);
+    }
   }
+  
+  console.log('Ride state cleared completely');
 }
+
+
 
 async handleRideConfirmation(docOrData) {
   try {
@@ -1871,11 +2003,9 @@ async handleRideConfirmation(docOrData) {
     this.requestID = docId || rideData.requestId;
     this.driverInfo = rideData.driverDetails;
     
-    // Process payment if not using cash AND not already processed
-    if (!this.cash && this.selectedCard && this.selectedCard !== 'cash' && !this.paymentProcessed && !rideData.paymentProcessed) {
-      await this.processRidePayment(rideData);
-    } else if (rideData.paymentProcessed) {
-      // Payment was already processed, just update the flag
+    // Note: Payment processing moved to handleRideStop (end of ride)
+    // Check if payment was already processed
+    if (rideData.paymentProcessed) {
       console.log('Payment already processed in previous session');
       this.paymentProcessed = true;
     }
@@ -1940,7 +2070,7 @@ async handleRideConfirmation(docOrData) {
 
     // Set map height and add event listener
     this.setMapHeightHandleDrivertoRider();
-    window.addEventListener('resize', this.setMapHeightHandleDrivertoRider.bind(this));
+    // window.addEventListener('resize', this.setMapHeightHandleDrivertoRider.bind(this));
 
     // Initialize the map view with driver and rider markers
     await this.handleDriverToRider(this.DriverLatLng, this.LatLng);
@@ -2011,8 +2141,10 @@ async EnterChat(): Promise<void> {
 const options: ModalOptions = {
     component: EnrouteChatComponent,
     componentProps: {
-        userId: this.requestID,
-        message: ""
+        chatData: {
+            userId: this.requestID,
+            message: ""
+        }
     },
    
 };
@@ -2098,18 +2230,28 @@ private async clearPrevMarkers() {
     
     // Clear individual markers with proper error handling
     const markers = [
-      this.rider_marker,
-      this.driver_marker,
-      this.destinationMarker,
-      this.marker1,
-      this.marker2,
-      this.animatedMarker
+      { ref: this.rider_marker, name: 'rider_marker' },
+      { ref: this.driver_marker, name: 'driver_marker' },
+      { ref: this.destinationMarker, name: 'destinationMarker' },
+      { ref: this.marker1, name: 'marker1' },
+      { ref: this.marker2, name: 'marker2' },
+      { ref: this.animatedMarker, name: 'animatedMarker' }
     ];
+
+    // Add car markers to the list
+    if (this._carmarkers && Array.isArray(this._carmarkers)) {
+      this._carmarkers.forEach(cm => {
+        if (cm.marker) {
+          markers.push({ ref: cm.marker, name: 'car_marker' });
+        }
+      });
+      this._carmarkers = [];
+    }
     
     const clearPromises = markers
-      .filter(marker => marker !== null && marker !== undefined)
-      .map(marker => this.clearMarker(marker).catch(e => {
-        console.error('Error clearing specific marker:', e);
+      .filter(m => m.ref !== null && m.ref !== undefined && m.ref !== '')
+      .map(m => this.clearMarker(m.ref).catch(e => {
+        console.error(`Error clearing ${m.name}:`, e);
         // Continue despite error
         return null;
       }));
@@ -2145,6 +2287,39 @@ private async clearMarker(marker) {
   }
 }
 
+// Helper method to update marker position without duplication
+private async updateMarkerPosition(marker: any, coordinate: { lat: number, lng: number }, iconUrl: string, title: string) {
+  if (!this.map?.newMap) return null;
+  
+  const markerSize = { width: 40, height: 40 };
+  const iconAnchor = { x: 20, y: 40 };
+  
+  try {
+    // Remove old marker if it exists
+    if (marker !== null && marker !== undefined) {
+      await this.map.newMap.removeMarker(marker).catch(e => 
+        console.log('Marker already removed or invalid:', e)
+      );
+    }
+    
+    // Create new marker at updated position
+    const newMarker = await this.map.newMap.addMarker({
+      coordinate: coordinate,
+      iconUrl: iconUrl,
+      title: title,
+      iconSize: markerSize,
+      iconAnchor: iconAnchor,
+      iconOrigin: { x: 0, y: 0 },
+      zIndex: title === 'Driver' ? 100 : 101
+    });
+    
+    return newMarker;
+  } catch (error) {
+    console.error('Error updating marker position:', error);
+    return null;
+  }
+}
+
 // Modify clearAllPolylines for safer handling
 async clearAllPolylines() {
   try {
@@ -2176,31 +2351,47 @@ async clearAllPolylines() {
 
 async ResetState(){
   try{
-    // Clear previous markers
+    console.log('Resetting state to initial booking view');
+    
+    // Clear all subscriptions first
+    this.clearSubscriptions();
+    
+    // Clear previous markers and polylines
     await this.clearPrevMarkers();
+    await this.clearAllPolylines();
 
-    // Clear any existing polylines
-    await this.clearPolyline(this.newPoly);
-
-    await this.map.newMap.setCamera({
-      animate: true,
-      animationDuration: 500,
-      zoom: 15,
-      coordinate: this.LatLng
-    });
+    // Reset map camera to user location
+    if (this.map && this.map.newMap && this.LatLng) {
+      await this.map.newMap.setCamera({
+        animate: true,
+        animationDuration: 500,
+        zoom: 15,
+        coordinate: this.LatLng
+      });
+    }
 
     this.ResetMapHeight();
-    window.addEventListener('resize', this.ResetMapHeight.bind(this));
+    // window.addEventListener('resize', this.ResetMapHeight.bind(this));
   
-    this.map.newMap.enableTouch();
-    // Ensure the map respects the boundaries of the top and bottom bars
+    if (this.map && this.map.newMap) {
+      this.map.newMap.enableTouch();
+      await this.map.newMap.enableCurrentLocation(true);
+    }
+    
+    // Reset all ride-related data
     this.current_Request_Number = 0;
     this.price = null;
     this.actualDestination = null;
     this.D_LatLng = { lat: null, lng: null };
     this.destinationAddress = 'Unknown location';
-
-    await this.map.newMap.enableCurrentLocation(true);
+    this.driverInfo = null;
+    this.currentDriver = null;
+    this.driverLocation = null;
+    this.duration = null;
+    this.distance = null;
+    
+    // Reset polling state
+    this.stopPolling = false;
     
   }catch(e){
     throw new Error(e);
@@ -2263,6 +2454,10 @@ async showAutocompleteModal(): Promise<void> {
 
 
 async RequestRide(dat) {
+  if (this.LatLng) {
+    await this.fetchAndDisplayDrivers([this.LatLng.lat, this.LatLng.lng], 8000);
+  }
+
   if (!this.NoDrivers) {
     this.destinationAddress = dat.place.full;
     this.actualDestination = dat.place.whole.full;
@@ -2295,6 +2490,10 @@ async getDistanceAndDirections() {
   if (this.D_LatLng && this.D_LatLng.lat) {
     console.log("D_LatLng is set:", this.D_LatLng);
 
+    if (this.LatLng) {
+      await this.fetchAndDisplayDrivers([this.LatLng.lat, this.LatLng.lng], 8000);
+    }
+
     if (!this.NoDrivers) {
       this.EnterConfirmStage();
     } else {
@@ -2302,16 +2501,16 @@ async getDistanceAndDirections() {
       console.log("No drivers available");
       return;
     }
-    
+
     const origin1 = new google.maps.LatLng(this.LatLng.lat, this.LatLng.lng);
     const origin2 = new google.maps.LatLng(this.D_LatLng.lat, this.D_LatLng.lng);
-    
+
     const request = {
       origin: origin1,
       destination: origin2,
       travelMode: google.maps.TravelMode.DRIVING,
     };
-    
+
     this.geocode.directions.route(request, async (response, status) => {
       if (status === 'OK') {
         this.direction = response;
@@ -2320,13 +2519,7 @@ async getDistanceAndDirections() {
         this.price = await this.database.getPriceEstimate(this.distance);
         this.duration = response.routes[0].legs[0].duration.text;
 
-        // Build full path from the directions response so polyline follows the route
-        const path = response.routes[0].overview_path.map(latlng => ({
-          lat: latlng.lat(),
-          lng: latlng.lng()
-        }));
-
-        await this.createAndAddMarkers(this.LatLng, this.D_LatLng, path);
+        await this.createAndAddMarkers(this.LatLng, this.D_LatLng);
 
         // Call getDistanceAndDirectionsDriver after this part is successful
         await this.getDistanceAndDirectionsDriver();
@@ -2339,6 +2532,7 @@ async getDistanceAndDirections() {
     this.overlay.showAlert('Drag Map', 'Drag the map and stop on your required destination');
     console.error('D_LatLng or D_LatLng.lat is undefined');
   }
+
 }
 
 async getDistanceAndDirectionsDriver() {
@@ -2373,6 +2567,7 @@ async getDistanceAndDirectionsDriver() {
     console.log("No drivers available");
   }
 }
+
 
 
 
@@ -2427,7 +2622,14 @@ processAddressResponse(addressResponse) {
 async UpdateCarMarker(elements: Drivers[]) {
   console.log('Elements to update car markers:', elements);
 
+  // Validate map is initialized
+  if (!this.map || !this.map.newMap) {
+    console.warn('Map not initialized when updating car markers');
+    return;
+  }
+
   const bounds = new google.maps.LatLngBounds();
+  let hasValidBounds = false;
 
   // Create a map of driver IDs to driver elements for quick lookup
   const driverMap = new Map(elements.map(element => [element.Driver_id, element]));
@@ -2440,13 +2642,21 @@ async UpdateCarMarker(elements: Drivers[]) {
     const driver = driverMap.get(id);
     if (!driver || !driver.onlineState) {
       console.log(`Removing marker for driver ID: ${id}`);
-      await this.map.newMap.removeMarker(marker); // Remove the marker from the map
+      if (marker !== null && marker !== undefined) {
+        await this.map.newMap.removeMarker(marker).catch(e => 
+          console.error(`Error removing marker ${id}:`, e)
+        );
+      }
     } else if (driver.Driver_lat !== undefined && driver.Driver_lng !== undefined) {
       const latlng = { lat: driver.Driver_lat, lng: driver.Driver_lng };
-      // Remove old marker and add a new one with updated position
-      await this.map.newMap.removeMarker(marker);
-     // updatedMarkers.push({ id, marker: newMarker });
+      // Remove old marker
+      if (marker !== null && marker !== undefined) {
+        await this.map.newMap.removeMarker(marker).catch(e => 
+          console.error(`Error removing marker ${id}:`, e)
+        );
+      }
       bounds.extend(latlng);
+      hasValidBounds = true;
       console.log(`Updated marker for driver ID: ${id}`);
     } else {
       console.error('Invalid driver coordinates:', driver);
@@ -2461,17 +2671,20 @@ async UpdateCarMarker(elements: Drivers[]) {
         const latlng = { lat: element.Driver_lat, lng: element.Driver_lng };
         console.log(`Adding new marker for driver ID: ${element.Driver_id} at`, latlng);
         try {
-          // const marker = await this.map.newMap.addMarker({
-          //   coordinate: latlng,
-          //   iconUrl: 'https://i.ibb.co/KDy365b/hatchback.png',
-          //   title: 'Driver',
-          //   iconSize: { width: 30, height: 30 }
-          // });
+          const marker = await this.map.newMap.addMarker({
+            coordinate: latlng,
+            iconUrl: 'https://i.ibb.co/KDy365b/hatchback.png',
+            title: 'Driver',
+            iconSize: { width: 40, height: 40 },
+            iconAnchor: { x: 20, y: 40 },
+            zIndex: 100
+          });
 
-          // if (marker) {
-          //   updatedMarkers.push({ id: element.Driver_id, marker });
-          //   bounds.extend(latlng);
-          // }
+          if (marker) {
+            updatedMarkers.push({ id: element.Driver_id, marker });
+            bounds.extend(latlng);
+            hasValidBounds = true;
+          }
         } catch (error) {
           console.error('Error adding marker:', error);
         }
@@ -2483,31 +2696,29 @@ async UpdateCarMarker(elements: Drivers[]) {
   this._carmarkers = updatedMarkers;
 
   // Center the map around the car markers if there are any markers
-  if (updatedMarkers.length > 0) {
-    const mapDim = {
-      height: this.mapRef.nativeElement.offsetHeight,
-      width: this.mapRef.nativeElement.offsetWidth
-    };
+  if (updatedMarkers.length > 0 && hasValidBounds) {
+    try {
+      const mapDim = {
+        height: this.mapRef.nativeElement.offsetHeight || 600,
+        width: this.mapRef.nativeElement.offsetWidth || 400
+      };
 
-    const minZoom = 5; // Define your minimum zoom level
-    const maxZoom = 18; // Define your maximum zoom level
+      const minZoom = 10; // Closer minimum zoom
+      const maxZoom = 17; // Reasonable maximum zoom
+      
+      let zoomLevel = await this.map.getBoundsZoomLevel(bounds, mapDim);
+      
+      // Constrain the zoom level within the min and max range
+      zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
+      
+      console.log('Setting camera with zoom level:', zoomLevel);
+      
+      const center = bounds.getCenter();
     
-    let zoomLevel = await this.map.getBoundsZoomLevel(bounds, mapDim);
-    
-    // Constrain the zoom level within the min and max range
-    zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
-    
-    console.log('Setting camera with zoom level:', zoomLevel);
-    
-    await this.map.newMap.setCamera({
-      animate: true,
-      animationDuration: 500,
-      zoom: zoomLevel,
-      coordinate: bounds.getCenter()
-    });
-
-    this.map.newMap.fitBounds(bounds);
-      } else {
+    } catch (error) {
+      console.error('Error setting camera:', error);
+    }
+  } else {
     console.log('No markers to display on the map.');
   }
 }
@@ -2515,17 +2726,8 @@ async UpdateCarMarker(elements: Drivers[]) {
 
 
 async GoHome() {
-  await this.map.newMap.enableCurrentLocation(true);
-  this.current_Request_Number = 0;
-  this.stopPolling = false;
-  this.price = null;
-  this.EnterBookingStage();
-  await this.map.newMap.setCamera({
-      animate: true,
-      animationDuration: 500,
-      zoom: 15,
-      coordinate: this.LatLng
-  });
+  console.log('Going home...');
+  await this.ReturnHome();
 }
 
 async GotoSupport() {
@@ -2534,43 +2736,75 @@ async GotoSupport() {
 
 
 async ReturnHome() {
-  await this.ResetState();
-  this.EnterBookingStage();
-  this.stopPolling = false;
-  await this.map.newMap.setCamera({
-      animate: true,
-      animationDuration: 500,
-      zoom: 15,
-      coordinate: this.LatLng
-  });
+  console.log('Returning home - resetting to booking stage');
+  
+  try {
+    // Clear all ride state first
+    await this.clearRideState();
+    
+    // Reset map state
+    await this.ResetState();
+    
+    // Ensure we're in booking stage
+    this.EnterBookingStage();
+    
+    // Reset map camera
+    if (this.map && this.map.newMap && this.LatLng) {
+      await this.map.newMap.setCamera({
+        animate: true,
+        animationDuration: 500,
+        zoom: 15,
+        coordinate: this.LatLng
+      });
+    }
+    
+    console.log('Successfully returned to booking view');
+  } catch (error) {
+    console.error('Error returning home:', error);
+    // Ensure we at least enter booking stage
+    this.EnterBookingStage();
+  }
 }
 
 async CancelRide() {
   try {
+    console.log('Cancelling ride...');
     this.overlay.showLoader('Cancelling your ride...');
-    await this.clearPrevMarkers();
-    await this.clearPolyline(this.newPoly);
-
-    this.unsubscribe();
-    this.numCalls.unsubscribe();
+    
+    // Cancel ride in database
+    if (this.requestID) {
+      await this.database.cancelRide(this.requestID);
+    }
+    
+    // Clear subscriptions
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+    if (this.numCalls) {
+      this.numCalls.unsubscribe();
+    }
+    
     this.riderCleared = true;
-    await this.database.cancelRide(this.requestID);
-    await this.map.newMap.enableCurrentLocation(true);
-    this.current_Request_Number = 0;
-    this.price = null;
-    this.EnterBookingStage();
-    this.overlay.hideLoader();
-    await this.map.newMap.setCamera({
-      animate: true,
-      animationDuration: 500,
-      zoom: 15,
-      coordinate: this.LatLng
-    });
+    
+    // Comprehensive cleanup
     await this.clearRideState();
+    
+    // Reset to booking view
+    await this.ReturnHome();
+    
+    this.overlay.hideLoader();
+    console.log('Ride cancelled successfully');
   } catch (error) {
     this.overlay.hideLoader();
     console.error('Error cancelling ride:', error);
     this.overlay.showAlert('Error', 'Failed to cancel ride. Please try again.');
+    
+    // Try to return home anyway
+    try {
+      await this.ReturnHome();
+    } catch (e) {
+      console.error('Error returning home after cancel error:', e);
+    }
   }
 }
 
@@ -2605,16 +2839,23 @@ async ClearRide() {
 }
 
 async CallDriver() {
-  // Implement CallDriver logic
+  const phone = this.driverInfo?.Driver_phone?.replace(/[^\d]/g, '');
+  if (phone) {
+    const message = encodeURIComponent('Hi, I am your rider.');
+    window.open(`https://wa.me/${phone}?text=${message}`, '_system');
+    return;
+  }
+  const toast = await this.toastController.create({
+    message: 'Driver WhatsApp number not available',
+    duration: 2000
+  });
+  await toast.present();
 }
 
 
-// Interval in milliseconds for updating the route
-UPDATE_INTERVAL = 10000; // Update every 10 seconds
-
 async handleDriverToRider(driverLatLng, riderLatLng) {
-  const markerSize = { width: 30, height: 30 };
-  const iconAnchor = { x: 15, y: 30 }; // Center bottom of the icon
+  const markerSize = { width: 40, height: 40 }; // Increased size for better visibility
+  const iconAnchor = { x: 20, y: 40 }; // Center bottom of the icon
 
   try {
     // Cancel any existing route update subscription first
@@ -2634,7 +2875,7 @@ async handleDriverToRider(driverLatLng, riderLatLng) {
     await this.clearAllPolylines();
     
     // Use the unified height method and ensure proper positioning
-    this.setMapContainerHeight(20);
+    this.setMapHeightHandleDrivertoRider();
     
     // Add driver marker at the starting position with adjusted z-index
     const driverMarker = await this.map.newMap.addMarker({
@@ -2643,7 +2884,7 @@ async handleDriverToRider(driverLatLng, riderLatLng) {
       title: 'Driver',
       iconSize: markerSize,
       iconAnchor: iconAnchor,
-      zIndex: 10 // Ensure marker appears above polylines
+      zIndex: 100 // Ensure marker appears above polylines
     });
     this.driver_marker = driverMarker;
 
@@ -2654,19 +2895,39 @@ async handleDriverToRider(driverLatLng, riderLatLng) {
       title: 'Rider',
       iconSize: markerSize,
       iconAnchor: iconAnchor,
-      zIndex: 11 // Higher than driver marker
+      zIndex: 101 // Higher than driver marker
     });
     this.rider_marker = riderMarker;
 
     // Function to update route, duration, and distance
     const updateRoute = async () => {
+        // Fetch updated driver location
+        let updatedDriverLatLng = driverLatLng;
+        if (this.currentDriver?.Driver_id) {
+          try {
+            const driverLocation = await this.database.getDriverLocation(this.currentDriver.Driver_id);
+            if (driverLocation && driverLocation.lat && driverLocation.lng) {
+              updatedDriverLatLng = { lat: driverLocation.lat, lng: driverLocation.lng };
+              this.DriverLatLng = updatedDriverLatLng;
+            }
+          } catch (error) {
+            console.warn('Failed to fetch updated driver location:', error);
+          }
+        }
+
         const request = {
-          origin: driverLatLng,
-        destination: riderLatLng,
+          origin: updatedDriverLatLng,
+          destination: riderLatLng,
           travelMode: google.maps.TravelMode.DRIVING,
         };
 
         this.geocode.directions.route(request, async (response, status) => {
+          // Check if subscription is still active to prevent race conditions
+          if (!this.routeUpdateSubscription) {
+             console.log('Route update cancelled - subscription inactive');
+             return;
+          }
+
           if (status === 'OK') {
             const path = response.routes[0].overview_path.map(latlng => ({
               lat: latlng.lat(),
@@ -2678,15 +2939,15 @@ async handleDriverToRider(driverLatLng, riderLatLng) {
             console.log(`Duration: ${this.duration}, Distance: ${this.distance}`);
 
             const locs = [
-              { geoCode: { latitude: driverLatLng.lat, longitude: driverLatLng.lng } },
-            { geoCode: { latitude: riderLatLng.lat, longitude: riderLatLng.lng } },
+              { geoCode: { latitude: updatedDriverLatLng.lat, longitude: updatedDriverLatLng.lng } },
+              { geoCode: { latitude: riderLatLng.lat, longitude: riderLatLng.lng } },
             ];
 
             const center = this.map.calculateCenter(locs);
 
             const bounds = new google.maps.LatLngBounds();
-            bounds.extend(new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng));
-          bounds.extend(new google.maps.LatLng(riderLatLng.lat, riderLatLng.lng));
+            bounds.extend(new google.maps.LatLng(updatedDriverLatLng.lat, updatedDriverLatLng.lng));
+            bounds.extend(new google.maps.LatLng(riderLatLng.lat, riderLatLng.lng));
     
             const availableHeight = this.mapRef.nativeElement.offsetHeight;
     
@@ -2696,27 +2957,31 @@ async handleDriverToRider(driverLatLng, riderLatLng) {
               width: this.mapRef.nativeElement.offsetWidth,
             };
     
-            // Calculate zoom level
-            const zoomLevel = this.map.getBoundsZoomLevel(bounds, mapDim);
-    
-            // Manually set zoom level if needed
-            const adjustedZoomLevel = zoomLevel - 1; // Adjust as necessary
-    
-          await this.map.setCameraToLocation({ lat: center.latitude, lng: center.longitude }, adjustedZoomLevel, this.map.calculateBearing(driverLatLng, riderLatLng));
-    
-          // Clear existing polyline before drawing a new one
-          await this.clearAllPolylines();
-          // Draw full route polyline (use overview_path)
-          await this.addPolyline(driverLatLng, riderLatLng, path);
+            // Calculate zoom level with better constraints
+            let zoomLevel = this.map.getBoundsZoomLevel(bounds, mapDim);
             
-            // Clear any existing animated marker before starting a new animation
-            if (this.animatedMarker) {
-              await this.map.newMap.removeMarker(this.animatedMarker);
-              this.animatedMarker = null;
-            }
+            // Apply reasonable constraints for driver-to-rider view
+            const minZoom = 12;
+            const maxZoom = 16;
+            zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
             
-          // Animate the driver marker along the path to the rider
-            await this.animateMarker(this.driver_marker, path, 'assets/icon/car.png');
+            // Adjust zoom to ensure both markers are visible with padding
+            const adjustedZoomLevel = Math.max(zoomLevel - 1, minZoom);
+    
+            await this.map.setCameraToLocation({ lat: center.latitude, lng: center.longitude }, adjustedZoomLevel, this.map.calculateBearing(updatedDriverLatLng, riderLatLng));
+    
+            // Clear existing polyline before drawing a new one
+            await this.clearAllPolylines();
+            // Draw full route polyline (use overview_path)
+            await this.addPolyline(updatedDriverLatLng, riderLatLng, path);
+            
+            // Update driver marker position smoothly without duplication
+            this.driver_marker = await this.updateMarkerPosition(
+              this.driver_marker, 
+              updatedDriverLatLng, 
+              'assets/icon/car.png', 
+              'Driver'
+            );
           } else {
             console.error('Direction ERROR:', response);
             this.overlay.showAlert('Direction ERROR', JSON.stringify(response));
@@ -2750,8 +3015,8 @@ async clearPolyline(polylineId) {
 
 
 async handleRiderToDestination(driverLatLng, destinationLatLng) {
-  const markerSize = { width: 30, height: 30 };
-  const iconAnchor = { x: 10, y: 0 }; // Center bottom of the icon
+  const markerSize = { width: 40, height: 40 }; // Increased size for better visibility
+  const iconAnchor = { x: 20, y: 40 }; // Center bottom of the icon
 
   try {
     // Cancel any existing route update subscription first
@@ -2782,7 +3047,7 @@ async handleRiderToDestination(driverLatLng, destinationLatLng) {
       iconSize: markerSize,
       iconAnchor: iconAnchor,
       iconOrigin: { x: 0, y: 0 },
-      zIndex: 10, // Higher z-index to appear above polyline
+      zIndex: 100, // Higher z-index to appear above polyline
     });
     this.driver_marker = driverMarker;
 
@@ -2794,19 +3059,39 @@ async handleRiderToDestination(driverLatLng, destinationLatLng) {
       iconSize: markerSize,
       iconAnchor: iconAnchor,
       iconOrigin: { x: 0, y: 0 },
-      zIndex: 11, // Higher z-index than driver marker
+      zIndex: 101, // Higher z-index than driver marker
     });
     this.destinationMarker = destinationMarker;
 
     // Function to update route, duration, and distance
     const updateRoute = async () => {
+        // Fetch updated driver location
+        let updatedDriverLatLng = driverLatLng;
+        if (this.currentDriver?.Driver_id) {
+          try {
+            const driverLocation = await this.database.getDriverLocation(this.currentDriver.Driver_id);
+            if (driverLocation && driverLocation.lat && driverLocation.lng) {
+              updatedDriverLatLng = { lat: driverLocation.lat, lng: driverLocation.lng };
+              this.DriverLatLng = updatedDriverLatLng;
+            }
+          } catch (error) {
+            console.warn('Failed to fetch updated driver location:', error);
+          }
+        }
+
         const request = {
-          origin: driverLatLng,
+          origin: updatedDriverLatLng,
           destination: destinationLatLng,
           travelMode: google.maps.TravelMode.DRIVING,
         };
 
         this.geocode.directions.route(request, async (response, status) => {
+          // Check if subscription is still active to prevent race conditions
+          if (!this.routeUpdateSubscription) {
+             console.log('Route update cancelled - subscription inactive');
+             return;
+          }
+
           if (status === 'OK') {
             const path = response.routes[0].overview_path.map(latlng => ({
               lat: latlng.lat(),
@@ -2818,14 +3103,14 @@ async handleRiderToDestination(driverLatLng, destinationLatLng) {
             console.log(`Duration: ${this.duration}, Distance: ${this.distance}`);
 
             const locs = [
-              { geoCode: { latitude: driverLatLng.lat, longitude: driverLatLng.lng } },
+              { geoCode: { latitude: updatedDriverLatLng.lat, longitude: updatedDriverLatLng.lng } },
               { geoCode: { latitude: destinationLatLng.lat, longitude: destinationLatLng.lng } },
             ];
 
             const center = this.map.calculateCenter(locs);
 
             const bounds = new google.maps.LatLngBounds();
-            bounds.extend(new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng));
+            bounds.extend(new google.maps.LatLng(updatedDriverLatLng.lat, updatedDriverLatLng.lng));
             bounds.extend(new google.maps.LatLng(destinationLatLng.lat, destinationLatLng.lng));
     
             const availableHeight = this.mapRef.nativeElement.offsetHeight;
@@ -2836,28 +3121,32 @@ async handleRiderToDestination(driverLatLng, destinationLatLng) {
               width: this.mapRef.nativeElement.offsetWidth,
             };
     
-            // Calculate zoom level
-            const zoomLevel = this.map.getBoundsZoomLevel(bounds, mapDim);
-    
-            // Manually set zoom level if needed
-            const adjustedZoomLevel = zoomLevel - 1; // Adjust as necessary
+            // Calculate zoom level with better constraints
+            let zoomLevel = this.map.getBoundsZoomLevel(bounds, mapDim);
+            
+            // Apply reasonable constraints for rider-to-destination view
+            const minZoom = 11;
+            const maxZoom = 16;
+            zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel));
+            
+            // Adjust zoom to ensure both markers are visible with padding
+            const adjustedZoomLevel = Math.max(zoomLevel - 1, minZoom);
     
             // Set the camera to focus on the center point with appropriate zoom level
-            await this.map.setCameraToLocation({ lat: center.latitude, lng: center.longitude }, adjustedZoomLevel, this.map.calculateBearing(driverLatLng, destinationLatLng));
+            await this.map.setCameraToLocation({ lat: center.latitude, lng: center.longitude }, adjustedZoomLevel, this.map.calculateBearing(updatedDriverLatLng, destinationLatLng));
     
-          // Clear existing polyline before drawing a new one
-          await this.clearAllPolylines();
+            // Clear existing polyline before drawing a new one
+            await this.clearAllPolylines();
             // Draw full route polyline (use overview_path)
-            await this.addPolyline(driverLatLng, destinationLatLng, path);
+            await this.addPolyline(updatedDriverLatLng, destinationLatLng, path);
             
-            // Clear any existing animated marker before starting a new animation
-            if (this.animatedMarker) {
-              await this.map.newMap.removeMarker(this.animatedMarker);
-              this.animatedMarker = null;
-            }
-            
-            // Animate the driver marker along the path to the destination
-            await this.animateMarker(this.driver_marker, path, 'assets/icon/car.png');
+            // Update driver marker position smoothly without duplication
+            this.driver_marker = await this.updateMarkerPosition(
+              this.driver_marker, 
+              updatedDriverLatLng, 
+              'assets/icon/car.png', 
+              'Driver'
+            );
           } else {
             console.error('Direction ERROR:', response);
             this.overlay.showAlert('Direction ERROR', JSON.stringify(response));
@@ -2910,8 +3199,7 @@ async addPolyline(loc: { lat: number, lng: number }, des: { lat: number, lng: nu
   }
 }
 
-// create markers and optionally draw a full route if provided
-async createAndAddMarkers(loc, des, routePath?: { lat: number, lng: number }[]) {
+async createAndAddMarkers(loc, des) {
   const markerSize = { width: 30, height: 30 };
   const iconAnchor = { x: 10, y: 0 }; // Center bottom of the icon
 
@@ -2970,16 +3258,14 @@ async createAndAddMarkers(loc, des, routePath?: { lat: number, lng: number }[]) 
     // Set the camera to focus on the center point with appropriate zoom level
     await this.map.setCameraToLocation({ lat: center.latitude, lng: center.longitude }, adjustedZoomLevel, this.map.calculateBearing(loc, des));
 
-    // Add polyline for the route. Prefer full routePath when provided.
+    // Add polyline for the route
     const polylineColor = "#007bff";
-    const pathPoints = Array.isArray(routePath) && routePath.length > 0 ? routePath : [
-      { lat: loc.lat, lng: loc.lng },
-      { lat: des.lat, lng: des.lng }
-    ];
-
     const polylines: Polyline[] = [
       {
-        path: pathPoints,
+        path: [
+          { lat: loc.lat, lng: loc.lng },
+          { lat: des.lat, lng: des.lng }
+        ],
         strokeColor: polylineColor,
         strokeWeight: 8,
         geodesic: true
@@ -2997,47 +3283,62 @@ async createAndAddMarkers(loc, des, routePath?: { lat: number, lng: number }[]) 
 
 // Update the animateMarker method to properly handle cleanup
 async animateMarker(marker, path, iconUrl) {
+  if (!this.map || !this.map.newMap) {
+    console.warn('Map not initialized for marker animation');
+    return;
+  }
+
   const markerSize = { width: 50, height: 50 };
   const iconAnchor = { x: 25, y: 50 }; // Center bottom of the icon
   
-  // Remove any existing animated marker
-  if (this.animatedMarker) {
-    await this.map.newMap.removeMarker(this.animatedMarker);
-    this.animatedMarker = null;
-  }
-
-  let lastMarker = null;
-  
-  for (let i = 0; i < path.length; i++) {
-    // Remove previous animation step marker if it exists
-    if (lastMarker) {
-      await this.map.newMap.removeMarker(lastMarker);
+  try {
+    // Remove any existing animated marker
+    if (this.animatedMarker !== null && this.animatedMarker !== undefined) {
+      await this.map.newMap.removeMarker(this.animatedMarker).catch(e => 
+        console.error('Error removing existing animated marker:', e)
+      );
+      this.animatedMarker = null;
     }
-    
-    // Remove the original marker for the first frame of animation
-    if (i === 0) {
-      await this.map.newMap.removeMarker(marker);
-    }
-    
-    const coordinate = path[i] instanceof google.maps.LatLng ? 
-                     { lat: path[i].lat(), lng: path[i].lng() } : 
-                     { lat: path[i].lat, lng: path[i].lng };
-                     
-    lastMarker = await this.map.newMap.addMarker({
-      coordinate: coordinate,
-      iconUrl: iconUrl,
-      title: 'Moving Marker',
-      iconSize: markerSize,
-      iconAnchor: iconAnchor,
-      iconOrigin: { x: 0, y: 0 },
-      zIndex: 20, // Higher than other markers
-    });
-    
-    await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the interval as needed
-  }
 
-  // Store the last position of the animated marker
-  this.animatedMarker = lastMarker;
+    let lastMarker = null;
+    
+    for (let i = 0; i < path.length; i++) {
+      // Remove previous animation step marker if it exists
+      if (lastMarker !== null && lastMarker !== undefined) {
+        await this.map.newMap.removeMarker(lastMarker).catch(e => 
+          console.error('Error removing animation step marker:', e)
+        );
+      }
+      
+      // Remove the original marker for the first frame of animation
+      if (i === 0 && marker !== null && marker !== undefined) {
+        await this.map.newMap.removeMarker(marker).catch(e => 
+          console.error('Error removing original marker:', e)
+        );
+      }
+      
+      const coordinate = path[i] instanceof google.maps.LatLng ? 
+                       { lat: path[i].lat(), lng: path[i].lng() } : 
+                       { lat: path[i].lat, lng: path[i].lng };
+                       
+      lastMarker = await this.map.newMap.addMarker({
+        coordinate: coordinate,
+        iconUrl: iconUrl,
+        title: 'Moving Marker',
+        iconSize: markerSize,
+        iconAnchor: iconAnchor,
+        iconOrigin: { x: 0, y: 0 },
+        zIndex: 20, // Higher than other markers
+      });
+      
+      await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the interval as needed
+    }
+
+    // Store the last position of the animated marker
+    this.animatedMarker = lastMarker;
+  } catch (error) {
+    console.error('Error in animateMarker:', error);
+  }
 }
 
 
@@ -3067,7 +3368,24 @@ async ShowDriverInfoPop() {
 
 // State management methods
 EnterBookingStage() {
+  console.log('Entering booking stage');
   this.setStage(this.STAGES.BOOKING);
+  
+  // Ensure polling is active to fetch nearby drivers
+  if (!this.pollingInterval && this.LatLng) {
+    console.log('Restarting driver polling in booking stage');
+    this.stopPolling = false;
+  }
+  
+  // Ensure map is in proper state
+  if (this.map && this.map.newMap) {
+    try {
+      this.map.newMap.enableTouch();
+      this.map.newMap.enableCurrentLocation(true);
+    } catch (e) {
+      console.error('Error enabling map features in booking stage:', e);
+    }
+  }
 }
 
 EnterMapPinStage() {

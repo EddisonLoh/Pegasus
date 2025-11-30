@@ -72,7 +72,7 @@
         <!-- Submit Button -->
         <ion-button class="submit-btn" shape="round" size="large" type="submit" [disabled]="!form.get('phone').valid"
           color="primary" (click)="signIn()" expand="block">
-          <ion-label *ngIf="!approve2">{{ 'CONTINUE' | translate }}</ion-label>
+          <span *ngIf="!approve2">{{ 'CONTINUE' | translate }}</span>
           <ion-icon *ngIf="!approve2" slot="end" name="arrow-forward-outline"></ion-icon>
           <ion-spinner *ngIf="approve2" name="crescent"></ion-spinner>
         </ion-button>
@@ -82,18 +82,15 @@
 
   <!-- Language Selector FAB -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="language-fab">
-    <ion-fab-button size="small" color="light">
+    <ion-fab-button size="medium" color="light">
       <ion-icon name="language-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button (click)="changeLanguage('en')" color="light" size="small">
-        <span class="lang-flag">🇺🇸</span>
+        <img [src]="getFlag('en')" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
       </ion-fab-button>
       <ion-fab-button (click)="changeLanguage('ms')" color="light" size="small">
-        <span class="lang-flag">🇲🇾</span>
-      </ion-fab-button>
-      <ion-fab-button (click)="changeLanguage('ar')" color="light" size="small">
-        <span class="lang-flag">🇸🇦</span>
+        <img [src]="getFlag('ms')" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

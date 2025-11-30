@@ -92,17 +92,17 @@ export class AppComponent {
   }
 
   async initializeTranslation() {
-    this.translate.setDefaultLang('ms'); // Set Malay as default
+    this.translate.setDefaultLang('en'); // Set English as default
 
     try {
       const { value } = await Preferences.get({ key: 'user-lang' });
-      const lang = value || 'ms'; // Default to Malay
+      const lang = value || 'en'; // Default to English
       this.translate.use(lang);
       this.currentLanguage = lang;
     } catch (error) {
       console.error('Error loading language preference:', error);
-      this.translate.use('ms');
-      this.currentLanguage = 'ms';
+      this.translate.use('en');
+      this.currentLanguage = 'en';
     }
   }
 

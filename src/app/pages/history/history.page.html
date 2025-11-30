@@ -107,7 +107,7 @@
   </ng-template>
 
   <!-- Add language switcher -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
       <ion-icon name="globe"></ion-icon>
     </ion-fab-button>
@@ -117,6 +117,20 @@
       </ion-fab-button>
       <ion-fab-button (click)="changeLanguage('ar')">
         <ion-img src="https://cdn.kcak11.com/CountryFlags/countries/sa.svg" style="width: 24px; height: 24px;"></ion-img>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab> -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="language-fab">
+    <ion-fab-button size="medium" color="light">
+      <ion-icon name="language-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="changeLanguage('en')" color="light" size="small">
+        <span class="lang-flag">🇺🇸</span>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage('ms')" color="light" size="small">
+        <span class="lang-flag">🇲🇾</span>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

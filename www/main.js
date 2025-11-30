@@ -11,13 +11,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AddCardComponent": () => (/* binding */ AddCardComponent)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 5992);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 2124);
 /* harmony import */ var _services_payment_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/payment.service */ 1863);
 /* harmony import */ var _services_avatar_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/avatar.service */ 5083);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngx-translate/core */ 8699);
+
 
 
 
@@ -36,7 +38,7 @@ class AddCardComponent {
     this.avatarService = avatarService;
     this.modalController = modalController;
     this.navController = navController;
-    this.approve = false;
+    this.isCardComplete = false;
     this.cardInitialized = false;
     this.paymentForm = this.fb.group({
       provider: ['stripe', _angular_forms__WEBPACK_IMPORTED_MODULE_3__.Validators.required],
@@ -45,8 +47,7 @@ class AddCardComponent {
     });
   }
 
-  ngOnInit() {
-    this.initializeBackButtonCustomHandler(); // Initialize the form or any other needed data
+  ngOnInit() {// Initialize the form or any other needed data
   }
 
   ngAfterViewInit() {
@@ -55,26 +56,25 @@ class AddCardComponent {
 
   initializeStripeCard() {
     if (this.cardElement && this.cardElement.nativeElement) {
-      this.stripe = Stripe('pk_test_0t85o0Llo0MbBfC9imSzznam');
+      this.stripe = Stripe('pk_test_51SShK5PRgzt7CIyewdombVyUyoBjYRQGrw8uBfWOF58l49mTcKZzWoeeyeBrjcsLT8NzCDKKjbwZQfDnNnpFzoxn00ivj0cGEe');
       this.elements = this.stripe.elements();
 
       if (!this.card) {
         this.card = this.elements.create('card');
         this.card.mount(this.cardElement.nativeElement);
+        this.card.on('change', event => {
+          this.isCardComplete = event.complete;
+        });
       }
 
       this.cardInitialized = true;
     }
   }
 
-  initializeBackButtonCustomHandler() {
-    this.navController.back();
-  }
-
   processPayment() {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this.paymentForm.valid) {
         const formValues = _this.paymentForm.value;
         formValues.email = _this.avatarService.user.email; // Use email from avatarService
@@ -82,41 +82,14 @@ class AddCardComponent {
         _this.showLoading();
 
         try {
-          const setupIntentResponse = yield _this.paymentService.createSetupIntent(formValues.email).toPromise();
-          const clientSecret = setupIntentResponse.client_secret;
-          const {
-            setupIntent,
-            error
-          } = yield _this.stripe.confirmCardSetup(clientSecret, {
-            payment_method: {
-              card: _this.card,
-              billing_details: {
-                email: formValues.email
-              }
-            }
-          });
-
-          if (error) {
-            yield _this.showAlert('Payment Error', error.message);
-            throw new Error(error.message);
-          }
-
-          const paymentMethodId = setupIntent.payment_method;
-          const paymentMethod = yield _this.paymentService.retrievePaymentMethod(paymentMethodId).toPromise();
-          const cardDetails = paymentMethod.card;
-          const last4 = cardDetails.last4;
-          const cardExists = yield _this.avatarService.checkCardExistsStripe(formValues.email, last4);
-
-          if (!cardExists) {
-            yield _this.avatarService.addCardStripe(formValues.email, paymentMethodId, last4);
-          }
-
+          const cardData = yield _this.processStripePayment(formValues);
           yield _this.modalController.dismiss({
             success: true,
-            paymentMethodId
+            cardData
           });
         } catch (error) {
-          yield _this.showAlert('Error', error.message || 'An unexpected error occurred.');
+          const errorMessage = error.message || (error.error ? error.error.error : 'An unexpected error occurred.');
+          yield _this.showAlert('Error', errorMessage);
         } finally {
           _this.hideLoading();
         }
@@ -126,32 +99,105 @@ class AddCardComponent {
     })();
   }
 
-  showLoading() {
+  processStripePayment(formValues) {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this2.loading = yield _this2.loadingController.create({
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      console.log('Starting processStripePayment with formValues:', formValues);
+
+      try {
+        const setupIntentResponse = yield _this2.paymentService.createSetupIntent(formValues.email).toPromise();
+        console.log('Setup Intent raw response:', setupIntentResponse);
+        const resp = setupIntentResponse;
+        const clientSecret = resp && (resp.client_secret || resp.clientSecret || resp.clientSecretValue || resp.secret);
+        console.log('Resolved clientSecret:', clientSecret);
+
+        if (!clientSecret) {
+          throw new Error('No client_secret returned from server for SetupIntent.');
+        }
+
+        if (String(clientSecret).startsWith('seti_') && !String(clientSecret).includes('_secret_')) {
+          throw new Error('Invalid client_secret returned from server (looks like an ID). Ensure server returns the full client_secret.');
+        }
+
+        const {
+          setupIntent,
+          error
+        } = yield _this2.stripe.confirmCardSetup(clientSecret, {
+          payment_method: {
+            card: _this2.card,
+            billing_details: {
+              email: formValues.email
+            }
+          }
+        });
+
+        if (error) {
+          console.error('Stripe confirmCardSetup returned error object:', error);
+          throw new Error(error.message);
+        }
+
+        console.log('Card setup confirmed:', setupIntent);
+        const paymentMethodId = setupIntent.payment_method; // Fetch the payment method details from your server (which will call Stripe)
+
+        const paymentMethod = yield _this2.paymentService.retrievePaymentMethod(paymentMethodId).toPromise();
+        console.log('Payment method retrieved:', paymentMethod);
+        const cardDetails = paymentMethod.card;
+        const last4 = cardDetails.last4;
+        const brand = cardDetails.brand; // Get card brand (visa, mastercard, etc.)
+
+        console.log('Checking if card exists with email:', formValues.email, ' and last4:', last4);
+        const cardExists = yield _this2.avatarService.checkCardExistsStripe(formValues.email, last4);
+
+        if (cardExists) {
+          throw new Error('This card is already saved to your account.');
+        } // Save card to Firestore using the correct method
+
+
+        const cardData = {
+          cardId: paymentMethodId,
+          email: formValues.email,
+          last4: last4,
+          brand: brand || 'unknown'
+        };
+        yield _this2.avatarService.saveCard(cardData);
+        console.log('Card saved to Firestore:', cardData); // Also save to backend if needed
+
+        yield _this2.paymentService.savePaymentMethod(formValues.email, paymentMethodId).toPromise();
+        return cardData;
+      } catch (error) {
+        console.error('Error in processStripePayment:', error);
+        throw error;
+      }
+    })();
+  }
+
+  showLoading() {
+    var _this3 = this;
+
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this3.loading = yield _this3.loadingController.create({
         message: 'Processing payment...'
       });
-      yield _this2.loading.present();
+      yield _this3.loading.present();
     })();
   }
 
   hideLoading() {
-    var _this3 = this;
+    var _this4 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      if (_this3.loading) {
-        yield _this3.loading.dismiss();
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      if (_this4.loading) {
+        yield _this4.loading.dismiss();
       }
     })();
   }
 
   showAlert(header, message) {
-    var _this4 = this;
+    var _this5 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const alert = yield _this4.alertController.create({
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const alert = yield _this5.alertController.create({
         header,
         message,
         buttons: ['OK']
@@ -184,39 +230,56 @@ AddCardComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵloadQuery"]()) && (ctx.cardElement = _t.first);
     }
   },
-  decls: 14,
-  vars: 3,
-  consts: [[1, "ion-no-border", 3, "translucent"], ["slot", "start"], ["color", "primary", 3, "click"], [1, "ion-padding"], [3, "formGroup", "ngSubmit"], [1, "stripe-element"], ["cardElement", ""], ["id", "card-errors", "role", "alert"], ["color", "success", "expand", "block", "type", "submit", 3, "disabled"]],
+  decls: 25,
+  vars: 12,
+  consts: [[1, "ion-no-border", 3, "translucent"], ["slot", "start"], [3, "click"], ["slot", "icon-only", "name", "close-outline", "color", "primary"], [1, "ion-padding"], [1, "add-card-section"], [1, "section-header"], ["name", "card", "color", "primary"], [1, "card-form-container"], [3, "formGroup", "ngSubmit"], [1, "stripe-container"], [1, "stripe-element"], ["cardElement", ""], ["id", "card-errors", "role", "alert", 1, "card-errors"], ["color", "primary", "shape", "round", "expand", "block", "size", "large", "type", "submit", 1, "add-card-btn", 3, "disabled"], ["slot", "start", "name", "add-circle-outline"]],
   template: function AddCardComponent_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "ion-header", 0)(1, "ion-toolbar")(2, "ion-buttons", 1)(3, "ion-button", 2);
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("click", function AddCardComponent_Template_ion_button_click_3_listener() {
         return ctx.closeModal();
       });
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](4, "Close");
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](4, "ion-icon", 3);
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](5, "ion-title");
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](6, "Add Card");
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](6);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipe"](7, "translate");
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()();
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](7, "ion-content", 3)(8, "form", 4);
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("ngSubmit", function AddCardComponent_Template_form_ngSubmit_8_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](8, "ion-content", 4)(9, "div", 5)(10, "div", 6);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](11, "ion-icon", 7);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](12, "h2");
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](13);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipe"](14, "translate");
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](15, "div", 8)(16, "form", 9);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("ngSubmit", function AddCardComponent_Template_form_ngSubmit_16_listener() {
         return ctx.processPayment();
       });
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](9, "div", 5, 6)(11, "div", 7);
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](12, "ion-button", 8);
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](13, "Add Card");
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()();
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](17, "div", 10);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](18, "div", 11, 12)(20, "div", 13);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](21, "ion-button", 14);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](22, "ion-icon", 15);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](23);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipe"](24, "translate");
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()()()();
     }
 
     if (rf & 2) {
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("translucent", true);
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](8);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](6);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](7, 6, "PAYMENT.ADD_NEW_CARD"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](7);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](14, 8, "PAYMENT.ADD_NEW_CARD"));
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](3);
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("formGroup", ctx.paymentForm);
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](4);
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("disabled", ctx.approve);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](5);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("disabled", !ctx.paymentForm.valid || !ctx.isCardComplete);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](24, 10, "PAYMENT.ADD_CARD"), " ");
     }
   },
-  dependencies: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonToolbar],
+  dependencies: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_3__.FormGroupDirective, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonToolbar, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__.TranslatePipe],
   encapsulation: 2
 });
 
@@ -333,7 +396,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AppComponent": () => (/* binding */ AppComponent)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _capacitor_splash_screen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @capacitor/splash-screen */ 2239);
 /* harmony import */ var _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @capacitor/status-bar */ 9326);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ 124);
@@ -527,13 +590,13 @@ class AppComponent {
   initialize() {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this.platform.ready().then( /*#__PURE__*/function () {
-        var _ref = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (readySource) {
+        var _ref = (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (readySource) {
           _this.source = readySource;
 
           _this.auth.onAuthStateChanged( /*#__PURE__*/function () {
-            var _ref2 = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
+            var _ref2 = (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
               _this.user = user;
               console.log('Auth state changed:', user);
 
@@ -574,7 +637,7 @@ class AppComponent {
   LoadSplash() {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _capacitor_splash_screen__WEBPACK_IMPORTED_MODULE_1__.SplashScreen.show();
       if (_this2.source != 'dom') yield _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_2__.StatusBar.setOverlaysWebView({
         overlay: true
@@ -593,8 +656,8 @@ class AppComponent {
   initializeTranslation() {
     var _this3 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      _this3.translate.setDefaultLang('ms'); // Set Malay as default
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      _this3.translate.setDefaultLang('en'); // Set English as default
 
 
       try {
@@ -603,7 +666,7 @@ class AppComponent {
         } = yield _capacitor_preferences__WEBPACK_IMPORTED_MODULE_3__.Preferences.get({
           key: 'user-lang'
         });
-        const lang = value || 'ms'; // Default to Malay
+        const lang = value || 'en'; // Default to English
 
         _this3.translate.use(lang);
 
@@ -611,9 +674,9 @@ class AppComponent {
       } catch (error) {
         console.error('Error loading language preference:', error);
 
-        _this3.translate.use('ms');
+        _this3.translate.use('en');
 
-        _this3.currentLanguage = 'ms';
+        _this3.currentLanguage = 'en';
       }
     })();
   }
@@ -621,7 +684,7 @@ class AppComponent {
   changeLanguage(lang) {
     var _this4 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this4.currentLanguage = lang;
 
       _this4.translate.use(lang);
@@ -677,32 +740,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createTranslateLoader": () => (/* binding */ createTranslateLoader)
 /* harmony export */ });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/platform-browser */ 4497);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ 124);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic/angular */ 2124);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/router */ 124);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @ionic/angular */ 2124);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @ionic/angular */ 5992);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app.component */ 5041);
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app-routing.module */ 158);
 /* harmony import */ var _angular_fire_app__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/fire/app */ 9674);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../environments/environment */ 2340);
-/* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/fire/auth */ 6818);
 /* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/fire/auth */ 1577);
+/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! firebase/auth */ 6818);
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
 /* harmony import */ var _angular_fire_storage__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/fire/storage */ 2111);
-/* harmony import */ var _otp_otp_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./otp/otp.component */ 3096);
+/* harmony import */ var _otp_otp_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./otp/otp.component */ 3096);
 /* harmony import */ var ng_otp_input__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng-otp-input */ 9306);
-/* harmony import */ var _googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @googlemaps/google-maps-services-js */ 7614);
-/* harmony import */ var _googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @googlemaps/google-maps-services-js */ 7614);
+/* harmony import */ var _googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/common/http */ 8987);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/common */ 4666);
-/* harmony import */ var _country_search_modal_country_search_modal_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./country-search-modal/country-search-modal.component */ 9568);
-/* harmony import */ var _add_card_add_card_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./add-card/add-card.component */ 671);
-/* harmony import */ var _autocomplete_autocomplete_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./autocomplete/autocomplete.component */ 5860);
-/* harmony import */ var _enroute_chat_enroute_chat_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./enroute-chat/enroute-chat.component */ 5635);
+/* harmony import */ var _country_search_modal_country_search_modal_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./country-search-modal/country-search-modal.component */ 9568);
+/* harmony import */ var _add_card_add_card_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./add-card/add-card.component */ 671);
+/* harmony import */ var _autocomplete_autocomplete_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./autocomplete/autocomplete.component */ 5860);
+/* harmony import */ var _enroute_chat_enroute_chat_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./enroute-chat/enroute-chat.component */ 5635);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @ngx-translate/core */ 8699);
-/* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ngx-translate/http-loader */ 8319);
-/* harmony import */ var _trip_summary_trip_summary_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./trip-summary/trip-summary.component */ 4948);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 2560);
+/* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ngx-translate/http-loader */ 8319);
+/* harmony import */ var _trip_summary_trip_summary_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./trip-summary/trip-summary.component */ 4948);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 2560);
+
 
 
 
@@ -735,13 +799,13 @@ __webpack_require__.r(__webpack_exports__);
 
 // AoT requires an exported function for factories
 function createTranslateLoader(http) {
-    return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_10__.TranslateHttpLoader(http, './assets/i18n/', '.json');
+    return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_11__.TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 class AppModule {
 }
 AppModule.ɵfac = function AppModule_Factory(t) { return new (t || AppModule)(); };
-AppModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdefineNgModule"]({ type: AppModule, bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent] });
-AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵdefineInjector"]({ providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_12__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_13__.IonicRouteStrategy }, _angular_fire_auth__WEBPACK_IMPORTED_MODULE_14__.GoogleAuthProvider, _angular_fire_auth__WEBPACK_IMPORTED_MODULE_14__.FacebookAuthProvider, _googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_4__.Client], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_15__.BrowserModule,
+AppModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdefineNgModule"]({ type: AppModule, bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent] });
+AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵdefineInjector"]({ providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_13__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_14__.IonicRouteStrategy }, firebase_auth__WEBPACK_IMPORTED_MODULE_3__.GoogleAuthProvider, firebase_auth__WEBPACK_IMPORTED_MODULE_3__.FacebookAuthProvider, _googlemaps_google_maps_services_js__WEBPACK_IMPORTED_MODULE_5__.Client], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_15__.BrowserModule,
         ng_otp_input__WEBPACK_IMPORTED_MODULE_16__.NgOtpInputModule,
         _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormsModule,
         _angular_common__WEBPACK_IMPORTED_MODULE_18__.CommonModule,
@@ -754,14 +818,14 @@ AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵ�
         (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_23__.provideFirestore)(() => (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_23__.getFirestore)()),
         (0,_angular_fire_storage__WEBPACK_IMPORTED_MODULE_24__.provideStorage)(() => (0,_angular_fire_storage__WEBPACK_IMPORTED_MODULE_24__.getStorage)()),
         _ngx_translate_core__WEBPACK_IMPORTED_MODULE_25__.TranslateModule.forRoot({
-            defaultLanguage: 'ms',
+            defaultLanguage: 'en',
             loader: {
                 provide: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_25__.TranslateLoader,
                 useFactory: createTranslateLoader,
                 deps: [_angular_common_http__WEBPACK_IMPORTED_MODULE_19__.HttpClient]
             }
         })] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent, _otp_otp_component__WEBPACK_IMPORTED_MODULE_3__.OtpComponent, _country_search_modal_country_search_modal_component__WEBPACK_IMPORTED_MODULE_5__.CountrySearchModalComponent, _add_card_add_card_component__WEBPACK_IMPORTED_MODULE_6__.AddCardComponent, _autocomplete_autocomplete_component__WEBPACK_IMPORTED_MODULE_7__.AutocompleteComponent, _enroute_chat_enroute_chat_component__WEBPACK_IMPORTED_MODULE_8__.EnrouteChatComponent, _trip_summary_trip_summary_component__WEBPACK_IMPORTED_MODULE_9__.TripSummaryComponent], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_15__.BrowserModule,
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent, _otp_otp_component__WEBPACK_IMPORTED_MODULE_4__.OtpComponent, _country_search_modal_country_search_modal_component__WEBPACK_IMPORTED_MODULE_6__.CountrySearchModalComponent, _add_card_add_card_component__WEBPACK_IMPORTED_MODULE_7__.AddCardComponent, _autocomplete_autocomplete_component__WEBPACK_IMPORTED_MODULE_8__.AutocompleteComponent, _enroute_chat_enroute_chat_component__WEBPACK_IMPORTED_MODULE_9__.EnrouteChatComponent, _trip_summary_trip_summary_component__WEBPACK_IMPORTED_MODULE_10__.TripSummaryComponent], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_15__.BrowserModule,
         ng_otp_input__WEBPACK_IMPORTED_MODULE_16__.NgOtpInputModule,
         _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormsModule,
         _angular_common__WEBPACK_IMPORTED_MODULE_18__.CommonModule,
@@ -782,7 +846,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AutocompleteComponent": () => (/* binding */ AutocompleteComponent)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @capacitor/status-bar */ 9326);
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/environments/environment */ 2340);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 2560);
@@ -948,7 +1012,7 @@ class AutocompleteComponent {
   Show() {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_1__.StatusBar.setOverlaysWebView({
         overlay: false
       });
@@ -959,7 +1023,7 @@ class AutocompleteComponent {
   Hide() {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_1__.StatusBar.setOverlaysWebView({
         overlay: true
       });
@@ -970,7 +1034,7 @@ class AutocompleteComponent {
   updateSearch2() {
     var _this3 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this3.autocomplete.query2 == "") {
         _this3.autocompleteItems2 = [];
         return;
@@ -1010,7 +1074,7 @@ class AutocompleteComponent {
   updateSearch() {
     var _this4 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this4.autocomplete.query == "") {
         _this4.autocompleteItems = [];
         return;
@@ -1050,7 +1114,7 @@ class AutocompleteComponent {
   chooseItem(item) {
     var _this5 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _this5.viewCtrl.dismiss(item);
       console.log(item);
     })();
@@ -1059,7 +1123,7 @@ class AutocompleteComponent {
   chooseOnMap() {
     var _this6 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       let data = {
         pinOnMap: true
       };
@@ -1070,7 +1134,7 @@ class AutocompleteComponent {
   chooseItem2(item) {
     var _this7 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this7.autocomplete.query2 = item.full;
       const results = yield _this7.client.geocode({
         params: {
@@ -1276,7 +1340,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EnrouteChatComponent": () => (/* binding */ EnrouteChatComponent)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @capacitor/status-bar */ 9326);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 5992);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 2560);
@@ -1417,7 +1481,7 @@ class EnrouteChatComponent {
   ionViewDidEnter() {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this.skeletOns = [{}, {}, {}, {}];
       _this.hideSkeleton = true;
       _this.messages = _this.chatService.getChatMessage(_this.chatData.userId);
@@ -1439,7 +1503,7 @@ class EnrouteChatComponent {
   }
 
   Show() {
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_1__.StatusBar.setOverlaysWebView({
         overlay: false
       });
@@ -1447,7 +1511,7 @@ class EnrouteChatComponent {
   }
 
   Hide() {
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _capacitor_status_bar__WEBPACK_IMPORTED_MODULE_1__.StatusBar.setOverlaysWebView({
         overlay: true
       });
@@ -1462,7 +1526,7 @@ class EnrouteChatComponent {
   sendMessage() {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield _this2.chatService.addChatEnRouteMessage(_this2.newMsg, _this2.chatData.userId);
       _this2.newMsg = '';
 
@@ -1569,16 +1633,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "OtpComponent": () => (/* binding */ OtpComponent)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/fire/auth */ 6818);
+/* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/fire/auth */ 1577);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 2560);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 5992);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 5992);
 /* harmony import */ var _services_overlay_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/overlay.service */ 5596);
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/auth.service */ 7556);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ 124);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ 124);
 /* harmony import */ var _services_avatar_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/avatar.service */ 5083);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngx-translate/core */ 8699);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 4666);
-/* harmony import */ var ng_otp_input__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ng-otp-input */ 9306);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ngx-translate/core */ 8699);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ 4666);
+/* harmony import */ var ng_otp_input__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ng-otp-input */ 9306);
+
+
 
 
 
@@ -1637,7 +1705,7 @@ const _c2 = function (a1) {
 
 class OtpComponent {
   constructor(modalCtrl, overlay, toastCtrl, auth, router, avatar, cdr, // Inject ChangeDetectorRef
-  translate) {
+  translate, fireAuth) {
     this.modalCtrl = modalCtrl;
     this.overlay = overlay;
     this.toastCtrl = toastCtrl;
@@ -1646,6 +1714,7 @@ class OtpComponent {
     this.avatar = avatar;
     this.cdr = cdr;
     this.translate = translate;
+    this.fireAuth = fireAuth;
     this.isLoading = false;
     this.config = {
       length: 6,
@@ -1684,7 +1753,7 @@ class OtpComponent {
   resend() {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         _this.overlay.showLoader(yield _this.translate.get('RESENDING_OTP').toPromise());
 
@@ -1719,13 +1788,24 @@ class OtpComponent {
   verifyOtp() {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         _this2.approve2 = true;
 
         _this2.overlay.showLoader('');
 
-        const response = yield _this2.confirmationResult.confirm(_this2.otp); // Wait briefly to ensure Firebase Auth state is updated
+        let response;
+
+        if (_this2.confirmationResult && _this2.confirmationResult.verificationId) {
+          // Create credential using the verification ID and OTP code
+          const credential = _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__.PhoneAuthProvider.credential(_this2.confirmationResult.verificationId, _this2.otp); // Sign in with the credential
+
+          response = yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_6__.signInWithCredential)(_this2.fireAuth, credential);
+        } else {
+          // Fallback for test mode or if verificationId is missing
+          response = yield _this2.confirmationResult.confirm(_this2.otp);
+        } // Wait briefly to ensure Firebase Auth state is updated
+
 
         yield new Promise(resolve => setTimeout(resolve, 1000));
         _this2.approve2 = false;
@@ -1768,7 +1848,7 @@ class OtpComponent {
   showToast(message) {
     var _this3 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const toast = yield _this3.toastCtrl.create({
         message: message,
         duration: 2000,
@@ -1805,7 +1885,7 @@ class OtpComponent {
 }
 
 OtpComponent.ɵfac = function OtpComponent_Factory(t) {
-  return new (t || OtpComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_5__.ModalController), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_overlay_service__WEBPACK_IMPORTED_MODULE_1__.OverlayService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_5__.ToastController), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_2__.AuthService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_avatar_service__WEBPACK_IMPORTED_MODULE_3__.AvatarService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_4__.ChangeDetectorRef), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__.TranslateService));
+  return new (t || OtpComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_7__.ModalController), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_overlay_service__WEBPACK_IMPORTED_MODULE_1__.OverlayService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_7__.ToastController), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_2__.AuthService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_avatar_service__WEBPACK_IMPORTED_MODULE_3__.AvatarService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_4__.ChangeDetectorRef), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__.TranslateService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_fire_auth__WEBPACK_IMPORTED_MODULE_6__.Auth));
 };
 
 OtpComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({
@@ -1894,7 +1974,7 @@ OtpComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵ
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", ctx.approve2);
     }
   },
-  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_8__.NgIf, ng_otp_input__WEBPACK_IMPORTED_MODULE_9__.NgOtpInputComponent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonList, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonListHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonProgressBar, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonToolbar, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__.TranslatePipe],
+  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_10__.NgIf, ng_otp_input__WEBPACK_IMPORTED_MODULE_11__.NgOtpInputComponent, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonIcon, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonList, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonListHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonProgressBar, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonToolbar, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_9__.TranslatePipe],
   styles: ["ion-content[_ngcontent-%COMP%] {\n  --background: #ffffff;\n}\n\nion-list[_ngcontent-%COMP%] {\n  background: transparent;\n}\n\nion-list-header[_ngcontent-%COMP%] {\n  padding-bottom: 15px;\n}\n\nion-list-header[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%] {\n  font-size: 24px;\n  font-weight: bold;\n}\n\nion-list-header[_ngcontent-%COMP%]   ion-label[_ngcontent-%COMP%]   .phone-number[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: var(--ion-color-medium);\n  margin-top: 8px;\n}\n\nion-item[_ngcontent-%COMP%] {\n  --background: transparent;\n}\n\n  .otp-input {\n  width: 40px !important;\n  height: 40px !important;\n  font-size: 20px !important;\n  font-weight: 600 !important;\n  background-color: #ffffff !important;\n  color: #333333 !important;\n  border: 1px solid #cccccc !important;\n  border-radius: 8px !important;\n  margin: 0 4px;\n}\n\n@media (max-width: 360px) {\n    .otp-input {\n    width: 35px !important;\n    height: 35px !important;\n    font-size: 18px !important;\n    margin: 0 2px;\n  }\n}\n\n  .otp-input:focus {\n  border-color: var(--ion-color-primary) !important;\n  box-shadow: 0 0 0 2px rgba(var(--ion-color-primary-rgb), 0.2) !important;\n}\n\n.countdown[_ngcontent-%COMP%] {\n  font-size: 18px;\n  font-weight: 500;\n  color: var(--ion-color-dark);\n  transition: color 0.3s ease;\n}\n\n.countdown.expired[_ngcontent-%COMP%] {\n  color: var(--ion-color-danger);\n}\n\nion-button[_ngcontent-%COMP%] {\n  margin-top: 20px;\n  height: 48px;\n}\n\nion-button[_ngcontent-%COMP%]   ion-spinner[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n\nion-footer[_ngcontent-%COMP%] {\n  background: transparent;\n}\n\nion-footer[_ngcontent-%COMP%]   ion-button[_ngcontent-%COMP%] {\n  margin: 0;\n  height: auto;\n  font-size: 14px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm90cC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLHFCQUFBO0FBQ0Y7O0FBRUE7RUFDRSx1QkFBQTtBQUNGOztBQUVBO0VBQ0Usb0JBQUE7QUFDRjs7QUFDRTtFQUNFLGVBQUE7RUFDQSxpQkFBQTtBQUNKOztBQUNJO0VBQ0UsZUFBQTtFQUNBLDhCQUFBO0VBQ0EsZUFBQTtBQUNOOztBQUlBO0VBQ0UseUJBQUE7QUFERjs7QUFLRTtFQUNFLHNCQUFBO0VBQ0EsdUJBQUE7RUFDQSwwQkFBQTtFQUNBLDJCQUFBO0VBQ0Esb0NBQUE7RUFDQSx5QkFBQTtFQUNBLG9DQUFBO0VBQ0EsNkJBQUE7RUFDQSxhQUFBO0FBRko7O0FBSUk7RUFYRjtJQVlJLHNCQUFBO0lBQ0EsdUJBQUE7SUFDQSwwQkFBQTtJQUNBLGFBQUE7RUFESjtBQUNGOztBQUdJO0VBQ0UsaURBQUE7RUFDQSx3RUFBQTtBQUROOztBQU1BO0VBQ0UsZUFBQTtFQUNBLGdCQUFBO0VBQ0EsNEJBQUE7RUFDQSwyQkFBQTtBQUhGOztBQUtFO0VBQ0UsOEJBQUE7QUFISjs7QUFPQTtFQUNFLGdCQUFBO0VBQ0EsWUFBQTtBQUpGOztBQU1FO0VBQ0UsaUJBQUE7QUFKSjs7QUFRQTtFQUNFLHVCQUFBO0FBTEY7O0FBT0U7RUFDRSxTQUFBO0VBQ0EsWUFBQTtFQUNBLGVBQUE7QUFMSiIsImZpbGUiOiJvdHAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tY29udGVudCB7XHJcbiAgLS1iYWNrZ3JvdW5kOiAjZmZmZmZmO1xyXG59XHJcblxyXG5pb24tbGlzdCB7XHJcbiAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XHJcbn1cclxuXHJcbmlvbi1saXN0LWhlYWRlciB7XHJcbiAgcGFkZGluZy1ib3R0b206IDE1cHg7XHJcblxyXG4gIGlvbi1sYWJlbCB7XHJcbiAgICBmb250LXNpemU6IDI0cHg7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuXHJcbiAgICAucGhvbmUtbnVtYmVyIHtcclxuICAgICAgZm9udC1zaXplOiAxNnB4O1xyXG4gICAgICBjb2xvcjogdmFyKC0taW9uLWNvbG9yLW1lZGl1bSk7XHJcbiAgICAgIG1hcmdpbi10b3A6IDhweDtcclxuICAgIH1cclxuICB9XHJcbn1cclxuXHJcbmlvbi1pdGVtIHtcclxuICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xyXG59XHJcblxyXG46Om5nLWRlZXAge1xyXG4gIC5vdHAtaW5wdXQge1xyXG4gICAgd2lkdGg6IDQwcHggIWltcG9ydGFudDtcclxuICAgIGhlaWdodDogNDBweCAhaW1wb3J0YW50O1xyXG4gICAgZm9udC1zaXplOiAyMHB4ICFpbXBvcnRhbnQ7XHJcbiAgICBmb250LXdlaWdodDogNjAwICFpbXBvcnRhbnQ7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmZmZmICFpbXBvcnRhbnQ7XHJcbiAgICBjb2xvcjogIzMzMzMzMyAhaW1wb3J0YW50O1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgI2NjY2NjYyAhaW1wb3J0YW50O1xyXG4gICAgYm9yZGVyLXJhZGl1czogOHB4ICFpbXBvcnRhbnQ7XHJcbiAgICBtYXJnaW46IDAgNHB4O1xyXG5cclxuICAgIEBtZWRpYSAobWF4LXdpZHRoOiAzNjBweCkge1xyXG4gICAgICB3aWR0aDogMzVweCAhaW1wb3J0YW50O1xyXG4gICAgICBoZWlnaHQ6IDM1cHggIWltcG9ydGFudDtcclxuICAgICAgZm9udC1zaXplOiAxOHB4ICFpbXBvcnRhbnQ7XHJcbiAgICAgIG1hcmdpbjogMCAycHg7XHJcbiAgICB9XHJcblxyXG4gICAgJjpmb2N1cyB7XHJcbiAgICAgIGJvcmRlci1jb2xvcjogdmFyKC0taW9uLWNvbG9yLXByaW1hcnkpICFpbXBvcnRhbnQ7XHJcbiAgICAgIGJveC1zaGFkb3c6IDAgMCAwIDJweCByZ2JhKHZhcigtLWlvbi1jb2xvci1wcmltYXJ5LXJnYiksIDAuMikgIWltcG9ydGFudDtcclxuICAgIH1cclxuICB9XHJcbn1cclxuXHJcbi5jb3VudGRvd24ge1xyXG4gIGZvbnQtc2l6ZTogMThweDtcclxuICBmb250LXdlaWdodDogNTAwO1xyXG4gIGNvbG9yOiB2YXIoLS1pb24tY29sb3ItZGFyayk7XHJcbiAgdHJhbnNpdGlvbjogY29sb3IgMC4zcyBlYXNlO1xyXG5cclxuICAmLmV4cGlyZWQge1xyXG4gICAgY29sb3I6IHZhcigtLWlvbi1jb2xvci1kYW5nZXIpO1xyXG4gIH1cclxufVxyXG5cclxuaW9uLWJ1dHRvbiB7XHJcbiAgbWFyZ2luLXRvcDogMjBweDtcclxuICBoZWlnaHQ6IDQ4cHg7XHJcblxyXG4gIGlvbi1zcGlubmVyIHtcclxuICAgIG1hcmdpbi1yaWdodDogOHB4O1xyXG4gIH1cclxufVxyXG5cclxuaW9uLWZvb3RlciB7XHJcbiAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XHJcbiAgXHJcbiAgaW9uLWJ1dHRvbiB7XHJcbiAgICBtYXJnaW46IDA7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBmb250LXNpemU6IDE0cHg7XHJcbiAgfVxyXG59XHJcbiJdfQ== */"]
 });
 
@@ -1911,11 +1991,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AuthService": () => (/* binding */ AuthService)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
-/* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/fire/auth */ 6818);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/fire/auth */ 1577);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ 833);
+/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/auth */ 6818);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 833);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 2560);
+
 
 
 
@@ -1925,7 +2006,7 @@ class AuthService {
   constructor(auth) {
     this.auth = auth;
     this.isRecaptchaInitialized = false;
-    this.user$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__.Observable(subscriber => {
+    this.user$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.Observable(subscriber => {
       this.auth.onAuthStateChanged(subscriber);
     });
   } // Initialize RecaptchaVerifier
@@ -1950,7 +2031,7 @@ class AuthService {
 
 
       container.innerHTML = '';
-      this.appVerifier = new _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.RecaptchaVerifier('sign-in-button', {
+      this.appVerifier = new firebase_auth__WEBPACK_IMPORTED_MODULE_1__.RecaptchaVerifier('sign-in-button', {
         size: 'invisible',
         callback: response => {
           console.log('reCAPTCHA verified:', response);
@@ -1977,7 +2058,7 @@ class AuthService {
   signInWithPhoneNumber(phoneNumber) {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Ensure reCAPTCHA is initialized
         if (!_this.appVerifier || !_this.isRecaptchaInitialized) {
@@ -2087,8 +2168,8 @@ class AuthService {
   }
 
   signInWithGoogle() {
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const provider = new _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.GoogleAuthProvider();
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const provider = new firebase_auth__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider();
       const auth = (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.getAuth)();
       return (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.signInWithPopup)(auth, provider);
     })();
@@ -2097,12 +2178,12 @@ class AuthService {
   linkGoogleAccount(user) {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const provider = new _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.GoogleAuthProvider();
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const provider = new firebase_auth__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider();
 
       try {
         const result = yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.signInWithPopup)(_this2.auth, provider);
-        const credential = _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.GoogleAuthProvider.credentialFromResult(result);
+        const credential = firebase_auth__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider.credentialFromResult(result);
 
         if (credential) {
           yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.linkWithCredential)(user, credential);
@@ -2114,10 +2195,10 @@ class AuthService {
           if (error.customData && error.customData.email) {
             const existingSignInMethods = yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.fetchSignInMethodsForEmail)(_this2.auth, error.customData.email);
 
-            if (existingSignInMethods.includes(_angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.GoogleAuthProvider.PROVIDER_ID)) {
-              yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.unlink)(_this2.auth.currentUser, _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.GoogleAuthProvider.PROVIDER_ID);
+            if (existingSignInMethods.includes(firebase_auth__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider.PROVIDER_ID)) {
+              yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.unlink)(_this2.auth.currentUser, firebase_auth__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider.PROVIDER_ID);
               const result = yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.signInWithPopup)(_this2.auth, provider);
-              const credential = _angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.GoogleAuthProvider.credentialFromResult(result);
+              const credential = firebase_auth__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvider.credentialFromResult(result);
 
               if (credential) {
                 yield (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_3__.linkWithCredential)(user, credential);
@@ -2136,7 +2217,7 @@ class AuthService {
   verifyOtp(otp) {
     var _this3 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         if (!_this3.appVerifier) _this3.recaptcha();
         const result = yield _this3.confirmationResult.confirm(otp);
@@ -2178,7 +2259,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AvatarService": () => (/* binding */ AvatarService)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
 /* harmony import */ var _angular_fire_storage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/fire/storage */ 2111);
 /* harmony import */ var geofire_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! geofire-common */ 3942);
@@ -2212,7 +2293,7 @@ class AvatarService {
     this.drivers$ = this.driversSubject.asObservable();
     this.activeListeners = {};
     this.auth.onAuthStateChanged( /*#__PURE__*/function () {
-      var _ref = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
+      var _ref = (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (user) {
         if (user) {
           _this.user = user;
           _this.driverCollection = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this.firestore, 'Drivers');
@@ -2229,7 +2310,7 @@ class AvatarService {
           }); // Add a small delay for Android to ensure Firebase is fully initialized
 
 
-          setTimeout( /*#__PURE__*/(0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+          setTimeout( /*#__PURE__*/(0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
             try {
               yield _this.loadUserProfile();
             } catch (error) {
@@ -2263,7 +2344,7 @@ class AvatarService {
   checkFirestoreConnectivity() {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         console.log('Checking Firestore connectivity...'); // Try to read a simple document to test connectivity
 
@@ -2280,7 +2361,7 @@ class AvatarService {
 
 
   executeFirestoreOperation(operation, operationName) {
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const maxRetries = 3;
       let lastError;
 
@@ -2314,7 +2395,7 @@ class AvatarService {
   loadUserProfile() {
     var _this3 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         console.log('Loading user profile for:', _this3.user.uid);
         const docRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this3.firestore, 'Riders', _this3.user.uid); // Use the Android-optimized wrapper for Firestore operations
@@ -2375,7 +2456,7 @@ class AvatarService {
   getUserType(uid) {
     var _this4 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this4.firestore, `Drivers/${uid}`);
       const userDoc = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDoc)(userDocRef);
 
@@ -2390,7 +2471,7 @@ class AvatarService {
   checkRiderProfile(uid) {
     var _this5 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const riderDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this5.firestore, `Riders/${uid}`);
       const riderDoc = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDoc)(riderDocRef);
       return riderDoc.exists() && riderDoc.data()?.Rider_email;
@@ -2400,7 +2481,7 @@ class AvatarService {
   RequestRideWithRiderDetails(requestDetails) {
     var _this6 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // First, validate all input data
       if (!requestDetails || !requestDetails.driverId || !requestDetails.latLng || !requestDetails.dLatLng) {
         console.error('Invalid request details:', requestDetails);
@@ -2541,7 +2622,7 @@ class AvatarService {
   RestartRequestSinceReject(ID) {
     var _this7 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this7.firestore, 'Request', ID);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)(userDocRef, {
         cancel: false
@@ -2553,7 +2634,7 @@ class AvatarService {
   deleDriverFromRequest(ID) {
     var _this8 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.deleteDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this8.firestore, "Request", ID));
     })();
   }
@@ -2561,7 +2642,7 @@ class AvatarService {
   cancelRide(ID) {
     var _this9 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this9.firestore, 'Request', ID);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)(userDocRef, {
         status: true
@@ -2571,9 +2652,9 @@ class AvatarService {
 
 
   PushDriverToRequest(Driver) {
-    var _this10 = this;
+    var _this0 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         const loc = {
           geohash: Driver.geohash,
@@ -2596,7 +2677,7 @@ class AvatarService {
           time: '',
           onlineState: Driver.onlineState
         };
-        yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this10.firestore, "Request", Driver.Driver_id), { ...loc
+        yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this0.firestore, "Request", Driver.Driver_id), { ...loc
         });
       } catch (e) {
         throw new Error(e);
@@ -2607,12 +2688,14 @@ class AvatarService {
   }
 
   getPriceEstimate(distance) {
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        // Basic initial estimate based on distance only
+        // Convert distance from meters to kilometers
+        const distanceInKm = distance / 1000; // Basic initial estimate based on distance only
+
         const ratePerKm = 1.5; // Base rate per kilometer
 
-        let estimatedPrice = distance * ratePerKm; // Apply minimum fare if applicable
+        let estimatedPrice = distanceInKm * ratePerKm; // Apply minimum fare if applicable
 
         const minimumFare = 5; // Minimum fare amount
 
@@ -2621,7 +2704,7 @@ class AvatarService {
         } // Round to 2 decimal places
 
 
-        return Math.round(estimatedPrice * 1) / 100;
+        return Math.round(estimatedPrice * 100) / 100;
       } catch (error) {
         console.error('Error calculating price estimate:', error);
         throw error;
@@ -2631,7 +2714,7 @@ class AvatarService {
 
 
   calculateFinalFare(distance, duration) {
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Convert duration to minutes if it's in milliseconds or seconds
         let durationInMinutes = duration; // If duration is in milliseconds (common format from timestamps)
@@ -2688,11 +2771,11 @@ class AvatarService {
   }
 
   updateLocation(coord) {
-    var _this11 = this;
+    var _this1 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this11.firestore, `Riders/${_this11.auth.currentUser.uid}`); // First, set the document with initial data
+        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this1.firestore, `Riders/${_this1.auth.currentUser.uid}`); // First, set the document with initial data
 
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(userDocRef, {
           geohash: (0,geofire_common__WEBPACK_IMPORTED_MODULE_1__.geohashForLocation)([coord.lat, coord.lng]),
@@ -2717,12 +2800,12 @@ class AvatarService {
   }
 
   createHistory(Driver, requestId) {
-    var _this12 = this;
+    var _this10 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         // Get current user ID for the rider
-        const riderId = _this12.user?.uid || ''; // Create a clean object with default values for all required fields
+        const riderId = _this10.user?.uid || ''; // Create a clean object with default values for all required fields
 
         const historyData = {
           driverId: Driver.Driver_id || '',
@@ -2762,7 +2845,7 @@ class AvatarService {
           }
         });
         console.log('Creating ride history with data:', historyData);
-        const historyRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this12.firestore, 'RideHistory'));
+        const historyRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this10.firestore, 'RideHistory'));
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(historyRef, historyData);
         console.log('Ride history created successfully with distance:', historyData.distance);
         return true;
@@ -2774,11 +2857,11 @@ class AvatarService {
   }
 
   UpdateCountDown(time, id) {
-    var _this13 = this;
+    var _this11 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this13.firestore, "Request", id);
+        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this11.firestore, "Request", id);
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)(userDocRef, {
           countDown: time
         });
@@ -2792,14 +2875,14 @@ class AvatarService {
   }
 
   AddKnownPlace(place) {
-    var _this14 = this;
+    var _this12 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      console.log(_this14.auth.currentUser.uid);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      console.log(_this12.auth.currentUser.uid);
       console.log(place.full);
 
       try {
-        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this14.firestore, 'Riders', `${_this14.auth.currentUser.uid}/KnownPlaces/${place.full}`);
+        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this12.firestore, 'Riders', `${_this12.auth.currentUser.uid}/KnownPlaces/${place.full}`);
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(userDocRef, {
           place
         });
@@ -2821,15 +2904,15 @@ class AvatarService {
   }
 
   checkDriversWithin(center, radiusInM) {
-    var _this15 = this;
+    var _this13 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         console.log("Center:", center);
         console.log("Radius in meters:", radiusInM);
         const bounds = (0,geofire_common__WEBPACK_IMPORTED_MODULE_1__.geohashQueryBounds)(center, radiusInM);
         const promises = bounds.map((b, index) => {
-          const q = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.query)(_this15.driverCollection, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.orderBy)("geohash"), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.startAt)(b[0]), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.endAt)(b[1]));
+          const q = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.query)(_this13.driverCollection, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.orderBy)("geohash"), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.startAt)(b[0]), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.endAt)(b[1]));
           return new Promise((resolve, reject) => {
             const unsubscribe = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.onSnapshot)(q, snapshot => {
               const drivers = snapshot.docs.map(doc => {
@@ -2841,16 +2924,16 @@ class AvatarService {
               resolve(drivers);
               unsubscribe(); // Unsubscribe once data is fetched
 
-              delete _this15.activeListeners[index];
+              delete _this13.activeListeners[index];
             }, error => {
               console.error('Error in onSnapshot:', error);
               reject(error);
               unsubscribe(); // Unsubscribe in case of error
 
-              delete _this15.activeListeners[index];
+              delete _this13.activeListeners[index];
             }); // Store the unsubscribe function to manage listeners
 
-            _this15.activeListeners[index] = unsubscribe;
+            _this13.activeListeners[index] = unsubscribe;
           });
         });
         const results = yield Promise.all(promises);
@@ -2862,7 +2945,7 @@ class AvatarService {
             return false;
           }
 
-          const distanceInKm = _this15.calculateDistance(center[0], center[1], driver.Driver_lat, driver.Driver_lng);
+          const distanceInKm = _this13.calculateDistance(center[0], center[1], driver.Driver_lat, driver.Driver_lng);
 
           const distanceInM = distanceInKm * 1000;
           console.log(`Driver ${driver.Driver_id} distance:`, distanceInM);
@@ -2902,10 +2985,10 @@ class AvatarService {
   }
 
   uploadImage(cameraFile, uid) {
-    var _this16 = this;
+    var _this14 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const storageRef = (0,_angular_fire_storage__WEBPACK_IMPORTED_MODULE_5__.ref)(_this16.storage, `avatars/${uid}`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const storageRef = (0,_angular_fire_storage__WEBPACK_IMPORTED_MODULE_5__.ref)(_this14.storage, `avatars/${uid}`);
 
       try {
         // Upload the image as a base64 string
@@ -2913,7 +2996,7 @@ class AvatarService {
 
         const imageUrl = yield (0,_angular_fire_storage__WEBPACK_IMPORTED_MODULE_5__.getDownloadURL)(storageRef); // Reference to the user's document in Firestore
 
-        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this16.firestore, `Riders/${uid}`); // Check if the document exists
+        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this14.firestore, `Riders/${uid}`); // Check if the document exists
 
         const docSnapshot = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDoc)(userDocRef);
 
@@ -2940,9 +3023,9 @@ class AvatarService {
   }
 
   createUser(name, email, img, phone, uid) {
-    var _this17 = this;
+    var _this15 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
         const loc = {
           Loc_lat: 0,
@@ -2962,7 +3045,7 @@ class AvatarService {
           price: 0,
           cash: true
         };
-        yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this17.firestore, "Riders", uid), { ...loc
+        yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this15.firestore, "Riders", uid), { ...loc
         });
         return true;
       } catch (e) {
@@ -2972,8 +3055,19 @@ class AvatarService {
   }
 
   getMessage() {
-    const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(this.firestore, `Messages/${this.auth.currentUser.uid}/messages`);
-    return (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collectionData)(userDocRef);
+    //const userDocRef = collection(this.firestore, `Messages/${this.auth.currentUser.uid}/messages`);
+    const userId = this.auth.currentUser?.uid;
+
+    if (userId) {
+      const messageDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(this.firestore, `Messages/${userId}/messages`);
+      const oderedMessages = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.query)(messageDocRef, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.orderBy)('createdAt', 'asc'));
+      return (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collectionData)(oderedMessages, {
+        idField: 'id'
+      });
+    } else {
+      return null;
+    } //return collectionData(userDocRef);
+
   }
 
   getChatMessage(requestId) {
@@ -2982,29 +3076,29 @@ class AvatarService {
   }
 
   addChatEnRouteMessage(msg, requestId) {
-    var _this18 = this;
+    var _this16 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const messagesRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this18.firestore, `Request/${requestId}/messages`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const messagesRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this16.firestore, `Request/${requestId}/messages`);
       return (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.addDoc)(messagesRef, {
         msg: msg,
-        from: _this18.user.uid,
+        from: _this16.user.uid,
         createdAt: (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.serverTimestamp)(),
         myMsg: true,
-        fromName: _this18.user.displayName
+        fromName: _this16.user.displayName
       });
     })();
   }
 
   updatChatMessageInfo(requestId) {
-    var _this19 = this;
+    var _this17 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      return yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this19.firestore, `Request/${requestId}`), {
-        name: _this19.user.displayName,
-        id: _this19.user.uid,
-        phone: _this19.user.phoneNumber,
-        email: _this19.user.email,
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      return yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this17.firestore, `Request/${requestId}`), {
+        name: _this17.user.displayName,
+        id: _this17.user.uid,
+        phone: _this17.user.phoneNumber,
+        email: _this17.user.email,
         new: true
       });
     })();
@@ -3026,18 +3120,18 @@ class AvatarService {
   }
 
   addChatMessage(msg) {
-    var _this20 = this;
+    var _this18 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const userId = _this20.auth.currentUser?.uid;
-        const userName = _this20.auth.currentUser?.displayName || 'Anonymous';
+        const userId = _this18.auth.currentUser?.uid;
+        const userName = _this18.auth.currentUser?.displayName || 'Anonymous';
 
         if (!userId) {
           throw new Error('User is not authenticated.');
         }
 
-        return yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.addDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this20.firestore, `Messages/${userId}/messages`), {
+        return yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.addDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this18.firestore, `Messages/${userId}/messages`), {
           msg: msg,
           from: userId,
           createdAt: (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.serverTimestamp)(),
@@ -3052,16 +3146,16 @@ class AvatarService {
   }
 
   updateMessageInfo() {
-    var _this21 = this;
+    var _this19 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const user = _this21.auth.currentUser;
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const user = _this19.auth.currentUser;
 
       if (!user) {
         throw new Error('User is not authenticated.');
       }
 
-      return yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this21.firestore, `Messages/${user.uid}`), {
+      return yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this19.firestore, `Messages/${user.uid}`), {
         name: user.displayName || 'Anonymous',
         id: user.uid,
         phone: user.phoneNumber || '',
@@ -3072,11 +3166,11 @@ class AvatarService {
   }
 
   updateDriverOnlineState(ID) {
-    var _this22 = this;
+    var _this20 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this22.firestore, 'Drivers', ID);
+        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this20.firestore, 'Drivers', ID);
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.updateDoc)(userDocRef, {
           onlineState: true
         });
@@ -3090,11 +3184,11 @@ class AvatarService {
   }
 
   checkCardExistsStripe(email, last4) {
-    var _this23 = this;
+    var _this21 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log('checkCardExistsStripe called with email:', email, 'and last4:', last4);
-      const cardsCollectionRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this23.firestore, `Riders/${_this23.user.uid}/cards`);
+      const cardsCollectionRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this21.firestore, `Riders/${_this21.user.uid}/cards`);
       console.log('cardsCollectionRef:', cardsCollectionRef);
       const cardQuery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.query)(cardsCollectionRef, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.where)('last4', '==', last4));
       const cardDocs = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDocs)(cardQuery);
@@ -3107,11 +3201,11 @@ class AvatarService {
   }
 
   saveCard(cardDetails) {
-    var _this24 = this;
+    var _this22 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log('Saving card with details:', cardDetails);
-      const cardsCollectionRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this24.firestore, `Riders/${_this24.user.uid}/cards`);
+      const cardsCollectionRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this22.firestore, `Riders/${_this22.user.uid}/cards`);
       const cardDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(cardsCollectionRef, cardDetails.cardId);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(cardDocRef, cardDetails);
       console.log('Card saved successfully:', cardDetails);
@@ -3119,10 +3213,10 @@ class AvatarService {
   }
 
   checkPaystackAuthCodeExists(authCode) {
-    var _this25 = this;
+    var _this23 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const authCodeCollectionRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this25.firestore, 'paystackAuthCodes');
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const authCodeCollectionRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this23.firestore, 'paystackAuthCodes');
       const authCodeQuery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.query)(authCodeCollectionRef, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.where)('authCode', '==', authCode));
       const authCodeDocs = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDocs)(authCodeQuery);
       return !authCodeDocs.empty;
@@ -3130,10 +3224,10 @@ class AvatarService {
   }
 
   savePaystackAuthCode(authCode) {
-    var _this26 = this;
+    var _this24 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const authCodeDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this26.firestore, `paystackAuthCodes/${authCode}`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const authCodeDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this24.firestore, `paystackAuthCodes/${authCode}`);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(authCodeDocRef, {
         authCode
       });
@@ -3141,10 +3235,10 @@ class AvatarService {
   }
 
   updateFirestoreAfterPayment(paymentResult) {
-    var _this27 = this;
+    var _this25 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const paymentDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this27.firestore, `Riders/${_this27.user.uid}/payments/lastpayment`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const paymentDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this25.firestore, `Riders/${_this25.user.uid}/payments/lastpayment`);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(paymentDocRef, {
         paymentResult: paymentResult,
         paymentDate: new Date()
@@ -3153,10 +3247,10 @@ class AvatarService {
   }
 
   getSavedPaymentMethods() {
-    var _this28 = this;
+    var _this26 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const paymentMethodsRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this28.firestore, `Riders/${_this28.user.uid}/cards`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const paymentMethodsRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this26.firestore, `Riders/${_this26.user.uid}/cards`);
       const snapshot = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDocs)(paymentMethodsRef);
       const methods = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -3167,19 +3261,19 @@ class AvatarService {
   }
 
   deleteSavedPaymentMethod(methodId) {
-    var _this29 = this;
+    var _this27 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const paymentMethodDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this29.firestore, `Riders/${_this29.user.uid}/cards/${methodId}`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const paymentMethodDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this27.firestore, `Riders/${_this27.user.uid}/cards/${methodId}`);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.deleteDoc)(paymentMethodDocRef);
     })();
   }
 
   setActiveCard(email, cardId) {
-    var _this30 = this;
+    var _this28 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this30.firestore, `Riders/${email}`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this28.firestore, `Riders/${email}`);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(userDocRef, {
         activeCardId: cardId
       }, {
@@ -3195,10 +3289,10 @@ class AvatarService {
 
 
   addCardStripe(email, cardId, last4) {
-    var _this31 = this;
+    var _this29 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this31.firestore, `Riders/${email}`);
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this29.firestore, `Riders/${email}`);
       const userDoc = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDoc)(userDocRef);
       const userData = userDoc.data();
       let cards = userData?.cards || [];
@@ -3215,11 +3309,11 @@ class AvatarService {
   }
 
   submitRating(ratingData) {
-    var _this32 = this;
+    var _this30 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const ratingRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this32.firestore, `ratings/${ratingData.requestId}`);
+        const ratingRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this30.firestore, `ratings/${ratingData.requestId}`);
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(ratingRef, ratingData);
         console.log('Rating submitted successfully');
       } catch (error) {
@@ -3230,14 +3324,14 @@ class AvatarService {
   }
 
   getUserProfile() {
-    var _this33 = this;
+    var _this31 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const user = _this33.auth.currentUser;
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const user = _this31.auth.currentUser;
       if (!user) throw new Error('No authenticated user');
 
       try {
-        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this33.firestore, 'Riders', user.uid);
+        const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this31.firestore, 'Riders', user.uid);
         const userDoc = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.getDoc)(userDocRef);
 
         if (userDoc.exists()) {
@@ -3274,12 +3368,12 @@ class AvatarService {
   }
 
   createUserProfile(profileData) {
-    var _this34 = this;
+    var _this32 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-      const user = _this34.auth.currentUser;
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      const user = _this32.auth.currentUser;
       if (!user) throw new Error('No authenticated user');
-      const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this34.firestore, 'Riders', user.uid);
+      const userDocRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.doc)(_this32.firestore, 'Riders', user.uid);
       yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.setDoc)(userDocRef, profileData, {
         merge: true
       });
@@ -3289,45 +3383,50 @@ class AvatarService {
 
 
   saveRideHistory(rideData) {
-    var _this35 = this;
+    var _this33 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       try {
-        const userId = _this35.auth.currentUser?.uid;
+        const userId = _this33.auth.currentUser?.uid;
         if (!userId) throw new Error('No user ID found'); // Ensure all required fields have valid values (not undefined)
 
         const historyData = {
           tripId: rideData.tripId || '',
+          riderId: userId,
           driverId: rideData.driverId || '',
-          driverName: rideData.driverName || 'Unknown Driver',
-          driverImage: rideData.driverImage || '',
-          driverCar: rideData.driverCar || '',
-          driverPlate: rideData.driverPlate || '',
-          pickup: rideData.pickup || 'Unknown pickup',
-          destination: rideData.destination || 'Unknown destination',
+          driverName: rideData.driverName || rideData.Driver_name || 'Unknown Driver',
+          driverImage: rideData.driverImage || rideData.Driver_imgUrl || '',
+          driverCar: rideData.driverCar || rideData.Driver_car || '',
+          driverPlate: rideData.driverPlate || rideData.Driver_plate || '',
+          driverRating: rideData.driverRating || rideData.Driver_rating || 0,
+          pickup: rideData.pickup || rideData.Rider_Location || 'Unknown pickup',
+          destination: rideData.destination || rideData.Rider_Destination || 'Unknown destination',
+          Loc_lat: rideData.Loc_lat || 0,
+          Loc_lng: rideData.Loc_lng || 0,
+          Des_lat: rideData.Des_lat || 0,
+          Des_lng: rideData.Des_lng || 0,
+          Rider_Location: rideData.Rider_Location || rideData.pickup || 'Unknown pickup',
+          Rider_Destination: rideData.Rider_Destination || rideData.destination || 'Unknown destination',
+          Driver_name: rideData.Driver_name || rideData.driverName || 'Unknown Driver',
+          Driver_car: rideData.Driver_car || rideData.driverCar || '',
+          Driver_imgUrl: rideData.Driver_imgUrl || rideData.driverImage || '',
+          Driver_plate: rideData.Driver_plate || rideData.driverPlate || '',
+          Driver_rating: rideData.Driver_rating || rideData.driverRating || rideData.rating || 0,
           price: typeof rideData.price === 'number' ? rideData.price : parseFloat(rideData.price || '0'),
           distance: typeof rideData.distance === 'number' ? rideData.distance : 0,
           duration: rideData.duration || '',
-          rating: typeof rideData.rating === 'number' ? rideData.rating : 0,
+          rating: rideData.rating || rideData.Driver_rating || rideData.driverRating || 0,
           completed: rideData.completed || true,
           completedAt: rideData.completedAt || new Date(),
-          timestamp: (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.serverTimestamp)(),
-          riderId: userId,
-          Rider_Location: rideData.pickup || 'Unknown pickup',
-          Rider_Destination: rideData.destination || 'Unknown destination',
-          Driver_name: rideData.driverName || 'Unknown Driver',
-          Driver_car: rideData.driverCar || '',
-          Driver_imgUrl: rideData.driverImage || '',
-          Driver_plate: rideData.driverPlate || '',
-          Driver_rating: typeof rideData.rating === 'number' ? rideData.rating : 0
+          timestamp: (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.serverTimestamp)()
         }; // Log the data being saved for debugging
 
         console.log('Saving ride history with data:', historyData); // 1. Save to users/{userId}/rideHistory
 
-        const userHistoryCollection = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this35.firestore, `users/${userId}/rideHistory`);
+        const userHistoryCollection = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this33.firestore, `users/${userId}/rideHistory`);
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.addDoc)(userHistoryCollection, historyData); // 2. Save to RideHistory collection
 
-        const globalHistoryCollection = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this35.firestore, 'RideHistory');
+        const globalHistoryCollection = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.collection)(_this33.firestore, 'RideHistory');
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_4__.addDoc)(globalHistoryCollection, historyData);
         console.log('Ride history saved successfully');
         return true;
@@ -3373,7 +3472,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "OverlayService": () => (/* binding */ OverlayService)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic/angular */ 5992);
 
@@ -3391,7 +3490,7 @@ class OverlayService {
   showLoader(message) {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       // Always dismiss any existing loader first
       yield _this.hideLoader();
       _this.isLoading = true;
@@ -3407,7 +3506,7 @@ class OverlayService {
   hideLoader() {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this2.isLoading = false;
 
       try {
@@ -3428,23 +3527,23 @@ class OverlayService {
     })();
   }
 
-  showToast(message, duration = 2000) {
+  showToast(_x) {
     var _this3 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (message, duration = 2000) {
       const toast = yield _this3.toastCtrl.create({
         message: message,
         duration: duration,
         position: 'bottom'
       });
       yield toast.present();
-    })();
+    }).apply(this, arguments);
   }
 
   showAlert(header, message) {
     var _this4 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const alert = yield _this4.alertCtrl.create({
         header: header,
         message: message,
@@ -3457,9 +3556,9 @@ class OverlayService {
   showConfirmAlert(header, message) {
     var _this5 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       return new Promise( /*#__PURE__*/function () {
-        var _ref = (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve) {
+        var _ref = (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (resolve) {
           const alert = yield _this5.alertCtrl.create({
             header,
             message,
@@ -3475,7 +3574,7 @@ class OverlayService {
           yield alert.present();
         });
 
-        return function (_x) {
+        return function (_x2) {
           return _ref.apply(this, arguments);
         };
       }());
@@ -3538,6 +3637,14 @@ class PaymentService {
     processPaymentWithCardId(email, amount, cardId) {
         return this.http.post('/api/process-payment', { email, amount, cardId });
     }
+    // Process payment for ride with payment splitting
+    processRidePayment(paymentData) {
+        return this.http.post(`${this.serverUrl}/process-ride-payment`, paymentData);
+    }
+    // Create a payment intent for immediate charge
+    createPaymentIntent(paymentData) {
+        return this.http.post(`${this.serverUrl}/create-payment-intent`, paymentData);
+    }
 }
 PaymentService.ɵfac = function PaymentService_Factory(t) { return new (t || PaymentService)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient)); };
 PaymentService.ɵprov = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectable"]({ token: PaymentService, factory: PaymentService.ɵfac, providedIn: 'root' });
@@ -3556,7 +3663,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TripSummaryComponent": () => (/* binding */ TripSummaryComponent)
 /* harmony export */ });
-/* harmony import */ var C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
+/* harmony import */ var C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 1670);
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ 5992);
@@ -3655,7 +3762,7 @@ class TripSummaryComponent {
   loadTripData() {
     var _this = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (!_this.tripId) {
         console.error('No trip ID provided');
         return;
@@ -3733,7 +3840,7 @@ class TripSummaryComponent {
   submitRating() {
     var _this2 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this2.rating === 0) {
         const toast = yield _this2.toastController.create({
           message: 'Please select a rating before submitting',
@@ -3756,7 +3863,7 @@ class TripSummaryComponent {
 
 
         yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.updateDoc)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(_this2.firestore, 'Request', _this2.tripId), {
-          rating: _this2.rating,
+          riderRating: _this2.rating,
           ratingComment: _this2.comment,
           ratedAt: new Date().toISOString()
         }); // If there's a driver ID, update their average rating
@@ -3794,7 +3901,7 @@ class TripSummaryComponent {
   updateDriverRating(driverId, newRating) {
     var _this3 = this;
 
-    return (0,C_Users_user_Pegasus_1_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,C_Users_user_Pegasus_1_BU29_11_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       const driverRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(_this3.firestore, 'Drivers', driverId);
       const driverDoc = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.getDoc)(driverRef);
 
@@ -3813,6 +3920,49 @@ class TripSummaryComponent {
   }
 
   dismiss() {
+    // Save the final ride data before dismissing
+    if (this.tripData && !this.tripData.historySaved) {
+      // Mark as saved to prevent duplicate saves
+      this.tripData.historySaved = true; // Prepare complete ride data for history
+
+      const finalRideData = {
+        tripId: this.tripId || this.tripData.tripId || '',
+        riderId: this.avatarService.user?.uid || '',
+        driverId: this.driverId || this.tripData.driverId || '',
+        driverName: this.tripData.driverName || this.tripData.Driver_name || 'Unknown Driver',
+        driverImage: this.tripData.driverImage || this.tripData.Driver_imgUrl || '',
+        driverCar: this.tripData.driverCar || this.tripData.Driver_car || '',
+        driverPlate: this.tripData.driverPlate || this.tripData.Driver_plate || '',
+        driverRating: this.rating || this.tripData.rating || this.tripData.driverRating || this.tripData.Driver_rating || 0,
+        pickup: this.tripData.pickup || this.tripData.Rider_Location || 'Unknown pickup',
+        destination: this.tripData.destination || this.tripData.Rider_Destination || 'Unknown destination',
+        Loc_lat: this.tripData.Loc_lat || 0,
+        Loc_lng: this.tripData.Loc_lng || 0,
+        Des_lat: this.tripData.Des_lat || 0,
+        Des_lng: this.tripData.Des_lng || 0,
+        Rider_Location: this.tripData.Rider_Location || this.tripData.pickup || 'Unknown pickup',
+        Rider_Destination: this.tripData.Rider_Destination || this.tripData.destination || 'Unknown destination',
+        Driver_name: this.tripData.Driver_name || this.tripData.driverName || 'Unknown Driver',
+        Driver_car: this.tripData.Driver_car || this.tripData.driverCar || '',
+        Driver_imgUrl: this.tripData.Driver_imgUrl || this.tripData.driverImage || '',
+        Driver_plate: this.tripData.Driver_plate || this.tripData.driverPlate || '',
+        Driver_rating: this.rating || this.tripData.Driver_rating || this.tripData.driverRating || 0,
+        price: this.tripData.price || 0,
+        distance: this.tripData.distance || 0,
+        duration: this.tripData.duration || '',
+        rating: this.rating || this.tripData.rating || 0,
+        ratingComment: this.comment || '',
+        completed: true,
+        completedAt: this.tripData.completedAt || new Date(),
+        timestamp: new Date()
+      };
+      console.log("Pinpointed ride data to saved distance:", finalRideData.distance); // Save to history (don't await to avoid blocking dismiss)
+
+      this.avatarService.saveRideHistory(finalRideData).catch(err => {
+        console.error('Error saving ride history on dismiss:', err);
+      });
+    }
+
     this.modalCtrl.dismiss({
       rated: this.rating > 0,
       rating: this.rating
@@ -3919,7 +4069,7 @@ TripSummaryComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE
       _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](5);
       _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](ctx.tripData.formattedPrice || ctx.tripData.price || "0.00");
       _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
-      _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate1"]("", ctx.tripData.distanceInKm || "0", " km");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](ctx.tripData.distance || 0);
       _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](6);
       _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](ctx.tripData.durationFormatted || "0 min");
       _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](10);
@@ -3955,7 +4105,7 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 const environment = {
-    production: false,
+    production: true,
     firebase: {
         apiKey: 'AIzaSyA5ShOlRI8493ovNQ4e--utZawgmjc3x0g',
         authDomain: 'pegasus-2be94.firebaseapp.com',

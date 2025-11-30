@@ -12,11 +12,11 @@ import { HomePageRoutingModule } from './home-routing.module';
   imports: [
     CommonModule,
     FormsModule,
-    
     IonicModule,
     HomePageRoutingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [HomePage]
+  declarations: [HomePage ]
+    //NearbyTripsComponent]
 })
 export class HomePageModule {}

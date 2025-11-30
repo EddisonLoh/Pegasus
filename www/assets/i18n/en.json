@@ -160,10 +160,16 @@
     "LOADING_PREVIOUS_RIDE": "Loading previous ride details..."
   },
   "PAYMENT": {
-    "TITLE": "Payment",
+    "TITLE": "Payment Methods",
     "ADD_CARD": "Add Card",
+    "ADD_NEW_CARD": "Add New Card",
     "SAVED_METHODS": "Saved Payment Methods",
+    "NO_SAVED_CARDS": "No saved cards yet",
+    "ADD_CARD_HINT": "Add a card above to get started with faster payments",
     "DELETE": "Delete",
+    "DELETE_CARD": "Delete Card",
+    "DELETE_CARD_CONFIRM": "Are you sure you want to delete this card?",
+    "CANCEL": "Cancel",
     "PROCESSING": "Processing payment...",
     "SUCCESS": "Success",
     "PAYMENT_SUCCESS": "Payment successful!",

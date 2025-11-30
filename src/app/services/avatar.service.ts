@@ -417,9 +417,12 @@ export class AvatarService {
 
   async getPriceEstimate(distance: number): Promise<number> {
     try {
+      // Convert distance from meters to kilometers
+      const distanceInKm = distance / 1000;
+      
       // Basic initial estimate based on distance only
       const ratePerKm = 1.5; // Base rate per kilometer
-      let estimatedPrice = distance * ratePerKm;
+      let estimatedPrice = distanceInKm * ratePerKm;
       
       // Apply minimum fare if applicable
       const minimumFare = 5; // Minimum fare amount
@@ -428,7 +431,7 @@ export class AvatarService {
       }
       
       // Round to 2 decimal places
-      return Math.round(estimatedPrice * 1) / 100;
+      return Math.round(estimatedPrice * 100) / 100;
     } catch (error) {
       console.error('Error calculating price estimate:', error);
       throw error;
@@ -759,8 +762,18 @@ export class AvatarService {
 
 
    getMessage() {
-    const userDocRef = collection(this.firestore, `Messages/${this.auth.currentUser.uid}/messages`);
-    return collectionData(userDocRef);
+    //const userDocRef = collection(this.firestore, `Messages/${this.auth.currentUser.uid}/messages`);
+    const userId =this.auth.currentUser?.uid;
+    if(userId){
+      const messageDocRef = collection(this.firestore, `Messages/${userId}/messages`);
+      const oderedMessages = query(messageDocRef, orderBy('createdAt', 'asc'));
+      return collectionData(oderedMessages,{idField: 'id'});
+      
+    }else{
+      return null;  
+    }
+    
+    //return collectionData(userDocRef);
   }
 
   getChatMessage(requestId: string) {

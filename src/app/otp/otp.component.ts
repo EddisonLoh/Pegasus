@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
+import { Auth, PhoneAuthProvider, signInWithCredential } from '@angular/fire/auth';
 import { AuthService } from '../services/auth.service';
 import { OverlayService } from '../services/overlay.service';
 import { AvatarService } from '../services/avatar.service';
@@ -37,7 +38,8 @@ export class OtpComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private avatar: AvatarService,
     private cdr: ChangeDetectorRef,  // Inject ChangeDetectorRef
-    private translate: TranslateService
+    private translate: TranslateService,
+    private fireAuth: Auth
   ) {}
 
   ngOnInit() {
@@ -98,7 +100,16 @@ export class OtpComponent implements OnInit, OnDestroy, AfterViewInit {
       this.approve2 = true;
       this.overlay.showLoader('');
       
-      const response = await this.confirmationResult.confirm(this.otp);
+      let response;
+      if (this.confirmationResult && this.confirmationResult.verificationId) {
+        // Create credential using the verification ID and OTP code
+        const credential = PhoneAuthProvider.credential(this.confirmationResult.verificationId, this.otp);
+        // Sign in with the credential
+        response = await signInWithCredential(this.fireAuth, credential);
+      } else {
+        // Fallback for test mode or if verificationId is missing
+        response = await this.confirmationResult.confirm(this.otp);
+      }
       
       // Wait briefly to ensure Firebase Auth state is updated
       await new Promise(resolve => setTimeout(resolve, 1000));

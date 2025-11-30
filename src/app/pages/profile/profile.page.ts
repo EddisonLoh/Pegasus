@@ -8,6 +8,7 @@ import { AvatarService } from 'src/app/services/avatar.service';
 import { doc } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +19,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   profileForm: FormGroup;
   user: import("@angular/fire/auth").User;
+  CountryJson = environment.CountryJson;
 
   constructor(
     public avatarService: AvatarService,
@@ -246,6 +248,15 @@ export class ProfilePage implements OnInit, OnDestroy {
         // await alert.present();
       }
     }
+  }
+
+  getFlag(lang: string) {
+    let isoCode = 'US';
+    if (lang === 'ms') isoCode = 'MY';
+    if (lang === 'ar') isoCode = 'SA';
+    
+    const country = this.CountryJson.find(c => c.isoCode === isoCode);
+    return country ? country.flag : '';
   }
 
   changeLanguage(lang: string) {

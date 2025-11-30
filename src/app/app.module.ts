@@ -49,7 +49,7 @@ export function createTranslateLoader(http: HttpClient) {
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     TranslateModule.forRoot({
-      defaultLanguage: 'ms',
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
